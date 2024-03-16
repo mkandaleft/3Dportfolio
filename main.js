@@ -123,6 +123,8 @@ class FirstPersonCamera {
     this.headBobActive_ = false;
     this.headBobTimer_ = 0;
     this.objects_ = objects;
+    //this.path_ = [new THREE.Vector3(0, 2, 0), new THREE.Vector3(10, 2, -10), new THREE.Vector3(10, 2, 10), new THREE.Vector3(-10, 2, 10), new THREE.Vector3(-10, 2, -10)]; // Add your path points here
+    //this.pathIndex_ = 0;
   }
 
   update(timeElapsedS) {
@@ -131,6 +133,7 @@ class FirstPersonCamera {
     this.updateTranslation_(timeElapsedS);
     this.updateHeadBob_(timeElapsedS);
     this.input_.update(timeElapsedS);
+    this.updateCameraCoordinatesDisplay();
   }
 
   updateCamera_(_) {
@@ -194,6 +197,16 @@ class FirstPersonCamera {
     if (forwardVelocity != 0 || strafeVelocity != 0) {
       this.headBobActive_ = true;
     }
+    const roomDimensions = { minX: -20, maxX: 20, minY: 0, maxY: 4, minZ: -20, maxZ: 20 }; // Replace with your room's dimensions
+    this.translation_.x = Math.max(roomDimensions.minX, Math.min(roomDimensions.maxX, this.translation_.x));
+    this.translation_.y = Math.max(roomDimensions.minY, Math.min(roomDimensions.maxY, this.translation_.y));
+    this.translation_.z = Math.max(roomDimensions.minZ, Math.min(roomDimensions.maxZ, this.translation_.z));
+    /*
+    const boxDimensions = { minX: -5, maxX: 5, minY: 0, maxY: 4, minZ: -5, maxZ: 5 }; // Replace with your room's dimensions
+    this.translation_.x = Math.max(boxDimensions.minX, Math.min(boxDimensions.maxX, this.translation_.x));
+    this.translation_.y = Math.max(boxDimensions.minY, Math.min(boxDimensions.maxY, this.translation_.y));
+    this.translation_.z = Math.max(boxDimensions.minZ, Math.min(boxDimensions.maxZ, this.translation_.z));
+    */
   }
 
   updateRotation_(timeElapsedS) {
@@ -213,6 +226,13 @@ class FirstPersonCamera {
     q.multiply(qz);
 
     this.rotation_.copy(q);
+  }
+
+  updateCameraCoordinatesDisplay() {
+    const coordinatesElement = document.getElementById('camera-coordinates');
+    if (coordinatesElement) {
+      coordinatesElement.textContent = `Camera Position: x=${this.translation_.x.toFixed(2)}, y=${this.translation_.y.toFixed(2)}, z=${this.translation_.z.toFixed(2)}`;
+    }
   }
 }
 
@@ -324,7 +344,7 @@ class FirstPersonCameraDemo {
     const box = new THREE.Mesh(
       new THREE.BoxGeometry(4, 4, 4),
       new THREE.MeshStandardMaterial({map: checkerboard}));
-    box.position.set(10, 2, 0);
+    box.position.set(0, 2, 0);
     box.castShadow = true;
     box.receiveShadow = true;
     this.scene_.add(box);
@@ -332,33 +352,33 @@ class FirstPersonCameraDemo {
     const concreteMaterial = new THREE.MeshStandardMaterial('concrete-backdrop.jpg', 4);
 
     const wall1 = new THREE.Mesh(
-      new THREE.BoxGeometry(100, 100, 4),
-      concreteMaterial);
-    wall1.position.set(0, -40, -50);
+      new THREE.BoxGeometry(100, 60, 4),
+      new THREE.MeshStandardMaterial({color: 0xff0000}));
+    wall1.position.set(0, -20, -25);
     wall1.castShadow = true;
     wall1.receiveShadow = true;
     this.scene_.add(wall1);
 
     const wall2 = new THREE.Mesh(
-      new THREE.BoxGeometry(100, 100, 4),
-      concreteMaterial);
-    wall2.position.set(0, -40, 50);
+      new THREE.BoxGeometry(100, 60, 4),
+      new THREE.MeshStandardMaterial({color: 0x00ff00}));
+    wall2.position.set(0, -20, 25);
     wall2.castShadow = true;
     wall2.receiveShadow = true;
     this.scene_.add(wall2);
 
     const wall3 = new THREE.Mesh(
-      new THREE.BoxGeometry(4, 100, 100),
-      concreteMaterial);
-    wall3.position.set(50, -40, 0);
+      new THREE.BoxGeometry(4, 60, 100),
+      new THREE.MeshStandardMaterial({color: 0x0000ff}));
+    wall3.position.set(25, -20, 0);
     wall3.castShadow = true;
     wall3.receiveShadow = true;
     this.scene_.add(wall3);
 
     const wall4 = new THREE.Mesh(
-      new THREE.BoxGeometry(4, 100, 100),
-      concreteMaterial);
-    wall4.position.set(-50, -40, 0);
+      new THREE.BoxGeometry(4, 60, 100),
+      new THREE.MeshStandardMaterial({color: 0xffff00}));
+    wall4.position.set(-25, -20, 0);
     wall4.castShadow = true;
     wall4.receiveShadow = true;
     this.scene_.add(wall4);
