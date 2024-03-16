@@ -190,7 +190,18 @@ class FirstPersonCamera {
     const left = new THREE.Vector3(-1, 0, 0);
     left.applyQuaternion(qx);
     left.multiplyScalar(strafeVelocity * timeElapsedS * 10);
+    /*
+    // Calculate new position
+    const newPosition = this.translation_.clone().add(forward).add(left);
 
+    // Check if new position is inside the box
+    if ((newPosition.x > -20 && newPosition.x < -5 || newPosition.x > 5 && newPosition.x < 20) &&
+      newPosition.y > 0 && newPosition.y < 4 &&
+      (newPosition.z > -20 && newPosition.z < -5 || newPosition.z > 5 && newPosition.z < 20)) {
+    // New position is inside the box, don't update position
+    return;
+    }
+    */
     this.translation_.add(forward);
     this.translation_.add(left);
 
