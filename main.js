@@ -1,9 +1,7 @@
 import './style.css'
 
 import * as THREE from 'https://cdn.skypack.dev/three@0.136';
-
-import {FirstPersonControls} from 'https://cdn.skypack.dev/three@0.136/examples/jsm/controls/FirstPersonControls.js';
-
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 const KEYS = {
   'a': 65,
@@ -360,7 +358,7 @@ class FirstPersonCameraDemo {
     this.uiScene_ = new THREE.Scene();
   }
 
-  initializeScene_() {
+  async initializeScene_() {
     const loader = new THREE.CubeTextureLoader();
     const texture = loader.load([
 
@@ -415,6 +413,17 @@ class FirstPersonCameraDemo {
     box.receiveShadow = true;
     this.scene_.add(box);
 
+    const meshes = [
+      plane, box];
+
+    this.objects_ = [];
+
+    for (let i = 0; i < meshes.length; ++i) {
+      const b = new THREE.Box3();
+      b.setFromObject(meshes[i]);
+      this.objects_.push(b);
+    }
+/*
     const concreteMaterial = new THREE.MeshStandardMaterial('concrete-backdrop.jpg', 4);
 
     const wall1 = new THREE.Mesh(
@@ -449,29 +458,101 @@ class FirstPersonCameraDemo {
     wall4.receiveShadow = true;
     this.scene_.add(wall4);
 
+    */
     // Create Box3 for each mesh in the scene so that we can
     // do some easy intersection tests.
-    const meshes = [
-      plane, box, wall1, wall2, wall3, wall4];
 
-    this.objects_ = [];
-
-    for (let i = 0; i < meshes.length; ++i) {
-      const b = new THREE.Box3();
-      b.setFromObject(meshes[i]);
-      this.objects_.push(b);
+    // Load Walls
+    try {
+      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
+      model.scene.position.x += 12;
+      model.scene.position.z += -22;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
+      model.scene.position.x += -12;
+      model.scene.position.z += -22;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
     }
 
-    // Crosshair
-    const crosshair = mapLoader.load('resources/crosshair.png');
-    crosshair.anisotropy = maxAnisotropy;
+    try {
+      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
+      model.scene.rotation.y = Math.PI / 2; // Rotate the model 90 degrees
+      model.scene.position.x += -22;
+      model.scene.position.z += 12;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
+      model.scene.rotation.y = Math.PI / 2;
+      model.scene.position.x += -22;
+      model.scene.position.z += -12;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
 
-    this.sprite_ = new THREE.Sprite(
-      new THREE.SpriteMaterial({map: crosshair, color: 0xffffff, fog: false, depthTest: false, depthWrite: false}));
-    this.sprite_.scale.set(0.15, 0.15 * this.camera_.aspect, 1)
-    this.sprite_.position.set(0, 0, -10);
+    try {
+      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
+      model.scene.rotation.y = Math.PI;
+      model.scene.position.x += 12;
+      model.scene.position.z += 22;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
+      model.scene.rotation.y = Math.PI;
+      model.scene.position.x += -12;
+      model.scene.position.z += 22;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    
+    try {
+      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
+      model.scene.rotation.y = 3*Math.PI / 2;
+      model.scene.position.x += 22;
+      model.scene.position.z += 12;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
+      model.scene.rotation.y = 3*Math.PI / 2;
+      model.scene.position.x += 22;
+      model.scene.position.z += -12;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
 
-    this.uiScene_.add(this.sprite_);
+  }
+
+  async loadModel_(url) {
+    const loader = new GLTFLoader();
+    console.log(loader);
+    return new Promise((resolve, reject) => {
+      loader.load(url, resolve, undefined, reject);
+    });
   }
 
   initializeLights_() {
