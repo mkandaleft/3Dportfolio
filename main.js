@@ -208,16 +208,51 @@ class FirstPersonCamera {
     if (forwardVelocity != 0 || strafeVelocity != 0) {
       this.headBobActive_ = true;
     }
+
+    // Limit camera translation in room
     const roomDimensions = { minX: -20, maxX: 20, minY: 0, maxY: 4, minZ: -20, maxZ: 20 }; // Replace with your room's dimensions
-    this.translation_.x = Math.max(roomDimensions.minX, Math.min(roomDimensions.maxX, this.translation_.x));
-    this.translation_.y = Math.max(roomDimensions.minY, Math.min(roomDimensions.maxY, this.translation_.y));
-    this.translation_.z = Math.max(roomDimensions.minZ, Math.min(roomDimensions.maxZ, this.translation_.z));
-    /*
+    if (this.translation_.x < roomDimensions.minX) {
+      this.translation_.x = roomDimensions.minX
+    }
+    if (this.translation_.x > roomDimensions.maxX) {
+      this.translation_.x = roomDimensions.maxX
+    }
+    if (this.translation_.z < roomDimensions.minsdwZ) {
+      this.translation_.z = roomDimensions.minZ
+    }
+    if (this.translation_.z > roomDimensions.maxZ) {
+      this.translation_.z = roomDimensions.maxZ
+    }
+
+    // Limit camera translation in box
     const boxDimensions = { minX: -5, maxX: 5, minY: 0, maxY: 4, minZ: -5, maxZ: 5 }; // Replace with your room's dimensions
-    this.translation_.x = Math.max(boxDimensions.minX, Math.min(boxDimensions.maxX, this.translation_.x));
-    this.translation_.y = Math.max(boxDimensions.minY, Math.min(boxDimensions.maxY, this.translation_.y));
-    this.translation_.z = Math.max(boxDimensions.minZ, Math.min(boxDimensions.maxZ, this.translation_.z));
-    */
+    const inBox = this.translation_.x > boxDimensions.minX && this.translation_.x < boxDimensions.maxX && this.translation_.z > boxDimensions.minZ && this.translation_.z < boxDimensions.maxZ;
+    
+    if (inBox) {
+      const distances = {
+        minX: Math.abs(this.translation_.x - boxDimensions.minX),
+        maxX: Math.abs(this.translation_.x - boxDimensions.maxX),
+        minZ: Math.abs(this.translation_.z - boxDimensions.minZ),
+        maxZ: Math.abs(this.translation_.z - boxDimensions.maxZ),
+      };
+    
+      const minDistance = Math.min(distances.minX, distances.maxX, distances.minZ, distances.maxZ);
+    
+      switch (minDistance) {
+        case distances.minX:
+          this.translation_.x = boxDimensions.minX;
+          break;
+        case distances.maxX:
+          this.translation_.x = boxDimensions.maxX;
+          break;
+        case distances.minZ:
+          this.translation_.z = boxDimensions.minZ;
+          break;
+        case distances.maxZ:
+          this.translation_.z = boxDimensions.maxZ;
+          break;
+      }
+    }
   }
 
   updateRotation_(timeElapsedS) {
