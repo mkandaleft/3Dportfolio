@@ -397,6 +397,7 @@ class FirstPersonCameraDemo {
     checkerboard.repeat.set(32, 32);
     checkerboard.encoding = THREE.sRGBEncoding;
 
+    /*
     const plane = new THREE.Mesh(
         new THREE.PlaneGeometry(100, 100, 10, 10),
         new THREE.MeshStandardMaterial({map: checkerboard}));
@@ -404,7 +405,7 @@ class FirstPersonCameraDemo {
     plane.receiveShadow = true;
     plane.rotation.x = -Math.PI / 2;
     this.scene_.add(plane);
-
+    */
     const box = new THREE.Mesh(
       new THREE.BoxGeometry(4, 4, 4),
       new THREE.MeshStandardMaterial({map: checkerboard}));
@@ -414,7 +415,7 @@ class FirstPersonCameraDemo {
     this.scene_.add(box);
 
     const meshes = [
-      plane, box];
+      box];
 
     this.objects_ = [];
 
@@ -461,6 +462,18 @@ class FirstPersonCameraDemo {
     */
     // Create Box3 for each mesh in the scene so that we can
     // do some easy intersection tests.
+
+    // Load Floor
+    try {
+      const model = await this.loadModel_('public/Floor/scene.gltf');
+      model.scene.scale.set(6, 1, 8); // Scale the model up by a factor of 2 in all directions
+      model.scene.position.x += 10;
+      model.scene.position.y += -5;
+      model.scene.position.z += -20;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
 
     // Load Walls
     try {
