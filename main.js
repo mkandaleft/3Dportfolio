@@ -465,11 +465,41 @@ class FirstPersonCameraDemo {
 
     // Load Floor
     try {
-      const model = await this.loadModel_('public/Floor/scene.gltf');
-      model.scene.scale.set(6, 1, 8); // Scale the model up by a factor of 2 in all directions
-      model.scene.position.x += 10;
-      model.scene.position.y += -5;
-      model.scene.position.z += -20;
+      const model = await this.loadModel_('public/Floor/floor.glb');
+      model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
+      model.scene.position.x += 11;
+      model.scene.position.y += -4.3;
+      model.scene.position.z += -11;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('public/Floor/floor.glb');
+      model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
+      model.scene.position.x += 11;
+      model.scene.position.y += -4.3;
+      model.scene.position.z += 11;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('public/Floor/floor.glb');
+      model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
+      model.scene.position.x += -11;
+      model.scene.position.y += -4.3;
+      model.scene.position.z += 11;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('public/Floor/floor.glb');
+      model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
+      model.scene.position.x += -11;
+      model.scene.position.y += -4.3;
+      model.scene.position.z += -11;
       this.scene_.add(model.scene);
     } catch (error) {
       console.error('Error loading model:', error);
