@@ -146,7 +146,7 @@ class FirstPersonCamera {
     this.camera_ = camera;
     this.input_ = new InputController();
     this.rotation_ = new THREE.Quaternion();
-    this.translation_ = new THREE.Vector3(0, 2, 0);
+    this.translation_ = new THREE.Vector3(0, 2.5, 0);
     this.phi_ = 0;
     this.phiSpeed_ = 8;
     this.theta_ = 0;
@@ -228,7 +228,7 @@ class FirstPersonCamera {
     }
 
     // Limit camera translation in room
-    const roomDimensions = { minX: -20, maxX: 20, minY: 0, maxY: 4, minZ: -20, maxZ: 20 }; // Replace with your room's dimensions
+    const roomDimensions = { minX: -18, maxX: 18, minY: 0, maxY: 4, minZ: -18, maxZ: 18 };
     if (this.translation_.x < roomDimensions.minX) {
       this.translation_.x = roomDimensions.minX
     }
@@ -243,7 +243,7 @@ class FirstPersonCamera {
     }
 
     // Limit camera translation in box
-    const boxDimensions = { minX: -5, maxX: 5, minY: 0, maxY: 4, minZ: -5, maxZ: 5 }; // Replace with your room's dimensions
+    const boxDimensions = { minX: -5, maxX: 5, minY: 0, maxY: 4, minZ: -5, maxZ: 5 };
     const inBox = this.translation_.x > boxDimensions.minX && this.translation_.x < boxDimensions.maxX && this.translation_.z > boxDimensions.minZ && this.translation_.z < boxDimensions.maxZ;
     
     if (inBox) {
@@ -397,15 +397,6 @@ class FirstPersonCameraDemo {
     checkerboard.repeat.set(32, 32);
     checkerboard.encoding = THREE.sRGBEncoding;
 
-    /*
-    const plane = new THREE.Mesh(
-        new THREE.PlaneGeometry(100, 100, 10, 10),
-        new THREE.MeshStandardMaterial({map: checkerboard}));
-    plane.castShadow = false;
-    plane.receiveShadow = true;
-    plane.rotation.x = -Math.PI / 2;
-    this.scene_.add(plane);
-    */
     const box = new THREE.Mesh(
       new THREE.BoxGeometry(4, 4, 4),
       new THREE.MeshStandardMaterial({map: checkerboard}));
@@ -425,48 +416,10 @@ class FirstPersonCameraDemo {
       b.setFromObject(meshes[i]);
       this.objects_.push(b);
     }
-/*
-    const concreteMaterial = new THREE.MeshStandardMaterial('concrete-backdrop.jpg', 4);
-
-    const wall1 = new THREE.Mesh(
-      new THREE.BoxGeometry(100, 60, 4),
-      new THREE.MeshStandardMaterial({color: 0xff0000}));
-    wall1.position.set(0, -20, -25);
-    wall1.castShadow = true;
-    wall1.receiveShadow = true;
-    this.scene_.add(wall1);
-
-    const wall2 = new THREE.Mesh(
-      new THREE.BoxGeometry(100, 60, 4),
-      new THREE.MeshStandardMaterial({color: 0x00ff00}));
-    wall2.position.set(0, -20, 25);
-    wall2.castShadow = true;
-    wall2.receiveShadow = true;
-    this.scene_.add(wall2);
-
-    const wall3 = new THREE.Mesh(
-      new THREE.BoxGeometry(4, 60, 100),
-      new THREE.MeshStandardMaterial({color: 0x0000ff}));
-    wall3.position.set(25, -20, 0);
-    wall3.castShadow = true;
-    wall3.receiveShadow = true;
-    this.scene_.add(wall3);
-
-    const wall4 = new THREE.Mesh(
-      new THREE.BoxGeometry(4, 60, 100),
-      new THREE.MeshStandardMaterial({color: 0xffff00}));
-    wall4.position.set(-25, -20, 0);
-    wall4.castShadow = true;
-    wall4.receiveShadow = true;
-    this.scene_.add(wall4);
-
-    */
-    // Create Box3 for each mesh in the scene so that we can
-    // do some easy intersection tests.
 
     // Load Floor
     try {
-      const model = await this.loadModel_('public/Floor/floor.glb');
+      const model = await this.loadModel_('Floor/floor.glb');
       model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
       model.scene.position.x += 11;
       model.scene.position.y += -4.3;
@@ -476,7 +429,7 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
     try {
-      const model = await this.loadModel_('public/Floor/floor.glb');
+      const model = await this.loadModel_('Floor/floor.glb');
       model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
       model.scene.position.x += 11;
       model.scene.position.y += -4.3;
@@ -486,7 +439,7 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
     try {
-      const model = await this.loadModel_('public/Floor/floor.glb');
+      const model = await this.loadModel_('Floor/floor.glb');
       model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
       model.scene.position.x += -11;
       model.scene.position.y += -4.3;
@@ -496,7 +449,7 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
     try {
-      const model = await this.loadModel_('public/Floor/floor.glb');
+      const model = await this.loadModel_('Floor/floor.glb');
       model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
       model.scene.position.x += -11;
       model.scene.position.y += -4.3;
@@ -508,7 +461,7 @@ class FirstPersonCameraDemo {
 
     // Load Walls
     try {
-      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
       model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
       model.scene.position.x += 12;
       model.scene.position.z += -22;
@@ -517,7 +470,7 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
     try {
-      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
       model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
       model.scene.position.x += -12;
       model.scene.position.z += -22;
@@ -527,7 +480,7 @@ class FirstPersonCameraDemo {
     }
 
     try {
-      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
       model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
       model.scene.rotation.y = Math.PI / 2; // Rotate the model 90 degrees
       model.scene.position.x += -22;
@@ -537,7 +490,7 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
     try {
-      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
       model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
       model.scene.rotation.y = Math.PI / 2;
       model.scene.position.x += -22;
@@ -548,7 +501,7 @@ class FirstPersonCameraDemo {
     }
 
     try {
-      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
       model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
       model.scene.rotation.y = Math.PI;
       model.scene.position.x += 12;
@@ -558,7 +511,7 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
     try {
-      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
       model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
       model.scene.rotation.y = Math.PI;
       model.scene.position.x += -12;
@@ -569,7 +522,7 @@ class FirstPersonCameraDemo {
     }
     
     try {
-      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
       model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
       model.scene.rotation.y = 3*Math.PI / 2;
       model.scene.position.x += 22;
@@ -579,7 +532,7 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
     try {
-      const model = await this.loadModel_('public/Wall/source/Wall (bake light).gltf');
+      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
       model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
       model.scene.rotation.y = 3*Math.PI / 2;
       model.scene.position.x += 22;
@@ -589,7 +542,98 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
 
+    // Load Signs
+    try {
+      const model = await this.loadModel_('Sign/billboard_park.glb');
+      model.scene.scale.set(0.7, 0.7, 0.7);
+      model.scene.rotation.y = 5*Math.PI / 4;
+      model.scene.position.x += 21;
+      model.scene.position.y += 7;
+      model.scene.position.z += 21;
+      this.scene_.add(model.scene);
+
+      const planeGeometry = new THREE.PlaneGeometry(20, 20);
+      const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
+      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
+      plane.scale.set(0.3, 1, 0.3);
+      plane.position.x += 20.5;
+      plane.position.y += -3;
+      plane.position.z += 20.5;
+      plane.rotation.y = 5*Math.PI / 4;
+      plane.receiveShadow = true;
+      this.scene_.add(plane);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('Sign/billboard_park.glb');
+      model.scene.scale.set(0.7, 0.7, 0.7);
+      model.scene.rotation.y = 3*Math.PI / 4;
+      model.scene.position.x += -21;
+      model.scene.position.y += 7;
+      model.scene.position.z += 21;
+      this.scene_.add(model.scene);
+
+      const planeGeometry = new THREE.PlaneGeometry(20, 20);
+      const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
+      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
+      plane.scale.set(0.3, 1, 0.3);
+      plane.position.x += -20.5;
+      plane.position.y += -3;
+      plane.position.z += 20.5;
+      plane.rotation.y = 3*Math.PI / 4;
+      plane.receiveShadow = true;
+      this.scene_.add(plane);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('Sign/billboard_park.glb');
+      model.scene.scale.set(0.7, 0.7, 0.7);
+      model.scene.rotation.y = Math.PI / 4;
+      model.scene.position.x += -21;
+      model.scene.position.y += 7;
+      model.scene.position.z += -21;
+      this.scene_.add(model.scene);
+
+      const planeGeometry = new THREE.PlaneGeometry(20, 20);
+      const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
+      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
+      plane.scale.set(0.3, 1, 0.3);
+      plane.position.x += -20.5;
+      plane.position.y += -3;
+      plane.position.z += -20.5;
+      plane.rotation.y = Math.PI / 4;
+      plane.receiveShadow = true;
+      this.scene_.add(plane);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('Sign/billboard_park.glb');
+      model.scene.scale.set(0.7, 0.7, 0.7);
+      model.scene.rotation.y = 7*Math.PI / 4;
+      model.scene.position.x += 21;
+      model.scene.position.y += 7;
+      model.scene.position.z += -21;
+      this.scene_.add(model.scene);
+
+      const planeGeometry = new THREE.PlaneGeometry(20, 20);
+      const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
+      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
+      plane.scale.set(0.3, 1, 0.3);
+      plane.position.x += 20.5;
+      plane.position.y += -3;
+      plane.position.z += -20.5;
+      plane.rotation.y = 7*Math.PI / 4;
+      plane.receiveShadow = true;
+      this.scene_.add(plane);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
   }
+
+  
 
   async loadModel_(url) {
     const loader = new GLTFLoader();
