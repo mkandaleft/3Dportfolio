@@ -631,6 +631,32 @@ class FirstPersonCameraDemo {
     } catch (error) {
       console.error('Error loading model:', error);
     }
+
+    // Add Music
+    try {
+      const model = await this.loadModel_('Music/Amp/old_amp.glb');
+      model.scene.scale.set(0.12, 0.12, 0.12);
+      model.scene.rotation.y = -Math.PI / 4;
+      model.scene.position.x += 18;
+      model.scene.position.y += 4;
+      model.scene.position.z += -18;
+      this.scene_.add(model.scene);
+
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('Music/Guitar/fender_stratocaster_guitar.glb');
+      model.scene.scale.set(12, 12, 12);
+      model.scene.rotation.y = -Math.PI / 4;
+      model.scene.position.x += 5;
+      model.scene.position.y += 4;
+      model.scene.position.z += -10;
+      this.scene_.add(model.scene);
+
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
   }
 
   
