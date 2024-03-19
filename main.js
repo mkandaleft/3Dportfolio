@@ -410,6 +410,7 @@ class FirstPersonCameraDemo {
       new THREE.BoxGeometry(4, 4, 4),
       new THREE.MeshStandardMaterial({map: checkerboard}));
     box.position.set(0, 2, 0);
+    box.rotation.y = Math.PI / 4; // Rotate the box by pi/4
     box.castShadow = true;
     box.receiveShadow = true;
     this.scene_.add(box);
@@ -600,12 +601,14 @@ class FirstPersonCameraDemo {
 
   initializeLights_() {
     const distance = 50.0;
-    const angle = Math.PI / 4.0;
+    const angle = Math.PI / 5.5;
     const penumbra = 0.5;
     const decay = 1.0;
 
+    // Wall lights
+
     let light = new THREE.SpotLight(
-        0xFFFFFF, 100.0, distance, angle, penumbra, decay);
+      0xFFFFFF, 100.0, distance, angle, penumbra, decay);
     light.castShadow = true;
     light.shadow.bias = -0.00001;
     light.shadow.mapSize.width = 4096;
@@ -613,10 +616,139 @@ class FirstPersonCameraDemo {
     light.shadow.camera.near = 1;
     light.shadow.camera.far = 100;
 
-    light.position.set(25, 25, 0);
-    light.lookAt(0, 0, 0);
+    light.position.set(10, 25, 10);
+    light.target.position.set(20, 0, 20);
+    light.target.updateMatrixWorld();
     this.scene_.add(light);
+    this.scene_.add(light.target);
 
+    //const spotLightHelper = new THREE.SpotLightHelper(light);
+    //this.scene_.add(spotLightHelper)
+
+    const light2 = new THREE.SpotLight(
+      light.color, light.intensity, light.distance, light.angle, light.penumbra, light.decay);
+    light2.castShadow = light.castShadow;
+    light2.shadow.bias = light.shadow.bias;
+    light2.shadow.mapSize.width = light.shadow.mapSize.width;
+    light2.shadow.mapSize.height = light.shadow.mapSize.height;
+    light2.shadow.camera.near = light.shadow.camera.near;
+    light2.shadow.camera.far = light.shadow.camera.far;
+
+    light2.position.set(-10, 25, 10);
+    light2.target.position.set(-20, 0, 20);
+    light2.target.updateMatrixWorld();
+    this.scene_.add(light2);
+    this.scene_.add(light2.target);
+
+    //const spotLightHelper2 = new THREE.SpotLightHelper(light2);
+    //this.scene_.add(spotLightHelper2)
+
+    const light3 = new THREE.SpotLight(
+      light.color, light.intensity, light.distance, light.angle, light.penumbra, light.decay);
+    light3.castShadow = light.castShadow;
+    light3.shadow.bias = light.shadow.bias;
+    light3.shadow.mapSize.width = light.shadow.mapSize.width;
+    light3.shadow.mapSize.height = light.shadow.mapSize.height;
+    light3.shadow.camera.near = light.shadow.camera.near;
+    light3.shadow.camera.far = light.shadow.camera.far;
+    light3.position.set(-10, 25, -10);
+    light3.target.position.set(-20, 0, -20);
+    light3.target.updateMatrixWorld();
+    this.scene_.add(light3);
+    this.scene_.add(light3.target); //
+
+    //const spotLightHelper3 = new THREE.SpotLightHelper(light3);
+    //this.scene_.add(spotLightHelper3)
+
+    const light4 = new THREE.SpotLight(
+      light.color, light.intensity, light.distance, light.angle, light.penumbra, light.decay);
+    light4.castShadow = light.castShadow;
+    light4.shadow.bias = light.shadow.bias;
+    light4.shadow.mapSize.width = light.shadow.mapSize.width;
+    light4.shadow.mapSize.height = light.shadow.mapSize.height;
+    light4.shadow.camera.near = light.shadow.camera.near;
+    light4.shadow.camera.far = light.shadow.camera.far;
+    light4.position.set(10, 25, -10);
+    light4.target.position.set(20, 0, -20);
+    light4.target.updateMatrixWorld();
+    this.scene_.add(light4);
+    this.scene_.add(light4.target);
+
+    //const spotLightHelper4 = new THREE.SpotLightHelper(light4);
+    //this.scene_.add(spotLightHelper4)
+
+    // Center liights
+
+    const light5 = new THREE.SpotLight(
+      light.color, light.intensity, light.distance, light.angle, light.penumbra, light.decay);
+    light5.castShadow = light.castShadow;
+    light5.shadow.bias = light.shadow.bias;
+    light5.shadow.mapSize.width = light.shadow.mapSize.width;
+    light5.shadow.mapSize.height = light.shadow.mapSize.height;
+    light5.shadow.camera.near = light.shadow.camera.near;
+    light5.shadow.camera.far = light.shadow.camera.far;
+    light5.position.set(10, 25, 10);
+    light5.target.position.set(0, 0, 0);
+    light5.target.updateMatrixWorld();
+    this.scene_.add(light5);
+    this.scene_.add(light5.target);
+
+    //const spotLightHelper5 = new THREE.SpotLightHelper(light5);
+    //this.scene_.add(spotLightHelper5)
+
+    const light6 = new THREE.SpotLight(
+      light.color, light.intensity, light.distance, light.angle, light.penumbra, light.decay);
+    light6.castShadow = light.castShadow;
+    light6.shadow.bias = light.shadow.bias;
+    light6.shadow.mapSize.width = light.shadow.mapSize.width;
+    light6.shadow.mapSize.height = light.shadow.mapSize.height;
+    light6.shadow.camera.near = light.shadow.camera.near;
+    light6.shadow.camera.far = light.shadow.camera.far;
+    light6.position.set(-10, 25, 10);
+    light6.target.position.set(0, 0, 0);
+    light6.target.updateMatrixWorld();
+    this.scene_.add(light6);
+    this.scene_.add(light6.target);
+
+    //const spotLightHelper6 = new THREE.SpotLightHelper(light6);
+    //this.scene_.add(spotLightHelper6)
+
+    const light7 = new THREE.SpotLight(
+      light.color, light.intensity, light.distance, light.angle, light.penumbra, light.decay);
+    light7.castShadow = light.castShadow;
+    light7.shadow.bias = light.shadow.bias;
+    light7.shadow.mapSize.width = light.shadow.mapSize.width;
+    light7.shadow.mapSize.height = light.shadow.mapSize.height;
+    light7.shadow.camera.near = light.shadow.camera.near;
+    light7.shadow.camera.far = light.shadow.camera.far;
+    light7.position.set(-10, 25, -10);
+    light7.target.position.set(0, 0, 0);
+    light7.target.updateMatrixWorld();
+    this.scene_.add(light7);
+    this.scene_.add(light7.target);
+
+    //const spotLightHelper7 = new THREE.SpotLightHelper(light7);
+    //this.scene_.add(spotLightHelper7)
+
+    const light8 = new THREE.SpotLight(
+      light.color, light.intensity, light.distance, light.angle, light.penumbra, light.decay);
+    light8.castShadow = light.castShadow;
+    light8.shadow.bias = light.shadow.bias;
+    light8.shadow.mapSize.width = light.shadow.mapSize.width;
+    light8.shadow.mapSize.height = light.shadow.mapSize.height;
+    light8.shadow.camera.near = light.shadow.camera.near;
+    light8.shadow.camera.far = light.shadow.camera.far;
+    light8.position.set(10, 25, -10);
+    light8.target.position.set(0, 0, 0);
+    light8.target.updateMatrixWorld();
+    this.scene_.add(light8);
+    this.scene_.add(light8.target);
+
+    //const spotLightHelper8 = new THREE.SpotLightHelper(light8);
+    //this.scene_.add(spotLightHelper8)
+      
+    // Background light
+    
     const upColour = 0xFFFF80;
     const downColour = 0x808080;
     light = new THREE.HemisphereLight(upColour, downColour, 0.5);
@@ -624,6 +756,7 @@ class FirstPersonCameraDemo {
     light.groundColor.setHSL( 0.095, 1, 0.75 );
     light.position.set(0, 4, 0);
     this.scene_.add(light);
+   
   }
 
   loadMaterial_(name, tiling) {
