@@ -303,19 +303,19 @@ class FirstPersonCamera {
   checkInteraction() {
     // Update the picking ray with the camera and mouse position
     this.raycaster_.setFromCamera(this.mouse_, this.camera_);
-    console.log(this.interactableObjects);
+    // console.log(this.interactableObjects);
   
     // Calculate objects intersecting the picking ray
-    //const intersects = this.raycaster_.intersectObjects(this.interactableObjects);
+    const intersects = this.raycaster_.intersectObjects(this.interactableObjects);
     //console.log(this.interactableObjects);
-    /*
+    
     for (let i = 0; i < intersects.length; i++) {
       const object = intersects[i].object;
       console.log("Hekooooooo")
       // Perform interaction logic for each intersected object
       // ...
     }
-    */
+    
   }
 
   updateCameraCoordinatesDisplay() {
@@ -329,6 +329,7 @@ class FirstPersonCamera {
 
 class FirstPersonCameraDemo {
   constructor() {
+    this.interactable = [];
     this.initialize_();
   }
 
@@ -435,8 +436,6 @@ class FirstPersonCameraDemo {
       b.setFromObject(meshes[i]);
       this.objects_.push(b);
     }
-
-    const interactable = [];
 
     // Load Floor
     try {
@@ -759,7 +758,7 @@ class FirstPersonCameraDemo {
       comp.scene.position.y += 2;
       comp.scene.position.z += 18.3;
       this.scene_.add(comp.scene);
-      interactable.push(comp.scene);
+      this.interactable.push(comp.scene);
 
       const shelf1 = await this.loadModel_('Software/Shelf/floating_shelf.glb');
       shelf1.scene.scale.set(2, 2, 2);
@@ -883,7 +882,7 @@ class FirstPersonCameraDemo {
       jbox.scene.position.y += 0.5;
       jbox.scene.position.z += -16;
       this.scene_.add(jbox.scene);
-      interactable.push(jbox.scene);
+      this.interactable.push(jbox.scene);
 
       const guit = await this.loadModel_('Music/Guitar/fender_stratocaster_guitar.glb');
       guit.scene.scale.set(14, 14, 14);
@@ -898,7 +897,7 @@ class FirstPersonCameraDemo {
     } catch (error) {
       console.error('Error loading model:', error);
     }
-    console.log(interactable);
+    // console.log(this.interactable);
   }
 
   async loadModel_(url) {
