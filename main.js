@@ -501,7 +501,7 @@ class FirstPersonCameraDemo {
 
     // Load Signs
     try {
-      const sign1 = await this.loadModel_('Map/Sign/billboard_park.glb');
+      const sign1 = await this.loadModel_('Map/Sign/billboard park-test.glb');
       sign1.scene.scale.set(0.7, 0.7, 0.7);
       sign1.scene.rotation.y = 5*Math.PI / 4;
       sign1.scene.position.x += 21;
@@ -631,7 +631,18 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
 
-
+    // Load Speakers
+    try {
+      const speak1 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
+      speak1.scene.scale.set(2, 2, 2);
+      speak1.scene.rotation.y = Math.PI / 5;
+      speak1.scene.position.x += 0;
+      speak1.scene.position.y += 10;
+      speak1.scene.position.z += -20;
+      this.scene_.add(speak1.scene);
+    }  catch (error) {
+      console.error('Error loading model:', error);
+    }
 
     // Add Music
     try {
