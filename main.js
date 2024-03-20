@@ -156,6 +156,11 @@ class FirstPersonCamera {
     this.objects_ = objects;
     this.raycaster_ = new THREE.Raycaster();
     this.mouse_ = new THREE.Vector2();
+    this.interactableObjects = []; 
+  }
+
+  setInteractableObjects(interactableObjects) {
+    this.interactableObjects = interactableObjects;
   }
 
   update(timeElapsedS) {
@@ -298,26 +303,19 @@ class FirstPersonCamera {
   checkInteraction() {
     // Update the picking ray with the camera and mouse position
     this.raycaster_.setFromCamera(this.mouse_, this.camera_);
+    console.log(this.interactableObjects);
   
     // Calculate objects intersecting the picking ray
-    const intersects = this.raycaster_.intersectObjects(scene_.children);
-  
-    console.log("Helloo\n\n\n\n\n");
+    //const intersects = this.raycaster_.intersectObjects(this.interactableObjects);
+    //console.log(this.interactableObjects);
     /*
     for (let i = 0; i < intersects.length; i++) {
-      console.log("Helloo\n\n\n\n\n");
-      
-      if (intersects[i].object === computerProp) {
-        // Player is looking at the computer prop, now check distance
-        const distance = camera.position.distanceTo(computerProp.position);
-        if (distance < YOUR_DEFINED_THRESHOLD) {
-          // Player is close enough to interact
-          // Listen for click event to zoom in and display content
-          this.target_.addEventListener('click', this.onComputerClick.bind(this), false);
-        }
-      }
-      
-    }*/
+      const object = intersects[i].object;
+      console.log("Hekooooooo")
+      // Perform interaction logic for each intersected object
+      // ...
+    }
+    */
   }
 
   updateCameraCoordinatesDisplay() {
@@ -353,6 +351,8 @@ class FirstPersonCameraDemo {
     // this.controls_.movementSpeed = 5;
 
     this.fpsCamera_ = new FirstPersonCamera(this.camera_, this.objects_);
+    
+    this.fpsCamera_.setInteractableObjects(this.interactable);
   }
 
   initializeRenderer_() {
@@ -435,6 +435,8 @@ class FirstPersonCameraDemo {
       b.setFromObject(meshes[i]);
       this.objects_.push(b);
     }
+
+    const interactable = [];
 
     // Load Floor
     try {
@@ -757,6 +759,7 @@ class FirstPersonCameraDemo {
       comp.scene.position.y += 2;
       comp.scene.position.z += 18.3;
       this.scene_.add(comp.scene);
+      interactable.push(comp.scene);
 
       const shelf1 = await this.loadModel_('Software/Shelf/floating_shelf.glb');
       shelf1.scene.scale.set(2, 2, 2);
@@ -864,6 +867,7 @@ class FirstPersonCameraDemo {
       amp1.scene.position.z += -20;
       this.scene_.add(amp1.scene);
 
+
       const amp2 = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
       amp2.scene.scale.set(6, 6, 6);
       amp2.scene.rotation.y = -3*Math.PI / 5;
@@ -879,6 +883,7 @@ class FirstPersonCameraDemo {
       jbox.scene.position.y += 0.5;
       jbox.scene.position.z += -16;
       this.scene_.add(jbox.scene);
+      interactable.push(jbox.scene);
 
       const guit = await this.loadModel_('Music/Guitar/fender_stratocaster_guitar.glb');
       guit.scene.scale.set(14, 14, 14);
@@ -893,9 +898,8 @@ class FirstPersonCameraDemo {
     } catch (error) {
       console.error('Error loading model:', error);
     }
+    console.log(interactable);
   }
-
-
 
   async loadModel_(url) {
     const loader = new GLTFLoader();
