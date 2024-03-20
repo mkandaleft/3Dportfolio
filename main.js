@@ -228,7 +228,7 @@ class FirstPersonCamera {
     }
 
     // Limit camera translation in room
-    const roomDimensions = { minX: -18, maxX: 18, minY: 0, maxY: 4, minZ: -18, maxZ: 18 };
+    const roomDimensions = { minX: -14.5, maxX: 14.5, minY: 0, maxY: 4, minZ: -14.5, maxZ: 14.5 };
     if (this.translation_.x < roomDimensions.minX) {
       this.translation_.x = roomDimensions.minX
     }
@@ -606,10 +606,10 @@ class FirstPersonCameraDemo {
 
       const scaf4 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
       scaf4.scene.scale.set(1, 1, 1);
-      scaf4.scene.rotation.y = Math.PI;
-      scaf4.scene.position.x += 24;
+      scaf4.scene.rotation.y = Math.PI / 2;
+      scaf4.scene.position.x += 8;
       scaf4.scene.position.y += 1;
-      scaf4.scene.position.z += -8;
+      scaf4.scene.position.z += 24;
       this.scene_.add(scaf4.scene);
 
       const scaf5 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
@@ -617,16 +617,32 @@ class FirstPersonCameraDemo {
       scaf5.scene.rotation.y = Math.PI;
       scaf5.scene.position.x += 24;
       scaf5.scene.position.y += 1;
-      scaf5.scene.position.z += -10;
+      scaf5.scene.position.z += -8;
       this.scene_.add(scaf5.scene);
 
       const scaf6 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
       scaf6.scene.scale.set(1, 1, 1);
-      scaf6.scene.rotation.y = 3*Math.PI/2;
-      scaf6.scene.position.x += -10;
+      scaf6.scene.rotation.y = Math.PI;
+      scaf6.scene.position.x += 24;
       scaf6.scene.position.y += 1;
-      scaf6.scene.position.z += -24;
+      scaf6.scene.position.z += -10;
       this.scene_.add(scaf6.scene);
+
+      const scaf7 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
+      scaf7.scene.scale.set(1, 1, 1);
+      scaf7.scene.rotation.y = 3*Math.PI/2;
+      scaf7.scene.position.x += -10;
+      scaf7.scene.position.y += 1;
+      scaf7.scene.position.z += -24;
+      this.scene_.add(scaf7.scene);
+
+      const scaf8 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
+      scaf8.scene.scale.set(1, 1, 1);
+      scaf8.scene.rotation.y = 3*Math.PI/2;
+      scaf8.scene.position.x += -8;
+      scaf8.scene.position.y += 1;
+      scaf8.scene.position.z += -24;
+      this.scene_.add(scaf8.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
@@ -636,10 +652,43 @@ class FirstPersonCameraDemo {
       const speak1 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
       speak1.scene.scale.set(2, 2, 2);
       speak1.scene.rotation.y = Math.PI / 5;
-      speak1.scene.position.x += 0;
+      speak1.scene.position.x += 4;
       speak1.scene.position.y += 10;
       speak1.scene.position.z += -20;
       this.scene_.add(speak1.scene);
+
+      const speak2 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
+      speak2.scene.scale.set(2, 2, 2);
+      speak2.scene.rotation.y = -Math.PI / 5;
+      speak2.scene.position.x += -4;
+      speak2.scene.position.y += 10;
+      speak2.scene.position.z += -20;
+      this.scene_.add(speak2.scene);
+
+      const speak3 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
+      speak3.scene.scale.set(2, 2, 2);
+      speak3.scene.rotation.y = 4*Math.PI / 5;
+      speak3.scene.position.x += 5;
+      speak3.scene.position.y += 10;
+      speak3.scene.position.z += 20;
+      this.scene_.add(speak3.scene);
+
+      const speak4 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
+      speak4.scene.scale.set(2, 2, 2);
+      speak4.scene.rotation.y = Math.PI;
+      speak4.scene.position.x += 0;
+      speak4.scene.position.y += 10;
+      speak4.scene.position.z += 18;
+      this.scene_.add(speak4.scene);
+
+      const speak5 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
+      speak5.scene.scale.set(2, 2, 2);
+      speak5.scene.rotation.y = -4*Math.PI / 5;
+      speak5.scene.position.x += -5;
+      speak5.scene.position.y += 10;
+      speak5.scene.position.z += 20;
+      this.scene_.add(speak5.scene);
+
     }  catch (error) {
       console.error('Error loading model:', error);
     }
@@ -680,6 +729,43 @@ class FirstPersonCameraDemo {
       guit.scene.position.y += 15;
       guit.scene.position.z += -22;
       this.scene_.add(guit.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+
+    // Add Software
+    try {
+      const table = await this.loadModel_('Software/Table/wooden_table_game_ready_asset.glb');
+      table.scene.scale.set(3, 3, 3);
+      table.scene.rotation.y = -Math.PI / 4;
+      table.scene.position.x += 18;
+      table.scene.position.y += -0.2;
+      table.scene.position.z += 18;
+      this.scene_.add(table.scene);
+
+      const comp = await this.loadModel_('Software/Computer/old_computer.glb');
+      comp.scene.scale.set(0.6, 0.6, 0.6);
+      comp.scene.rotation.y = -3 *Math.PI / 4;
+      comp.scene.position.x += 18.3;
+      comp.scene.position.y += 2;
+      comp.scene.position.z += 18.3;
+      this.scene_.add(comp.scene);
+
+      const shelf1 = await this.loadModel_('Software/Shelf/floating_shelf.glb');
+      shelf1.scene.scale.set(2, 2, 2);
+      shelf1.scene.rotation.y = Math.PI;
+      shelf1.scene.position.x += 10;
+      shelf1.scene.position.y += 4.8;
+      shelf1.scene.position.z += 21;
+      this.scene_.add(shelf1.scene);
+
+      const shelf2 = await this.loadModel_('Software/Shelf/floating_shelf.glb');
+      shelf2.scene.scale.set(2, 2, 2);
+      shelf2.scene.rotation.y = Math.PI / 2;
+      shelf2.scene.position.x += 21;
+      shelf2.scene.position.y += 4.8;
+      shelf2.scene.position.z += 10;
+      this.scene_.add(shelf2.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
