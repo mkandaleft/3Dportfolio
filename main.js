@@ -154,6 +154,8 @@ class FirstPersonCamera {
     this.headBobActive_ = false;
     this.headBobTimer_ = 0;
     this.objects_ = objects;
+    this.raycaster_ = new THREE.Raycaster();
+    this.mouse_ = new THREE.Vector2();
   }
 
   update(timeElapsedS) {
@@ -163,6 +165,7 @@ class FirstPersonCamera {
     this.updateHeadBob_(timeElapsedS);
     this.input_.update(timeElapsedS);
     this.updateCameraCoordinatesDisplay();
+    this.checkInteraction();
   }
 
   updateCamera_(_) {
@@ -290,6 +293,31 @@ class FirstPersonCamera {
     q.multiply(qz);
 
     this.rotation_.copy(q);
+  }
+
+  checkInteraction() {
+    // Update the picking ray with the camera and mouse position
+    this.raycaster_.setFromCamera(this.mouse_, this.camera_);
+  
+    // Calculate objects intersecting the picking ray
+    const intersects = this.raycaster_.intersectObjects(scene_.children);
+  
+    console.log("Helloo\n\n\n\n\n");
+    /*
+    for (let i = 0; i < intersects.length; i++) {
+      console.log("Helloo\n\n\n\n\n");
+      
+      if (intersects[i].object === computerProp) {
+        // Player is looking at the computer prop, now check distance
+        const distance = camera.position.distanceTo(computerProp.position);
+        if (distance < YOUR_DEFINED_THRESHOLD) {
+          // Player is close enough to interact
+          // Listen for click event to zoom in and display content
+          this.target_.addEventListener('click', this.onComputerClick.bind(this), false);
+        }
+      }
+      
+    }*/
   }
 
   updateCameraCoordinatesDisplay() {
@@ -867,7 +895,7 @@ class FirstPersonCameraDemo {
     }
   }
 
-  
+
 
   async loadModel_(url) {
     const loader = new GLTFLoader();
