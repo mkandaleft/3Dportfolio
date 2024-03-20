@@ -668,30 +668,88 @@ class FirstPersonCameraDemo {
       const speak3 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
       speak3.scene.scale.set(2, 2, 2);
       speak3.scene.rotation.y = 4*Math.PI / 5;
-      speak3.scene.position.x += 5;
+      speak3.scene.position.x += 4;
       speak3.scene.position.y += 10;
       speak3.scene.position.z += 20;
       this.scene_.add(speak3.scene);
 
       const speak4 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
       speak4.scene.scale.set(2, 2, 2);
-      speak4.scene.rotation.y = Math.PI;
-      speak4.scene.position.x += 0;
+      speak4.scene.rotation.y = -4*Math.PI / 5;
+      speak4.scene.position.x += -4;
       speak4.scene.position.y += 10;
-      speak4.scene.position.z += 18;
+      speak4.scene.position.z += 20;
       this.scene_.add(speak4.scene);
-
-      const speak5 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
-      speak5.scene.scale.set(2, 2, 2);
-      speak5.scene.rotation.y = -4*Math.PI / 5;
-      speak5.scene.position.x += -5;
-      speak5.scene.position.y += 10;
-      speak5.scene.position.z += 20;
-      this.scene_.add(speak5.scene);
 
     }  catch (error) {
       console.error('Error loading model:', error);
     }
+
+    // Load TV's
+    try {
+      const tv1 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+      tv1.scene.scale.set(14, 14, 14);
+      tv1.scene.rotation.y = Math.PI / 2;
+      const rotationAxis1 = new THREE.Vector3(0, 0, -1).normalize();
+      const rotationAngle1 = Math.PI / 5;
+      tv1.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+      tv1.scene.position.x += -10;
+      tv1.scene.position.y += 25;
+      tv1.scene.position.z += 36;
+      this.scene_.add(tv1.scene);
+
+      const tv2 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+      tv2.scene.scale.set(14, 14, 14);
+      tv2.scene.rotation.y = -Math.PI / 2;
+      const rotationAxis2 = new THREE.Vector3(0, 0, -1).normalize();
+      const rotationAngle2 = -Math.PI / 5;
+      tv2.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+      tv2.scene.position.x += 10;
+      tv2.scene.position.y += 25;
+      tv2.scene.position.z += -36;
+      this.scene_.add(tv2.scene);
+    }  catch (error) {
+      console.error('Error loading model:', error);
+    }
+
+    // Add Software
+    try {
+      const table = await this.loadModel_('Software/Table/wooden_table_game_ready_asset.glb');
+      table.scene.scale.set(3, 3, 3);
+      table.scene.rotation.y = -Math.PI / 4;
+      table.scene.position.x += 18;
+      table.scene.position.y += -0.2;
+      table.scene.position.z += 18;
+      this.scene_.add(table.scene);
+
+      const comp = await this.loadModel_('Software/Computer/old_computer.glb');
+      comp.scene.scale.set(0.6, 0.6, 0.6);
+      comp.scene.rotation.y = -3 *Math.PI / 4;
+      comp.scene.position.x += 18.3;
+      comp.scene.position.y += 2;
+      comp.scene.position.z += 18.3;
+      this.scene_.add(comp.scene);
+
+      const shelf1 = await this.loadModel_('Software/Shelf/floating_shelf.glb');
+      shelf1.scene.scale.set(2, 2, 2);
+      shelf1.scene.rotation.y = Math.PI;
+      shelf1.scene.position.x += 10;
+      shelf1.scene.position.y += 4.8;
+      shelf1.scene.position.z += 21;
+      this.scene_.add(shelf1.scene);
+
+      const shelf2 = await this.loadModel_('Software/Shelf/floating_shelf.glb');
+      shelf2.scene.scale.set(2, 2, 2);
+      shelf2.scene.rotation.y = Math.PI / 2;
+      shelf2.scene.position.x += 21;
+      shelf2.scene.position.y += 4.8;
+      shelf2.scene.position.z += 10;
+      this.scene_.add(shelf2.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+
+
 
     // Add Music
     try {
@@ -729,43 +787,6 @@ class FirstPersonCameraDemo {
       guit.scene.position.y += 15;
       guit.scene.position.z += -22;
       this.scene_.add(guit.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-
-    // Add Software
-    try {
-      const table = await this.loadModel_('Software/Table/wooden_table_game_ready_asset.glb');
-      table.scene.scale.set(3, 3, 3);
-      table.scene.rotation.y = -Math.PI / 4;
-      table.scene.position.x += 18;
-      table.scene.position.y += -0.2;
-      table.scene.position.z += 18;
-      this.scene_.add(table.scene);
-
-      const comp = await this.loadModel_('Software/Computer/old_computer.glb');
-      comp.scene.scale.set(0.6, 0.6, 0.6);
-      comp.scene.rotation.y = -3 *Math.PI / 4;
-      comp.scene.position.x += 18.3;
-      comp.scene.position.y += 2;
-      comp.scene.position.z += 18.3;
-      this.scene_.add(comp.scene);
-
-      const shelf1 = await this.loadModel_('Software/Shelf/floating_shelf.glb');
-      shelf1.scene.scale.set(2, 2, 2);
-      shelf1.scene.rotation.y = Math.PI;
-      shelf1.scene.position.x += 10;
-      shelf1.scene.position.y += 4.8;
-      shelf1.scene.position.z += 21;
-      this.scene_.add(shelf1.scene);
-
-      const shelf2 = await this.loadModel_('Software/Shelf/floating_shelf.glb');
-      shelf2.scene.scale.set(2, 2, 2);
-      shelf2.scene.rotation.y = Math.PI / 2;
-      shelf2.scene.position.x += 21;
-      shelf2.scene.position.y += 4.8;
-      shelf2.scene.position.z += 10;
-      this.scene_.add(shelf2.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
