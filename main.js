@@ -754,11 +754,46 @@ class FirstPersonCameraDemo {
       const panth = await this.loadModel_('Career/Pantheon/wk3a_pillar_huth_will.glb');
       panth.scene.scale.set(0.14, 0.14, 0.14);
       panth.scene.rotation.y = 3*Math.PI / 4;
-      panth.scene.position.x += -12.5;
+      panth.scene.position.x += -13;
       panth.scene.position.y += 0;
-      panth.scene.position.z += 19.5;
+      panth.scene.position.z += 20;
       this.scene_.add(panth.scene);
 
+      const plantA1 = await this.loadModel_('Career/PlantA/plant.glb');
+      plantA1.scene.scale.set(0.0045, 0.0045, 0.0045);
+      plantA1.scene.position.x += -16;
+      plantA1.scene.position.y += 0.6;
+      plantA1.scene.position.z += 20;
+      this.scene_.add(plantA1.scene);
+
+      const plantA2 = await this.loadModel_('Career/PlantA/plant.glb');
+      plantA2.scene.scale.set(0.0045, 0.0045, 0.0045);
+      plantA2.scene.position.x += -20;
+      plantA2.scene.position.y += 0.6;
+      plantA2.scene.position.z += 16;
+      this.scene_.add(plantA2.scene);
+
+      const plantB1 = await this.loadModel_('Career/PlantB/plant__rosa_chinensis.glb');
+      plantB1.scene.scale.set(0.4, 0.4, 0.4);
+      plantB1.scene.position.x += -20;
+      plantB1.scene.position.y += -0.5;
+      plantB1.scene.position.z += 10;
+      this.scene_.add(plantB1.scene);
+
+      const plantB2 = await this.loadModel_('Career/PlantB/plant__rosa_chinensis.glb');
+      plantB2.scene.scale.set(0.4, 0.4, 0.4);
+      plantB2.scene.position.x += -10;
+      plantB2.scene.position.y += -0.5;
+      plantB2.scene.position.z += 20;
+      this.scene_.add(plantB2.scene);
+
+      const holog = await this.loadModel_('Career/Hologram/hologram_police_robots.glb');
+      plantB2.scene.scale.set(0.3, 0.3, 0.3);
+      holog.scene.rotation.y = 3*Math.PI / 4;
+      holog.scene.position.x += -18;
+      holog.scene.position.y += 0.4;
+      holog.scene.position.z += 18;
+      this.scene_.add(holog.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
