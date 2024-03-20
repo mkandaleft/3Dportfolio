@@ -798,6 +798,34 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
 
+    // Add Projects
+    try {
+      const screens1 = await this.loadModel_('Projects/Screens/retro_cyberpunk_computer_screens.glb');
+      screens1.scene.scale.set(1, 1, 0.5);
+      screens1.scene.rotation.y = 3*Math.PI / 2;
+      const rotationAxis1 = new THREE.Vector3(0, 0, -1).normalize();
+      const rotationAngle1 = Math.PI / 8;
+      screens1.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+      screens1.scene.position.x += -21;
+      screens1.scene.position.y += 5;
+      screens1.scene.position.z += -10;
+      this.scene_.add(screens1.scene);
+
+      const screens2 = await this.loadModel_('Projects/Screens/retro_cyberpunk_computer_screens.glb');
+      screens2.scene.scale.set(1, 1, 0.5);
+      screens2.scene.rotation.y = Math.PI;
+      const rotationAxis2 = new THREE.Vector3(1, 0, 0).normalize();
+      const rotationAngle2 = Math.PI / 8;
+      screens2.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+      screens2.scene.position.x += -14;
+      screens2.scene.position.y += 5;
+      screens2.scene.position.z += -21;
+      this.scene_.add(screens2.scene);
+
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+
     // Add Music
     try {
       const amp1 = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
