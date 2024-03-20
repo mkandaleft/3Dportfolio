@@ -749,7 +749,19 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
 
+    // Add Career
+    try {
+      const panth = await this.loadModel_('Career/Pantheon/wk3a_pillar_huth_will.glb');
+      panth.scene.scale.set(0.14, 0.14, 0.14);
+      panth.scene.rotation.y = 3*Math.PI / 4;
+      panth.scene.position.x += -12.5;
+      panth.scene.position.y += 0;
+      panth.scene.position.z += 19.5;
+      this.scene_.add(panth.scene);
 
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
 
     // Add Music
     try {
