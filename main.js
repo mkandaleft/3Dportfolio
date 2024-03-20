@@ -634,24 +634,48 @@ class FirstPersonCameraDemo {
 
     // Add Music
     try {
-      const model = await this.loadModel_('Music/Amp/old_amp.glb');
-      model.scene.scale.set(0.12, 0.12, 0.12);
-      model.scene.rotation.y = -Math.PI / 4;
-      model.scene.position.x += 18;
-      model.scene.position.y += 4;
-      model.scene.position.z += -18;
+      const model = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
+      model.scene.scale.set(6, 6, 6);
+      model.scene.rotation.y = -4*Math.PI / 5;
+      model.scene.position.x += 14;
+      model.scene.position.y += 0.5;
+      model.scene.position.z += -20;
       this.scene_.add(model.scene);
-
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
+      model.scene.scale.set(6, 6, 6);
+      model.scene.rotation.y = -3*Math.PI / 5;
+      model.scene.position.x += 20;
+      model.scene.position.y += 0.5;
+      model.scene.position.z += -14;
+      this.scene_.add(model.scene);
+    } catch (error) {
+      console.error('Error loading model:', error);
+    }
+    try {
+      const model = await this.loadModel_('Music/Jukebox/jukebox.glb');
+      model.scene.scale.set(2, 2, 2);
+      model.scene.rotation.y = -Math.PI / 4;
+      model.scene.position.x += 16;
+      model.scene.position.y += 0.5;
+      model.scene.position.z += -16;
+      this.scene_.add(model.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
     try {
       const model = await this.loadModel_('Music/Guitar/fender_stratocaster_guitar.glb');
-      model.scene.scale.set(12, 12, 12);
+      model.scene.scale.set(14, 14, 14);
       model.scene.rotation.y = -Math.PI / 4;
-      model.scene.position.x += 5;
-      model.scene.position.y += 4;
-      model.scene.position.z += -10;
+      const rotationAxis = new THREE.Vector3(-1, 0, 1).normalize();
+      const rotationAngle = -Math.PI / 4;
+      model.scene.rotateOnWorldAxis(rotationAxis, rotationAngle);
+      model.scene.position.x += 12;
+      model.scene.position.y += 15;
+      model.scene.position.z += -22;
       this.scene_.add(model.scene);
 
     } catch (error) {
