@@ -410,28 +410,28 @@ class FirstPersonCameraDemo {
 
     // Load Floor
     try {
-      const floor1 = await this.loadModel_('Floor/floor.glb');
+      const floor1 = await this.loadModel_('Map/Floor/floor.glb');
       floor1.scene.scale.set(11, 5, 11);
       floor1.scene.position.x += 11;
       floor1.scene.position.y += -4.3;
       floor1.scene.position.z += -11;
       this.scene_.add(floor1.scene);
 
-      const floor2 = await this.loadModel_('Floor/floor.glb');
+      const floor2 = await this.loadModel_('Map/Floor/floor.glb');
       floor2.scene.scale.set(11, 5, 11);
       floor2.scene.position.x += 11;
       floor2.scene.position.y += -4.3;
       floor2.scene.position.z += 11;
       this.scene_.add(floor2.scene);
 
-      const floor3 = await this.loadModel_('Floor/floor.glb');
+      const floor3 = await this.loadModel_('Map/Floor/floor.glb');
       floor3.scene.scale.set(11, 5, 11);
       floor3.scene.position.x += -11;
       floor3.scene.position.y += -4.3;
       floor3.scene.position.z += 11;
       this.scene_.add(floor3.scene);
 
-      const floor4 = await this.loadModel_('Floor/floor.glb');
+      const floor4 = await this.loadModel_('Map/Floor/floor.glb');
       floor4.scene.scale.set(11, 5, 11);
       floor4.scene.position.x += -11;
       floor4.scene.position.y += -4.3;
@@ -442,54 +442,54 @@ class FirstPersonCameraDemo {
     }
     // Load Walls
     try {
-      const wall1 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      const wall1 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
       wall1.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
       wall1.scene.position.x += 12;
       wall1.scene.position.z += -22;
       this.scene_.add(wall1.scene);
       
-      const wall2 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      const wall2 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
       wall2.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
       wall2.scene.position.x += -12;
       wall2.scene.position.z += -22;
       this.scene_.add(wall2.scene);
       
-      const wall3 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      const wall3 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
       wall3.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
       wall3.scene.rotation.y = Math.PI / 2; // Rotate the wall 90 degrees
       wall3.scene.position.x += -22;
       wall3.scene.position.z += 12;
       this.scene_.add(wall3.scene);
       
-      const wall4 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      const wall4 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
       wall4.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
       wall4.scene.rotation.y = Math.PI / 2;
       wall4.scene.position.x += -22;
       wall4.scene.position.z += -12;
       this.scene_.add(wall4.scene);
 
-      const wall5 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      const wall5 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
       wall5.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
       wall5.scene.rotation.y = Math.PI;
       wall5.scene.position.x += 12;
       wall5.scene.position.z += 22;
       this.scene_.add(wall5.scene);
       
-      const wall6 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      const wall6 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
       wall6.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
       wall6.scene.rotation.y = Math.PI;
       wall6.scene.position.x += -12;
       wall6.scene.position.z += 22;
       this.scene_.add(wall6.scene);
       
-      const wall7 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      const wall7 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
       wall7.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
       wall7.scene.rotation.y = 3*Math.PI / 2;
       wall7.scene.position.x += 22;
       wall7.scene.position.z += 12;
       this.scene_.add(wall7.scene);
       
-      const wall8 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      const wall8 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
       wall8.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
       wall8.scene.rotation.y = 3*Math.PI / 2;
       wall8.scene.position.x += 22;
@@ -501,7 +501,7 @@ class FirstPersonCameraDemo {
 
     // Load Signs
     try {
-      const sign1 = await this.loadModel_('Sign/billboard_park.glb');
+      const sign1 = await this.loadModel_('Map/Sign/billboard_park.glb');
       sign1.scene.scale.set(0.7, 0.7, 0.7);
       sign1.scene.rotation.y = 5*Math.PI / 4;
       sign1.scene.position.x += 21;
@@ -520,7 +520,7 @@ class FirstPersonCameraDemo {
       plane1.receiveShadow = true;
       this.scene_.add(plane1);
       
-      const sign2 = await this.loadModel_('Sign/billboard_park.glb');
+      const sign2 = await this.loadModel_('Map/Sign/billboard_park.glb');
       sign2.scene.scale.set(0.7, 0.7, 0.7);
       sign2.scene.rotation.y = 3*Math.PI / 4;
       sign2.scene.position.x += -21;
@@ -539,7 +539,7 @@ class FirstPersonCameraDemo {
       plane2.receiveShadow = true;
       this.scene_.add(plane2);
       
-      const sign3 = await this.loadModel_('Sign/billboard_park.glb');
+      const sign3 = await this.loadModel_('Map/Sign/billboard_park.glb');
       sign3.scene.scale.set(0.7, 0.7, 0.7);
       sign3.scene.rotation.y = Math.PI / 4;
       sign3.scene.position.x += -21;
@@ -558,7 +558,7 @@ class FirstPersonCameraDemo {
       plane3.receiveShadow = true;
       this.scene_.add(plane3);
 
-      const sign4 = await this.loadModel_('Sign/billboard_park.glb');
+      const sign4 = await this.loadModel_('Map/Sign/billboard_park.glb');
       sign4.scene.scale.set(0.7, 0.7, 0.7);
       sign4.scene.rotation.y = 7*Math.PI / 4;
       sign4.scene.position.x += 21;
@@ -582,21 +582,21 @@ class FirstPersonCameraDemo {
 
     // Load Scaffolding
     try {
-      const scaf1 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      const scaf1 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
       scaf1.scene.scale.set(1, 1, 1);
       scaf1.scene.position.x += -24;
       scaf1.scene.position.y += 1;
       scaf1.scene.position.z += 10;
       this.scene_.add(scaf1.scene);
 
-      const scaf2 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      const scaf2 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
       scaf2.scene.scale.set(1, 1, 1);
       scaf2.scene.position.x += -24;
       scaf2.scene.position.y += 1;
       scaf2.scene.position.z += 8;
       this.scene_.add(scaf2.scene);
 
-      const scaf3 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      const scaf3 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
       scaf3.scene.scale.set(1, 1, 1);
       scaf3.scene.rotation.y = Math.PI / 2;
       scaf3.scene.position.x += 10;
@@ -604,7 +604,7 @@ class FirstPersonCameraDemo {
       scaf3.scene.position.z += 24;
       this.scene_.add(scaf3.scene);
 
-      const scaf4 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      const scaf4 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
       scaf4.scene.scale.set(1, 1, 1);
       scaf4.scene.rotation.y = Math.PI;
       scaf4.scene.position.x += 24;
@@ -612,7 +612,7 @@ class FirstPersonCameraDemo {
       scaf4.scene.position.z += -8;
       this.scene_.add(scaf4.scene);
 
-      const scaf5 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      const scaf5 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
       scaf5.scene.scale.set(1, 1, 1);
       scaf5.scene.rotation.y = Math.PI;
       scaf5.scene.position.x += 24;
@@ -620,7 +620,7 @@ class FirstPersonCameraDemo {
       scaf5.scene.position.z += -10;
       this.scene_.add(scaf5.scene);
 
-      const scaf6 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      const scaf6 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
       scaf6.scene.scale.set(1, 1, 1);
       scaf6.scene.rotation.y = 3*Math.PI/2;
       scaf6.scene.position.x += -10;
@@ -630,6 +630,8 @@ class FirstPersonCameraDemo {
     } catch (error) {
       console.error('Error loading model:', error);
     }
+
+
 
     // Add Music
     try {
