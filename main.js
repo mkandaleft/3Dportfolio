@@ -363,15 +363,6 @@ class FirstPersonCameraDemo {
     const texture = loader.load([
 
       'concrete-backdrop.jpg',
-
-      /*
-      './resources/skybox/posx.jpg', // replace with your own skybox (terrain) images ********
-      './resources/skybox/negx.jpg',
-      './resources/skybox/posy.jpg',
-      './resources/skybox/negy.jpg',
-      './resources/skybox/posz.jpg',
-      './resources/skybox/negz.jpg',
-      */
   ]);
 
     // loads space background
@@ -419,265 +410,263 @@ class FirstPersonCameraDemo {
 
     // Load Floor
     try {
-      const model = await this.loadModel_('Floor/floor.glb');
-      model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
-      model.scene.position.x += 11;
-      model.scene.position.y += -4.3;
-      model.scene.position.z += -11;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    try {
-      const model = await this.loadModel_('Floor/floor.glb');
-      model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
-      model.scene.position.x += 11;
-      model.scene.position.y += -4.3;
-      model.scene.position.z += 11;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    try {
-      const model = await this.loadModel_('Floor/floor.glb');
-      model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
-      model.scene.position.x += -11;
-      model.scene.position.y += -4.3;
-      model.scene.position.z += 11;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    try {
-      const model = await this.loadModel_('Floor/floor.glb');
-      model.scene.scale.set(11, 5, 11); // Scale the model up by a factor of 2 in all directions
-      model.scene.position.x += -11;
-      model.scene.position.y += -4.3;
-      model.scene.position.z += -11;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
+      const floor1 = await this.loadModel_('Floor/floor.glb');
+      floor1.scene.scale.set(11, 5, 11);
+      floor1.scene.position.x += 11;
+      floor1.scene.position.y += -4.3;
+      floor1.scene.position.z += -11;
+      this.scene_.add(floor1.scene);
 
+      const floor2 = await this.loadModel_('Floor/floor.glb');
+      floor2.scene.scale.set(11, 5, 11);
+      floor2.scene.position.x += 11;
+      floor2.scene.position.y += -4.3;
+      floor2.scene.position.z += 11;
+      this.scene_.add(floor2.scene);
+
+      const floor3 = await this.loadModel_('Floor/floor.glb');
+      floor3.scene.scale.set(11, 5, 11);
+      floor3.scene.position.x += -11;
+      floor3.scene.position.y += -4.3;
+      floor3.scene.position.z += 11;
+      this.scene_.add(floor3.scene);
+
+      const floor4 = await this.loadModel_('Floor/floor.glb');
+      floor4.scene.scale.set(11, 5, 11);
+      floor4.scene.position.x += -11;
+      floor4.scene.position.y += -4.3;
+      floor4.scene.position.z += -11;
+      this.scene_.add(floor4.scene);
+    } catch (error) {
+      console.error('Error loading floor:', error);
+    }
     // Load Walls
     try {
-      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
-      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
-      model.scene.position.x += 12;
-      model.scene.position.z += -22;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    try {
-      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
-      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
-      model.scene.position.x += -12;
-      model.scene.position.z += -22;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
+      const wall1 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      wall1.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall1.scene.position.x += 12;
+      wall1.scene.position.z += -22;
+      this.scene_.add(wall1.scene);
+      
+      const wall2 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      wall2.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall2.scene.position.x += -12;
+      wall2.scene.position.z += -22;
+      this.scene_.add(wall2.scene);
+      
+      const wall3 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      wall3.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall3.scene.rotation.y = Math.PI / 2; // Rotate the wall 90 degrees
+      wall3.scene.position.x += -22;
+      wall3.scene.position.z += 12;
+      this.scene_.add(wall3.scene);
+      
+      const wall4 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      wall4.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall4.scene.rotation.y = Math.PI / 2;
+      wall4.scene.position.x += -22;
+      wall4.scene.position.z += -12;
+      this.scene_.add(wall4.scene);
 
-    try {
-      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
-      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
-      model.scene.rotation.y = Math.PI / 2; // Rotate the model 90 degrees
-      model.scene.position.x += -22;
-      model.scene.position.z += 12;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    try {
-      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
-      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
-      model.scene.rotation.y = Math.PI / 2;
-      model.scene.position.x += -22;
-      model.scene.position.z += -12;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-
-    try {
-      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
-      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
-      model.scene.rotation.y = Math.PI;
-      model.scene.position.x += 12;
-      model.scene.position.z += 22;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    try {
-      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
-      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
-      model.scene.rotation.y = Math.PI;
-      model.scene.position.x += -12;
-      model.scene.position.z += 22;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    
-    try {
-      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
-      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
-      model.scene.rotation.y = 3*Math.PI / 2;
-      model.scene.position.x += 22;
-      model.scene.position.z += 12;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    try {
-      const model = await this.loadModel_('Wall/source/Wall (bake light).gltf');
-      model.scene.scale.set(6, 5, 8); // Scale the model up by a factor of 2 in all directions
-      model.scene.rotation.y = 3*Math.PI / 2;
-      model.scene.position.x += 22;
-      model.scene.position.z += -12;
-      this.scene_.add(model.scene);
-    } catch (error) {
+      const wall5 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      wall5.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall5.scene.rotation.y = Math.PI;
+      wall5.scene.position.x += 12;
+      wall5.scene.position.z += 22;
+      this.scene_.add(wall5.scene);
+      
+      const wall6 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      wall6.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall6.scene.rotation.y = Math.PI;
+      wall6.scene.position.x += -12;
+      wall6.scene.position.z += 22;
+      this.scene_.add(wall6.scene);
+      
+      const wall7 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      wall7.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall7.scene.rotation.y = 3*Math.PI / 2;
+      wall7.scene.position.x += 22;
+      wall7.scene.position.z += 12;
+      this.scene_.add(wall7.scene);
+      
+      const wall8 = await this.loadModel_('Wall/source/Wall (bake light).gltf');
+      wall8.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall8.scene.rotation.y = 3*Math.PI / 2;
+      wall8.scene.position.x += 22;
+      wall8.scene.position.z += -12;
+      this.scene_.add(wall8.scene);
+} catch (error) {
       console.error('Error loading model:', error);
     }
 
     // Load Signs
     try {
-      const model = await this.loadModel_('Sign/billboard_park.glb');
-      model.scene.scale.set(0.7, 0.7, 0.7);
-      model.scene.rotation.y = 5*Math.PI / 4;
-      model.scene.position.x += 21;
-      model.scene.position.y += 7;
-      model.scene.position.z += 21;
-      this.scene_.add(model.scene);
+      const sign1 = await this.loadModel_('Sign/billboard_park.glb');
+      sign1.scene.scale.set(0.7, 0.7, 0.7);
+      sign1.scene.rotation.y = 5*Math.PI / 4;
+      sign1.scene.position.x += 21;
+      sign1.scene.position.y += 7;
+      sign1.scene.position.z += 21;
+      this.scene_.add(sign1.scene);
 
-      const planeGeometry = new THREE.PlaneGeometry(20, 20);
-      const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
-      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
-      plane.scale.set(0.3, 1, 0.3);
-      plane.position.x += 20.5;
-      plane.position.y += -3;
-      plane.position.z += 20.5;
-      plane.rotation.y = 5*Math.PI / 4;
-      plane.receiveShadow = true;
-      this.scene_.add(plane);
+      const planeGeometry1 = new THREE.PlaneGeometry(20, 20);
+      const planeMaterial1 = new THREE.MeshStandardMaterial({ color: 0x808080 });
+      const plane1 = new THREE.Mesh(planeGeometry1, planeMaterial1)
+      plane1.scale.set(0.3, 1, 0.3);
+      plane1.position.x += 20.5;
+      plane1.position.y += -3;
+      plane1.position.z += 20.5;
+      plane1.rotation.y = 5*Math.PI / 4;
+      plane1.receiveShadow = true;
+      this.scene_.add(plane1);
+      
+      const sign2 = await this.loadModel_('Sign/billboard_park.glb');
+      sign2.scene.scale.set(0.7, 0.7, 0.7);
+      sign2.scene.rotation.y = 3*Math.PI / 4;
+      sign2.scene.position.x += -21;
+      sign2.scene.position.y += 7;
+      sign2.scene.position.z += 21;
+      this.scene_.add(sign2.scene);
+
+      const planeGeometry2 = new THREE.PlaneGeometry(20, 20);
+      const planeMaterial2 = new THREE.MeshStandardMaterial({ color: 0x808080 });
+      const plane2 = new THREE.Mesh(planeGeometry2, planeMaterial2)
+      plane2.scale.set(0.3, 1, 0.3);
+      plane2.position.x += -20.5;
+      plane2.position.y += -3;
+      plane2.position.z += 20.5;
+      plane2.rotation.y = 3*Math.PI / 4;
+      plane2.receiveShadow = true;
+      this.scene_.add(plane2);
+      
+      const sign3 = await this.loadModel_('Sign/billboard_park.glb');
+      sign3.scene.scale.set(0.7, 0.7, 0.7);
+      sign3.scene.rotation.y = Math.PI / 4;
+      sign3.scene.position.x += -21;
+      sign3.scene.position.y += 7;
+      sign3.scene.position.z += -21;
+      this.scene_.add(sign3.scene);
+
+      const planeGeometry3 = new THREE.PlaneGeometry(20, 20);
+      const planeMaterial3 = new THREE.MeshStandardMaterial({ color: 0x808080 });
+      const plane3 = new THREE.Mesh(planeGeometry3, planeMaterial3)
+      plane3.scale.set(0.3, 1, 0.3);
+      plane3.position.x += -20.5;
+      plane3.position.y += -3;
+      plane3.position.z += -20.5;
+      plane3.rotation.y = Math.PI / 4;
+      plane3.receiveShadow = true;
+      this.scene_.add(plane3);
+
+      const sign4 = await this.loadModel_('Sign/billboard_park.glb');
+      sign4.scene.scale.set(0.7, 0.7, 0.7);
+      sign4.scene.rotation.y = 7*Math.PI / 4;
+      sign4.scene.position.x += 21;
+      sign4.scene.position.y += 7;
+      sign4.scene.position.z += -21;
+      this.scene_.add(sign4.scene);
+
+      const planeGeometry4 = new THREE.PlaneGeometry(20, 20);
+      const planeMaterial4 = new THREE.MeshStandardMaterial({ color: 0x808080 });
+      const plane4 = new THREE.Mesh(planeGeometry4, planeMaterial4)
+      plane4.scale.set(0.3, 1, 0.3);
+      plane4.position.x += 20.5;
+      plane4.position.y += -3;
+      plane4.position.z += -20.5;
+      plane4.rotation.y = 7*Math.PI / 4;
+      plane4.receiveShadow = true;
+      this.scene_.add(plane4);
     } catch (error) {
       console.error('Error loading model:', error);
     }
-    try {
-      const model = await this.loadModel_('Sign/billboard_park.glb');
-      model.scene.scale.set(0.7, 0.7, 0.7);
-      model.scene.rotation.y = 3*Math.PI / 4;
-      model.scene.position.x += -21;
-      model.scene.position.y += 7;
-      model.scene.position.z += 21;
-      this.scene_.add(model.scene);
 
-      const planeGeometry = new THREE.PlaneGeometry(20, 20);
-      const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
-      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
-      plane.scale.set(0.3, 1, 0.3);
-      plane.position.x += -20.5;
-      plane.position.y += -3;
-      plane.position.z += 20.5;
-      plane.rotation.y = 3*Math.PI / 4;
-      plane.receiveShadow = true;
-      this.scene_.add(plane);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
+    // Load Scaffolding
     try {
-      const model = await this.loadModel_('Sign/billboard_park.glb');
-      model.scene.scale.set(0.7, 0.7, 0.7);
-      model.scene.rotation.y = Math.PI / 4;
-      model.scene.position.x += -21;
-      model.scene.position.y += 7;
-      model.scene.position.z += -21;
-      this.scene_.add(model.scene);
+      const scaf1 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      scaf1.scene.scale.set(1, 1, 1);
+      scaf1.scene.position.x += -24;
+      scaf1.scene.position.y += 1;
+      scaf1.scene.position.z += 10;
+      this.scene_.add(scaf1.scene);
 
-      const planeGeometry = new THREE.PlaneGeometry(20, 20);
-      const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
-      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
-      plane.scale.set(0.3, 1, 0.3);
-      plane.position.x += -20.5;
-      plane.position.y += -3;
-      plane.position.z += -20.5;
-      plane.rotation.y = Math.PI / 4;
-      plane.receiveShadow = true;
-      this.scene_.add(plane);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    try {
-      const model = await this.loadModel_('Sign/billboard_park.glb');
-      model.scene.scale.set(0.7, 0.7, 0.7);
-      model.scene.rotation.y = 7*Math.PI / 4;
-      model.scene.position.x += 21;
-      model.scene.position.y += 7;
-      model.scene.position.z += -21;
-      this.scene_.add(model.scene);
+      const scaf2 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      scaf2.scene.scale.set(1, 1, 1);
+      scaf2.scene.position.x += -24;
+      scaf2.scene.position.y += 1;
+      scaf2.scene.position.z += 8;
+      this.scene_.add(scaf2.scene);
 
-      const planeGeometry = new THREE.PlaneGeometry(20, 20);
-      const planeMaterial = new THREE.MeshStandardMaterial({ color: 0x808080 });
-      const plane = new THREE.Mesh(planeGeometry, planeMaterial)
-      plane.scale.set(0.3, 1, 0.3);
-      plane.position.x += 20.5;
-      plane.position.y += -3;
-      plane.position.z += -20.5;
-      plane.rotation.y = 7*Math.PI / 4;
-      plane.receiveShadow = true;
-      this.scene_.add(plane);
+      const scaf3 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      scaf3.scene.scale.set(1, 1, 1);
+      scaf3.scene.rotation.y = Math.PI / 2;
+      scaf3.scene.position.x += 10;
+      scaf3.scene.position.y += 1;
+      scaf3.scene.position.z += 24;
+      this.scene_.add(scaf3.scene);
+
+      const scaf4 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      scaf4.scene.scale.set(1, 1, 1);
+      scaf4.scene.rotation.y = Math.PI;
+      scaf4.scene.position.x += 24;
+      scaf4.scene.position.y += 1;
+      scaf4.scene.position.z += -8;
+      this.scene_.add(scaf4.scene);
+
+      const scaf5 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      scaf5.scene.scale.set(1, 1, 1);
+      scaf5.scene.rotation.y = Math.PI;
+      scaf5.scene.position.x += 24;
+      scaf5.scene.position.y += 1;
+      scaf5.scene.position.z += -10;
+      this.scene_.add(scaf5.scene);
+
+      const scaf6 = await this.loadModel_('public/Scaffold/curved_scaffold.glb');
+      scaf6.scene.scale.set(1, 1, 1);
+      scaf6.scene.rotation.y = 3*Math.PI/2;
+      scaf6.scene.position.x += -10;
+      scaf6.scene.position.y += 1;
+      scaf6.scene.position.z += -24;
+      this.scene_.add(scaf6.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
 
     // Add Music
     try {
-      const model = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
-      model.scene.scale.set(6, 6, 6);
-      model.scene.rotation.y = -4*Math.PI / 5;
-      model.scene.position.x += 14;
-      model.scene.position.y += 0.5;
-      model.scene.position.z += -20;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    try {
-      const model = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
-      model.scene.scale.set(6, 6, 6);
-      model.scene.rotation.y = -3*Math.PI / 5;
-      model.scene.position.x += 20;
-      model.scene.position.y += 0.5;
-      model.scene.position.z += -14;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    try {
-      const model = await this.loadModel_('Music/Jukebox/jukebox.glb');
-      model.scene.scale.set(2, 2, 2);
-      model.scene.rotation.y = -Math.PI / 4;
-      model.scene.position.x += 16;
-      model.scene.position.y += 0.5;
-      model.scene.position.z += -16;
-      this.scene_.add(model.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
-    try {
-      const model = await this.loadModel_('Music/Guitar/fender_stratocaster_guitar.glb');
-      model.scene.scale.set(14, 14, 14);
-      model.scene.rotation.y = -Math.PI / 4;
+      const amp1 = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
+      amp1.scene.scale.set(6, 6, 6);
+      amp1.scene.rotation.y = -4*Math.PI / 5;
+      amp1.scene.position.x += 14;
+      amp1.scene.position.y += 0.5;
+      amp1.scene.position.z += -20;
+      this.scene_.add(amp1.scene);
+
+      const amp2 = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
+      amp2.scene.scale.set(6, 6, 6);
+      amp2.scene.rotation.y = -3*Math.PI / 5;
+      amp2.scene.position.x += 20;
+      amp2.scene.position.y += 0.5;
+      amp2.scene.position.z += -14;
+      this.scene_.add(amp2.scene);
+
+      const jbox = await this.loadModel_('Music/Jukebox/jukebox.glb');
+      jbox.scene.scale.set(2, 2, 2);
+      jbox.scene.rotation.y = -Math.PI / 4;
+      jbox.scene.position.x += 16;
+      jbox.scene.position.y += 0.5;
+      jbox.scene.position.z += -16;
+      this.scene_.add(jbox.scene);
+
+      const guit = await this.loadModel_('Music/Guitar/fender_stratocaster_guitar.glb');
+      guit.scene.scale.set(14, 14, 14);
+      guit.scene.rotation.y = -Math.PI / 4;
       const rotationAxis = new THREE.Vector3(-1, 0, 1).normalize();
       const rotationAngle = -Math.PI / 4;
-      model.scene.rotateOnWorldAxis(rotationAxis, rotationAngle);
-      model.scene.position.x += 12;
-      model.scene.position.y += 15;
-      model.scene.position.z += -22;
-      this.scene_.add(model.scene);
-
+      guit.scene.rotateOnWorldAxis(rotationAxis, rotationAngle);
+      guit.scene.position.x += 12;
+      guit.scene.position.y += 15;
+      guit.scene.position.z += -22;
+      this.scene_.add(guit.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
