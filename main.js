@@ -8,6 +8,7 @@ const KEYS = {
   's': 83,
   'w': 87,
   'd': 68,
+  'r': 82
 };
 
 function clamp(x, a, b) {
@@ -38,16 +39,26 @@ class InputController {
     this.target_.addEventListener('keydown', (e) => this.onKeyDown_(e), false);
     this.target_.addEventListener('keyup', (e) => this.onKeyUp_(e), false);
     
-    // document.addEventListener('pointerlockchange', this.lockChangeAlert.bind(this), false);
-    // document.addEventListener('mozpointerlockchange', this.lockChangeAlert.bind(this), false);
-
     this.target_.addEventListener('click', (e) => {
-      // Request pointer lock
-      document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
-      document.body.requestPointerLock();
+      // Request pointer lock for first-person control
+      if (document.pointerLockElement !== this.target_ && document.mozPointerLockElement !== this.target_) {
+        document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
+        document.body.requestPointerLock();
+        this.checkForInteraction();
+      } else {
+        // If already in pointer lock, check for interactions
+        //this.checkForInteraction();
+        console.log("REEEE");
+      }
     }, false);
+  }
+
+  checkForInteraction() {
+    const event = new CustomEvent('checkInteraction');
+    this.target_.dispatchEvent(event);
+  }
     
-    }
+  
     /*
     lockChangeAlert() {
       const ptLock = document.pointerLockElement === this.target_;
@@ -157,7 +168,9 @@ class FirstPersonCamera {
     this.raycaster_ = new THREE.Raycaster();
     this.mouse_ = new THREE.Vector2();
     this.interactableObjects = []; 
-  }
+    this.isZoomedIn = false;
+    this.input_.target_.addEventListener('checkInteraction', () => this.checkInteraction());
+}
 
   async setInteractableObjects(interactableObjects) {
     this.interactableObjects = interactableObjects;
@@ -170,7 +183,9 @@ class FirstPersonCamera {
     this.updateHeadBob_(timeElapsedS);
     this.input_.update(timeElapsedS);
     this.updateCameraCoordinatesDisplay();
-    this.checkInteraction();
+
+
+    // this.checkInteraction();
   }
 
   updateCamera_(_) {
@@ -217,6 +232,10 @@ class FirstPersonCamera {
     const forwardVelocity = (this.input_.key(KEYS.w) ? 1 : 0) + (this.input_.key(KEYS.s) ? -1 : 0)
     const strafeVelocity = (this.input_.key(KEYS.a) ? 1 : 0) + (this.input_.key(KEYS.d) ? -1 : 0)
 
+    if (this.input_.key(KEYS.r) && this.isZoomedIn) {
+      this.resetView();
+    }
+
     const qx = new THREE.Quaternion();
     qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);
 
@@ -234,7 +253,7 @@ class FirstPersonCamera {
     if (forwardVelocity != 0 || strafeVelocity != 0) {
       this.headBobActive_ = true;
     }
-
+/*
     // Limit camera translation in room
     const roomDimensions = { minX: -14.5, maxX: 14.5, minY: 0, maxY: 4, minZ: -14.5, maxZ: 14.5 };
     if (this.translation_.x < roomDimensions.minX) {
@@ -249,7 +268,7 @@ class FirstPersonCamera {
     if (this.translation_.z > roomDimensions.maxZ) {
       this.translation_.z = roomDimensions.maxZ
     }
-
+*/
     // Limit camera translation in box
     const boxDimensions = { minX: -5, maxX: 5, minY: 0, maxY: 4, minZ: -5, maxZ: 5 };
     const inBox = this.translation_.x > boxDimensions.minX && this.translation_.x < boxDimensions.maxX && this.translation_.z > boxDimensions.minZ && this.translation_.z < boxDimensions.maxZ;
@@ -301,38 +320,90 @@ class FirstPersonCamera {
   }
 
   checkInteraction() {
-    // Use Three js raycaster to find if camera is pointing at interactable Object
     this.raycaster_.setFromCamera(this.mouse_, this.camera_);
-    const intersects = this.raycaster_.intersectObjects(this.interactableObjects, true); // Notice the 'true' for recursive
+    const intersects = this.raycaster_.intersectObjects(this.interactableObjects, true);
   
-    for (let i = 0; i < intersects.length; i++) {
-      let object = intersects[i].object;
-
-      // Traverse up to find the root parent that's in the interactableObjects array
+    if (intersects.length > 0) {
+      let object = intersects[0].object; // Assuming we're interested in the first intersected object
+  
+      // Traverse up to find the interactable object
       while (object && !this.interactableObjects.includes(object)) {
         object = object.parent;
       }
+  
       if (object && this.camera_.position.distanceTo(object.position) < 8) {
-        
-        switch (object.name) {
-          case 'Boxxx':
-            console.log("Action for Boxxx");
-            break;
+        // Perform action based on the object's name without directly checking for mouse input here
 
-          case 'jbox':
-            console.log("Action for jbox");
-            break;
-            
-          case 'computer':
-            console.log("Action for computer");
-            break;
-            
-          default:
-            break;
-        }
+        this.zoomToObject(object);
       }
     }
   }
+  
+  zoomToObject(object) {
+    this.originalPosition = this.camera_.position.clone();
+    this.originalQuaternion = this.camera_.quaternion.clone();
+
+    switch (object.name) {
+      case 'Boxxx':
+        console.log("Action for Boxxx");
+        break;
+
+      case 'jbox':
+        console.log("xbox");
+
+        const zoomPosition1 = new THREE.Vector3();
+        zoomPosition1.setFromMatrixPosition(object.matrixWorld);
+        zoomPosition1.x += 14.5;
+        zoomPosition1.y += 3;
+        zoomPosition1.z += -14.5;
+        this.camera_.position.lerp(zoomPosition1, 0.5); 
+        this.camera_.lookAt(object.position);
+        this.displayContent('contentForJBox');
+        break;
+      
+      case 'computer':
+        console.log("comp");
+
+        const zoomPosition2 = new THREE.Vector3();
+        zoomPosition2.setFromMatrixPosition(object.matrixWorld);
+        zoomPosition2.z += 0;
+        this.camera_.position.lerp(zoomPosition2, 0.5); 
+        this.camera_.lookAt(object.position);
+        this.displayContent('contentForComputer');
+        break;
+      
+      default:
+        break;
+    }
+
+    this.isZoomedIn = true;
+  }
+  
+  displayContent(contentId) {
+    // Hide any previously displayed content
+    document.querySelectorAll('.object-content').forEach(div => {
+      div.style.display = 'none';
+    });
+  
+    // Show the specified content
+    const contentElement = document.getElementById(contentId);
+    if (contentElement) {
+      contentElement.style.display = 'block';
+    }
+  }
+
+  resetView() {
+    this.camera_.position.copy(this.originalPosition);
+    this.camera_.quaternion.copy(this.originalQuaternion);
+    
+    this.isZoomedIn = false;
+  
+    // Hide all object-specific content divs
+    document.querySelectorAll('.object-content').forEach(div => {
+      div.style.display = 'none';
+    });
+  }
+  
   
   updateCameraCoordinatesDisplay() {
     const coordinatesElement = document.getElementById('camera-coordinates');
@@ -487,277 +558,277 @@ class FirstPersonCameraDemo {
     } catch (error) {
       console.error('Error loading floor:', error);
     }
-    // Load Walls
-    try {
-      const wall1 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall1.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
-      wall1.scene.position.x += 12;
-      wall1.scene.position.z += -22;
-      this.scene_.add(wall1.scene);
+//     // Load Walls
+//     try {
+//       const wall1 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
+//       wall1.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+//       wall1.scene.position.x += 12;
+//       wall1.scene.position.z += -22;
+//       this.scene_.add(wall1.scene);
       
-      const wall2 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall2.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
-      wall2.scene.position.x += -12;
-      wall2.scene.position.z += -22;
-      this.scene_.add(wall2.scene);
+//       const wall2 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
+//       wall2.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+//       wall2.scene.position.x += -12;
+//       wall2.scene.position.z += -22;
+//       this.scene_.add(wall2.scene);
       
-      const wall3 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall3.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
-      wall3.scene.rotation.y = Math.PI / 2; // Rotate the wall 90 degrees
-      wall3.scene.position.x += -22;
-      wall3.scene.position.z += 12;
-      this.scene_.add(wall3.scene);
+//       const wall3 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
+//       wall3.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+//       wall3.scene.rotation.y = Math.PI / 2; // Rotate the wall 90 degrees
+//       wall3.scene.position.x += -22;
+//       wall3.scene.position.z += 12;
+//       this.scene_.add(wall3.scene);
       
-      const wall4 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall4.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
-      wall4.scene.rotation.y = Math.PI / 2;
-      wall4.scene.position.x += -22;
-      wall4.scene.position.z += -12;
-      this.scene_.add(wall4.scene);
+//       const wall4 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
+//       wall4.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+//       wall4.scene.rotation.y = Math.PI / 2;
+//       wall4.scene.position.x += -22;
+//       wall4.scene.position.z += -12;
+//       this.scene_.add(wall4.scene);
 
-      const wall5 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall5.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
-      wall5.scene.rotation.y = Math.PI;
-      wall5.scene.position.x += 12;
-      wall5.scene.position.z += 22;
-      this.scene_.add(wall5.scene);
+//       const wall5 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
+//       wall5.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+//       wall5.scene.rotation.y = Math.PI;
+//       wall5.scene.position.x += 12;
+//       wall5.scene.position.z += 22;
+//       this.scene_.add(wall5.scene);
       
-      const wall6 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall6.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
-      wall6.scene.rotation.y = Math.PI;
-      wall6.scene.position.x += -12;
-      wall6.scene.position.z += 22;
-      this.scene_.add(wall6.scene);
+//       const wall6 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
+//       wall6.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+//       wall6.scene.rotation.y = Math.PI;
+//       wall6.scene.position.x += -12;
+//       wall6.scene.position.z += 22;
+//       this.scene_.add(wall6.scene);
       
-      const wall7 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall7.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
-      wall7.scene.rotation.y = 3*Math.PI / 2;
-      wall7.scene.position.x += 22;
-      wall7.scene.position.z += 12;
-      this.scene_.add(wall7.scene);
+//       const wall7 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
+//       wall7.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+//       wall7.scene.rotation.y = 3*Math.PI / 2;
+//       wall7.scene.position.x += 22;
+//       wall7.scene.position.z += 12;
+//       this.scene_.add(wall7.scene);
       
-      const wall8 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall8.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
-      wall8.scene.rotation.y = 3*Math.PI / 2;
-      wall8.scene.position.x += 22;
-      wall8.scene.position.z += -12;
-      this.scene_.add(wall8.scene);
-} catch (error) {
-      console.error('Error loading model:', error);
-    }
+//       const wall8 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
+//       wall8.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+//       wall8.scene.rotation.y = 3*Math.PI / 2;
+//       wall8.scene.position.x += 22;
+//       wall8.scene.position.z += -12;
+//       this.scene_.add(wall8.scene);
+// } catch (error) {
+//       console.error('Error loading model:', error);
+//     }
 
-    // Load Signs
-    try {
-      const sign1 = await this.loadModel_('Map/Sign/billboard park-test.glb');
-      sign1.scene.scale.set(0.7, 0.7, 0.7);
-      sign1.scene.rotation.y = 5*Math.PI / 4;
-      sign1.scene.position.x += 21;
-      sign1.scene.position.y += 7;
-      sign1.scene.position.z += 21;
-      this.scene_.add(sign1.scene);
+//     // Load Signs
+//     try {
+//       const sign1 = await this.loadModel_('Map/Sign/billboard park-test.glb');
+//       sign1.scene.scale.set(0.7, 0.7, 0.7);
+//       sign1.scene.rotation.y = 5*Math.PI / 4;
+//       sign1.scene.position.x += 21;
+//       sign1.scene.position.y += 7;
+//       sign1.scene.position.z += 21;
+//       this.scene_.add(sign1.scene);
 
-      const planeGeometry1 = new THREE.PlaneGeometry(20, 20);
-      const planeMaterial1 = new THREE.MeshStandardMaterial({ color: 0x808080 });
-      const plane1 = new THREE.Mesh(planeGeometry1, planeMaterial1)
-      plane1.scale.set(0.3, 1, 0.3);
-      plane1.position.x += 20.5;
-      plane1.position.y += -3;
-      plane1.position.z += 20.5;
-      plane1.rotation.y = 5*Math.PI / 4;
-      plane1.receiveShadow = true;
-      this.scene_.add(plane1);
+//       const planeGeometry1 = new THREE.PlaneGeometry(20, 20);
+//       const planeMaterial1 = new THREE.MeshStandardMaterial({ color: 0x808080 });
+//       const plane1 = new THREE.Mesh(planeGeometry1, planeMaterial1)
+//       plane1.scale.set(0.3, 1, 0.3);
+//       plane1.position.x += 20.5;
+//       plane1.position.y += -3;
+//       plane1.position.z += 20.5;
+//       plane1.rotation.y = 5*Math.PI / 4;
+//       plane1.receiveShadow = true;
+//       this.scene_.add(plane1);
       
-      const sign2 = await this.loadModel_('Map/Sign/billboard_park.glb');
-      sign2.scene.scale.set(0.7, 0.7, 0.7);
-      sign2.scene.rotation.y = 3*Math.PI / 4;
-      sign2.scene.position.x += -21;
-      sign2.scene.position.y += 7;
-      sign2.scene.position.z += 21;
-      this.scene_.add(sign2.scene);
+//       const sign2 = await this.loadModel_('Map/Sign/billboard_park.glb');
+//       sign2.scene.scale.set(0.7, 0.7, 0.7);
+//       sign2.scene.rotation.y = 3*Math.PI / 4;
+//       sign2.scene.position.x += -21;
+//       sign2.scene.position.y += 7;
+//       sign2.scene.position.z += 21;
+//       this.scene_.add(sign2.scene);
 
-      const planeGeometry2 = new THREE.PlaneGeometry(20, 20);
-      const planeMaterial2 = new THREE.MeshStandardMaterial({ color: 0x808080 });
-      const plane2 = new THREE.Mesh(planeGeometry2, planeMaterial2)
-      plane2.scale.set(0.3, 1, 0.3);
-      plane2.position.x += -20.5;
-      plane2.position.y += -3;
-      plane2.position.z += 20.5;
-      plane2.rotation.y = 3*Math.PI / 4;
-      plane2.receiveShadow = true;
-      this.scene_.add(plane2);
+//       const planeGeometry2 = new THREE.PlaneGeometry(20, 20);
+//       const planeMaterial2 = new THREE.MeshStandardMaterial({ color: 0x808080 });
+//       const plane2 = new THREE.Mesh(planeGeometry2, planeMaterial2)
+//       plane2.scale.set(0.3, 1, 0.3);
+//       plane2.position.x += -20.5;
+//       plane2.position.y += -3;
+//       plane2.position.z += 20.5;
+//       plane2.rotation.y = 3*Math.PI / 4;
+//       plane2.receiveShadow = true;
+//       this.scene_.add(plane2);
       
-      const sign3 = await this.loadModel_('Map/Sign/billboard_park.glb');
-      sign3.scene.scale.set(0.7, 0.7, 0.7);
-      sign3.scene.rotation.y = Math.PI / 4;
-      sign3.scene.position.x += -21;
-      sign3.scene.position.y += 7;
-      sign3.scene.position.z += -21;
-      this.scene_.add(sign3.scene);
+//       const sign3 = await this.loadModel_('Map/Sign/billboard_park.glb');
+//       sign3.scene.scale.set(0.7, 0.7, 0.7);
+//       sign3.scene.rotation.y = Math.PI / 4;
+//       sign3.scene.position.x += -21;
+//       sign3.scene.position.y += 7;
+//       sign3.scene.position.z += -21;
+//       this.scene_.add(sign3.scene);
 
-      const planeGeometry3 = new THREE.PlaneGeometry(20, 20);
-      const planeMaterial3 = new THREE.MeshStandardMaterial({ color: 0x808080 });
-      const plane3 = new THREE.Mesh(planeGeometry3, planeMaterial3)
-      plane3.scale.set(0.3, 1, 0.3);
-      plane3.position.x += -20.5;
-      plane3.position.y += -3;
-      plane3.position.z += -20.5;
-      plane3.rotation.y = Math.PI / 4;
-      plane3.receiveShadow = true;
-      this.scene_.add(plane3);
+//       const planeGeometry3 = new THREE.PlaneGeometry(20, 20);
+//       const planeMaterial3 = new THREE.MeshStandardMaterial({ color: 0x808080 });
+//       const plane3 = new THREE.Mesh(planeGeometry3, planeMaterial3)
+//       plane3.scale.set(0.3, 1, 0.3);
+//       plane3.position.x += -20.5;
+//       plane3.position.y += -3;
+//       plane3.position.z += -20.5;
+//       plane3.rotation.y = Math.PI / 4;
+//       plane3.receiveShadow = true;
+//       this.scene_.add(plane3);
 
-      const sign4 = await this.loadModel_('Map/Sign/billboard_park.glb');
-      sign4.scene.scale.set(0.7, 0.7, 0.7);
-      sign4.scene.rotation.y = 7*Math.PI / 4;
-      sign4.scene.position.x += 21;
-      sign4.scene.position.y += 7;
-      sign4.scene.position.z += -21;
-      this.scene_.add(sign4.scene);
+//       const sign4 = await this.loadModel_('Map/Sign/billboard_park.glb');
+//       sign4.scene.scale.set(0.7, 0.7, 0.7);
+//       sign4.scene.rotation.y = 7*Math.PI / 4;
+//       sign4.scene.position.x += 21;
+//       sign4.scene.position.y += 7;
+//       sign4.scene.position.z += -21;
+//       this.scene_.add(sign4.scene);
 
-      const planeGeometry4 = new THREE.PlaneGeometry(20, 20);
-      const planeMaterial4 = new THREE.MeshStandardMaterial({ color: 0x808080 });
-      const plane4 = new THREE.Mesh(planeGeometry4, planeMaterial4)
-      plane4.scale.set(0.3, 1, 0.3);
-      plane4.position.x += 20.5;
-      plane4.position.y += -3;
-      plane4.position.z += -20.5;
-      plane4.rotation.y = 7*Math.PI / 4;
-      plane4.receiveShadow = true;
-      this.scene_.add(plane4);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
+//       const planeGeometry4 = new THREE.PlaneGeometry(20, 20);
+//       const planeMaterial4 = new THREE.MeshStandardMaterial({ color: 0x808080 });
+//       const plane4 = new THREE.Mesh(planeGeometry4, planeMaterial4)
+//       plane4.scale.set(0.3, 1, 0.3);
+//       plane4.position.x += 20.5;
+//       plane4.position.y += -3;
+//       plane4.position.z += -20.5;
+//       plane4.rotation.y = 7*Math.PI / 4;
+//       plane4.receiveShadow = true;
+//       this.scene_.add(plane4);
+//     } catch (error) {
+//       console.error('Error loading model:', error);
+//     }
 
-    // Load Scaffolding
-    try {
-      const scaf1 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
-      scaf1.scene.scale.set(1, 1, 1);
-      scaf1.scene.position.x += -24;
-      scaf1.scene.position.y += 1;
-      scaf1.scene.position.z += 10;
-      this.scene_.add(scaf1.scene);
+//     // Load Scaffolding
+//     try {
+//       const scaf1 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
+//       scaf1.scene.scale.set(1, 1, 1);
+//       scaf1.scene.position.x += -24;
+//       scaf1.scene.position.y += 1;
+//       scaf1.scene.position.z += 10;
+//       this.scene_.add(scaf1.scene);
 
-      const scaf2 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
-      scaf2.scene.scale.set(1, 1, 1);
-      scaf2.scene.position.x += -24;
-      scaf2.scene.position.y += 1;
-      scaf2.scene.position.z += 8;
-      this.scene_.add(scaf2.scene);
+//       const scaf2 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
+//       scaf2.scene.scale.set(1, 1, 1);
+//       scaf2.scene.position.x += -24;
+//       scaf2.scene.position.y += 1;
+//       scaf2.scene.position.z += 8;
+//       this.scene_.add(scaf2.scene);
 
-      const scaf3 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
-      scaf3.scene.scale.set(1, 1, 1);
-      scaf3.scene.rotation.y = Math.PI / 2;
-      scaf3.scene.position.x += 10;
-      scaf3.scene.position.y += 1;
-      scaf3.scene.position.z += 24;
-      this.scene_.add(scaf3.scene);
+//       const scaf3 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
+//       scaf3.scene.scale.set(1, 1, 1);
+//       scaf3.scene.rotation.y = Math.PI / 2;
+//       scaf3.scene.position.x += 10;
+//       scaf3.scene.position.y += 1;
+//       scaf3.scene.position.z += 24;
+//       this.scene_.add(scaf3.scene);
 
-      const scaf4 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
-      scaf4.scene.scale.set(1, 1, 1);
-      scaf4.scene.rotation.y = Math.PI / 2;
-      scaf4.scene.position.x += 8;
-      scaf4.scene.position.y += 1;
-      scaf4.scene.position.z += 24;
-      this.scene_.add(scaf4.scene);
+//       const scaf4 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
+//       scaf4.scene.scale.set(1, 1, 1);
+//       scaf4.scene.rotation.y = Math.PI / 2;
+//       scaf4.scene.position.x += 8;
+//       scaf4.scene.position.y += 1;
+//       scaf4.scene.position.z += 24;
+//       this.scene_.add(scaf4.scene);
 
-      const scaf5 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
-      scaf5.scene.scale.set(1, 1, 1);
-      scaf5.scene.rotation.y = Math.PI;
-      scaf5.scene.position.x += 24;
-      scaf5.scene.position.y += 1;
-      scaf5.scene.position.z += -8;
-      this.scene_.add(scaf5.scene);
+//       const scaf5 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
+//       scaf5.scene.scale.set(1, 1, 1);
+//       scaf5.scene.rotation.y = Math.PI;
+//       scaf5.scene.position.x += 24;
+//       scaf5.scene.position.y += 1;
+//       scaf5.scene.position.z += -8;
+//       this.scene_.add(scaf5.scene);
 
-      const scaf6 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
-      scaf6.scene.scale.set(1, 1, 1);
-      scaf6.scene.rotation.y = Math.PI;
-      scaf6.scene.position.x += 24;
-      scaf6.scene.position.y += 1;
-      scaf6.scene.position.z += -10;
-      this.scene_.add(scaf6.scene);
+//       const scaf6 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
+//       scaf6.scene.scale.set(1, 1, 1);
+//       scaf6.scene.rotation.y = Math.PI;
+//       scaf6.scene.position.x += 24;
+//       scaf6.scene.position.y += 1;
+//       scaf6.scene.position.z += -10;
+//       this.scene_.add(scaf6.scene);
 
-      const scaf7 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
-      scaf7.scene.scale.set(1, 1, 1);
-      scaf7.scene.rotation.y = 3*Math.PI/2;
-      scaf7.scene.position.x += -10;
-      scaf7.scene.position.y += 1;
-      scaf7.scene.position.z += -24;
-      this.scene_.add(scaf7.scene);
+//       const scaf7 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
+//       scaf7.scene.scale.set(1, 1, 1);
+//       scaf7.scene.rotation.y = 3*Math.PI/2;
+//       scaf7.scene.position.x += -10;
+//       scaf7.scene.position.y += 1;
+//       scaf7.scene.position.z += -24;
+//       this.scene_.add(scaf7.scene);
 
-      const scaf8 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
-      scaf8.scene.scale.set(1, 1, 1);
-      scaf8.scene.rotation.y = 3*Math.PI/2;
-      scaf8.scene.position.x += -8;
-      scaf8.scene.position.y += 1;
-      scaf8.scene.position.z += -24;
-      this.scene_.add(scaf8.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
+//       const scaf8 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
+//       scaf8.scene.scale.set(1, 1, 1);
+//       scaf8.scene.rotation.y = 3*Math.PI/2;
+//       scaf8.scene.position.x += -8;
+//       scaf8.scene.position.y += 1;
+//       scaf8.scene.position.z += -24;
+//       this.scene_.add(scaf8.scene);
+//     } catch (error) {
+//       console.error('Error loading model:', error);
+//     }
 
-    // Load Speakers
-    try {
-      const speak1 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
-      speak1.scene.scale.set(2, 2, 2);
-      speak1.scene.rotation.y = Math.PI / 5;
-      speak1.scene.position.x += 4;
-      speak1.scene.position.y += 10;
-      speak1.scene.position.z += -20;
-      this.scene_.add(speak1.scene);
+//     // Load Speakers
+//     try {
+//       const speak1 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
+//       speak1.scene.scale.set(2, 2, 2);
+//       speak1.scene.rotation.y = Math.PI / 5;
+//       speak1.scene.position.x += 4;
+//       speak1.scene.position.y += 10;
+//       speak1.scene.position.z += -20;
+//       this.scene_.add(speak1.scene);
 
-      const speak2 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
-      speak2.scene.scale.set(2, 2, 2);
-      speak2.scene.rotation.y = -Math.PI / 5;
-      speak2.scene.position.x += -4;
-      speak2.scene.position.y += 10;
-      speak2.scene.position.z += -20;
-      this.scene_.add(speak2.scene);
+//       const speak2 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
+//       speak2.scene.scale.set(2, 2, 2);
+//       speak2.scene.rotation.y = -Math.PI / 5;
+//       speak2.scene.position.x += -4;
+//       speak2.scene.position.y += 10;
+//       speak2.scene.position.z += -20;
+//       this.scene_.add(speak2.scene);
 
-      const speak3 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
-      speak3.scene.scale.set(2, 2, 2);
-      speak3.scene.rotation.y = 4*Math.PI / 5;
-      speak3.scene.position.x += 4;
-      speak3.scene.position.y += 10;
-      speak3.scene.position.z += 20;
-      this.scene_.add(speak3.scene);
+//       const speak3 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
+//       speak3.scene.scale.set(2, 2, 2);
+//       speak3.scene.rotation.y = 4*Math.PI / 5;
+//       speak3.scene.position.x += 4;
+//       speak3.scene.position.y += 10;
+//       speak3.scene.position.z += 20;
+//       this.scene_.add(speak3.scene);
 
-      const speak4 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
-      speak4.scene.scale.set(2, 2, 2);
-      speak4.scene.rotation.y = -4*Math.PI / 5;
-      speak4.scene.position.x += -4;
-      speak4.scene.position.y += 10;
-      speak4.scene.position.z += 20;
-      this.scene_.add(speak4.scene);
+//       const speak4 = await this.loadModel_('Map/Speakers/low_poly_free_speakers_system_array.glb');
+//       speak4.scene.scale.set(2, 2, 2);
+//       speak4.scene.rotation.y = -4*Math.PI / 5;
+//       speak4.scene.position.x += -4;
+//       speak4.scene.position.y += 10;
+//       speak4.scene.position.z += 20;
+//       this.scene_.add(speak4.scene);
 
-    }  catch (error) {
-      console.error('Error loading model:', error);
-    }
+//     }  catch (error) {
+//       console.error('Error loading model:', error);
+//     }
 
-    // Load TV's
-    try {
-      const tv1 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
-      tv1.scene.scale.set(14, 14, 14);
-      tv1.scene.rotation.y = Math.PI / 2;
-      const rotationAxis1 = new THREE.Vector3(0, 0, -1).normalize();
-      const rotationAngle1 = Math.PI / 5;
-      tv1.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
-      tv1.scene.position.x += -10;
-      tv1.scene.position.y += 25;
-      tv1.scene.position.z += 36;
-      this.scene_.add(tv1.scene);
+//     // Load TV's
+//     try {
+//       const tv1 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+//       tv1.scene.scale.set(14, 14, 14);
+//       tv1.scene.rotation.y = Math.PI / 2;
+//       const rotationAxis1 = new THREE.Vector3(0, 0, -1).normalize();
+//       const rotationAngle1 = Math.PI / 5;
+//       tv1.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+//       tv1.scene.position.x += -10;
+//       tv1.scene.position.y += 25;
+//       tv1.scene.position.z += 36;
+//       this.scene_.add(tv1.scene);
 
-      const tv2 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
-      tv2.scene.scale.set(14, 14, 14);
-      tv2.scene.rotation.y = -Math.PI / 2;
-      const rotationAxis2 = new THREE.Vector3(0, 0, -1).normalize();
-      const rotationAngle2 = -Math.PI / 5;
-      tv2.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
-      tv2.scene.position.x += 10;
-      tv2.scene.position.y += 25;
-      tv2.scene.position.z += -36;
-      this.scene_.add(tv2.scene);
-    }  catch (error) {
-      console.error('Error loading model:', error);
-    }
+//       const tv2 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+//       tv2.scene.scale.set(14, 14, 14);
+//       tv2.scene.rotation.y = -Math.PI / 2;
+//       const rotationAxis2 = new THREE.Vector3(0, 0, -1).normalize();
+//       const rotationAngle2 = -Math.PI / 5;
+//       tv2.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+//       tv2.scene.position.x += 10;
+//       tv2.scene.position.y += 25;
+//       tv2.scene.position.z += -36;
+//       this.scene_.add(tv2.scene);
+//     }  catch (error) {
+//       console.error('Error loading model:', error);
+//     }
 
     // Add Software
     try {
@@ -798,82 +869,82 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
 
-    // Add Career
-    try {
-      const panth = await this.loadModel_('Career/Pantheon/wk3a_pillar_huth_will.glb');
-      panth.scene.scale.set(0.14, 0.14, 0.14);
-      panth.scene.rotation.y = 3*Math.PI / 4;
-      panth.scene.position.x += -13;
-      panth.scene.position.y += 0;
-      panth.scene.position.z += 20;
-      this.scene_.add(panth.scene);
+    // // Add Career
+    // try {
+    //   const panth = await this.loadModel_('Career/Pantheon/wk3a_pillar_huth_will.glb');
+    //   panth.scene.scale.set(0.14, 0.14, 0.14);
+    //   panth.scene.rotation.y = 3*Math.PI / 4;
+    //   panth.scene.position.x += -13;
+    //   panth.scene.position.y += 0;
+    //   panth.scene.position.z += 20;
+    //   this.scene_.add(panth.scene);
 
-      const plantA1 = await this.loadModel_('Career/PlantA/plant.glb');
-      plantA1.scene.scale.set(0.0045, 0.0045, 0.0045);
-      plantA1.scene.position.x += -16;
-      plantA1.scene.position.y += 0.6;
-      plantA1.scene.position.z += 20;
-      this.scene_.add(plantA1.scene);
+    //   const plantA1 = await this.loadModel_('Career/PlantA/plant.glb');
+    //   plantA1.scene.scale.set(0.0045, 0.0045, 0.0045);
+    //   plantA1.scene.position.x += -16;
+    //   plantA1.scene.position.y += 0.6;
+    //   plantA1.scene.position.z += 20;
+    //   this.scene_.add(plantA1.scene);
 
-      const plantA2 = await this.loadModel_('Career/PlantA/plant.glb');
-      plantA2.scene.scale.set(0.0045, 0.0045, 0.0045);
-      plantA2.scene.position.x += -20;
-      plantA2.scene.position.y += 0.6;
-      plantA2.scene.position.z += 16;
-      this.scene_.add(plantA2.scene);
+    //   const plantA2 = await this.loadModel_('Career/PlantA/plant.glb');
+    //   plantA2.scene.scale.set(0.0045, 0.0045, 0.0045);
+    //   plantA2.scene.position.x += -20;
+    //   plantA2.scene.position.y += 0.6;
+    //   plantA2.scene.position.z += 16;
+    //   this.scene_.add(plantA2.scene);
 
-      const plantB1 = await this.loadModel_('Career/PlantB/plant__rosa_chinensis.glb');
-      plantB1.scene.scale.set(0.4, 0.4, 0.4);
-      plantB1.scene.position.x += -20;
-      plantB1.scene.position.y += -0.5;
-      plantB1.scene.position.z += 10;
-      this.scene_.add(plantB1.scene);
+    //   const plantB1 = await this.loadModel_('Career/PlantB/plant__rosa_chinensis.glb');
+    //   plantB1.scene.scale.set(0.4, 0.4, 0.4);
+    //   plantB1.scene.position.x += -20;
+    //   plantB1.scene.position.y += -0.5;
+    //   plantB1.scene.position.z += 10;
+    //   this.scene_.add(plantB1.scene);
 
-      const plantB2 = await this.loadModel_('Career/PlantB/plant__rosa_chinensis.glb');
-      plantB2.scene.scale.set(0.4, 0.4, 0.4);
-      plantB2.scene.position.x += -10;
-      plantB2.scene.position.y += -0.5;
-      plantB2.scene.position.z += 20;
-      this.scene_.add(plantB2.scene);
+    //   const plantB2 = await this.loadModel_('Career/PlantB/plant__rosa_chinensis.glb');
+    //   plantB2.scene.scale.set(0.4, 0.4, 0.4);
+    //   plantB2.scene.position.x += -10;
+    //   plantB2.scene.position.y += -0.5;
+    //   plantB2.scene.position.z += 20;
+    //   this.scene_.add(plantB2.scene);
 
-      const holog = await this.loadModel_('Career/Hologram/hologram_police_robots.glb');
-      plantB2.scene.scale.set(0.3, 0.3, 0.3);
-      holog.scene.rotation.y = 3*Math.PI / 4;
-      holog.scene.position.x += -18;
-      holog.scene.position.y += 0.4;
-      holog.scene.position.z += 18;
-      this.scene_.add(holog.scene);
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
+    //   const holog = await this.loadModel_('Career/Hologram/hologram_police_robots.glb');
+    //   plantB2.scene.scale.set(0.3, 0.3, 0.3);
+    //   holog.scene.rotation.y = 3*Math.PI / 4;
+    //   holog.scene.position.x += -18;
+    //   holog.scene.position.y += 0.4;
+    //   holog.scene.position.z += 18;
+    //   this.scene_.add(holog.scene);
+    // } catch (error) {
+    //   console.error('Error loading model:', error);
+    // }
 
-    // Add Projects
-    try {
-      const screens1 = await this.loadModel_('Projects/Screens/retro_cyberpunk_computer_screens.glb');
-      screens1.scene.scale.set(1, 1, 0.5);
-      screens1.scene.rotation.y = 3*Math.PI / 2;
-      const rotationAxis1 = new THREE.Vector3(0, 0, -1).normalize();
-      const rotationAngle1 = Math.PI / 8;
-      screens1.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
-      screens1.scene.position.x += -21;
-      screens1.scene.position.y += 5;
-      screens1.scene.position.z += -10;
-      this.scene_.add(screens1.scene);
+    // // Add Projects
+    // try {
+    //   const screens1 = await this.loadModel_('Projects/Screens/retro_cyberpunk_computer_screens.glb');
+    //   screens1.scene.scale.set(1, 1, 0.5);
+    //   screens1.scene.rotation.y = 3*Math.PI / 2;
+    //   const rotationAxis1 = new THREE.Vector3(0, 0, -1).normalize();
+    //   const rotationAngle1 = Math.PI / 8;
+    //   screens1.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+    //   screens1.scene.position.x += -21;
+    //   screens1.scene.position.y += 5;
+    //   screens1.scene.position.z += -10;
+    //   this.scene_.add(screens1.scene);
 
-      const screens2 = await this.loadModel_('Projects/Screens/retro_cyberpunk_computer_screens.glb');
-      screens2.scene.scale.set(1, 1, 0.5);
-      screens2.scene.rotation.y = Math.PI;
-      const rotationAxis2 = new THREE.Vector3(1, 0, 0).normalize();
-      const rotationAngle2 = Math.PI / 8;
-      screens2.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
-      screens2.scene.position.x += -14;
-      screens2.scene.position.y += 5;
-      screens2.scene.position.z += -21;
-      this.scene_.add(screens2.scene);
+    //   const screens2 = await this.loadModel_('Projects/Screens/retro_cyberpunk_computer_screens.glb');
+    //   screens2.scene.scale.set(1, 1, 0.5);
+    //   screens2.scene.rotation.y = Math.PI;
+    //   const rotationAxis2 = new THREE.Vector3(1, 0, 0).normalize();
+    //   const rotationAngle2 = Math.PI / 8;
+    //   screens2.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+    //   screens2.scene.position.x += -14;
+    //   screens2.scene.position.y += 5;
+    //   screens2.scene.position.z += -21;
+    //   this.scene_.add(screens2.scene);
 
-    } catch (error) {
-      console.error('Error loading model:', error);
-    }
+    // } catch (error) {
+    //   console.error('Error loading model:', error);
+    // }
 
     // Add Music
     try {
