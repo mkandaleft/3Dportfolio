@@ -161,16 +161,6 @@ class FirstPersonCamera {
 
   async setInteractableObjects(interactableObjects) {
     this.interactableObjects = interactableObjects;
-
-    console.log(this.interactableObjects);
-    console.log(this.interactableObjects.length);
-    for (let object of interactableObjects) {
-      console.log("haahaha")
-      for (let child of object.children) {
-        child.parentObject = object;
-        console.log("haahaha")
-      }
-    }
   }
 
   update(timeElapsedS) {
@@ -311,35 +301,39 @@ class FirstPersonCamera {
   }
 
   checkInteraction() {
-    // Update the picking ray with the camera and mouse position
+    // Use Three js raycaster to find if camera is pointing at interactable Object
     this.raycaster_.setFromCamera(this.mouse_, this.camera_);
-    //console.log(this.interactableObjects);
+    const intersects = this.raycaster_.intersectObjects(this.interactableObjects, true); // Notice the 'true' for recursive
   
-    // Calculate objects intersecting the picking ray
-    const intersects = this.raycaster_.intersectObjects(this.interactableObjects);
-    //const intersects = this.raycaster_.intersectObjects(this.interactableObjects).filter(intersect => this.interactableObjects.includes(intersect.object));
-    //console.log(this.interactableObjects);
-    //console.log(intersects.length)
     for (let i = 0; i < intersects.length; i++) {
-      const object = intersects[i].object.parentObject || intersects[i].object;;
-      const distance = this.camera_.position.distanceTo(object);
-      //console.log(i)
-      
-      if (distance < 5) {
-        switch (i) {
-          case 0:
-            console.log("Harrroo")
+      let object = intersects[i].object;
+
+      // Traverse up to find the root parent that's in the interactableObjects array
+      while (object && !this.interactableObjects.includes(object)) {
+        object = object.parent;
+      }
+      if (object && this.camera_.position.distanceTo(object.position) < 8) {
+        
+        switch (object.name) {
+          case 'Boxxx':
+            console.log("Action for Boxxx");
             break;
-          case 1:
-  
+
+          case 'jbox':
+            console.log("Action for jbox");
             break;
+            
+          case 'computer':
+            console.log("Action for computer");
+            break;
+            
           default:
             break;
         }
       }
-    } 
+    }
   }
-
+  
   updateCameraCoordinatesDisplay() {
     const coordinatesElement = document.getElementById('camera-coordinates');
     if (coordinatesElement) {
@@ -442,6 +436,7 @@ class FirstPersonCameraDemo {
     const box = new THREE.Mesh(
       new THREE.BoxGeometry(4, 4, 4),
       new THREE.MeshStandardMaterial({map: checkerboard}));
+    box.name = "Boxxx";
     box.position.set(0, 2, 0);
     box.rotation.y = Math.PI / 4; // Rotate the box by pi/4
     box.castShadow = true;
@@ -775,6 +770,7 @@ class FirstPersonCameraDemo {
       this.scene_.add(table.scene);
 
       const comp = await this.loadModel_('Software/Computer/old_computer.glb');
+      comp.scene.name = "computer";
       comp.scene.scale.set(0.6, 0.6, 0.6);
       comp.scene.rotation.y = -3 *Math.PI / 4;
       comp.scene.position.x += 18.3;
@@ -899,6 +895,7 @@ class FirstPersonCameraDemo {
       this.scene_.add(amp2.scene);
 
       const jbox = await this.loadModel_('Music/Jukebox/jukebox.glb');
+      jbox.scene.name = "jbox";
       jbox.scene.scale.set(2, 2, 2);
       jbox.scene.rotation.y = -Math.PI / 4;
       jbox.scene.position.x += 16;
