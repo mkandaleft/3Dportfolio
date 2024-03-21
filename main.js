@@ -154,6 +154,13 @@ class FirstPersonCamera {
     this.headBobActive_ = false;
     this.headBobTimer_ = 0;
     this.objects_ = objects;
+    this.raycaster_ = new THREE.Raycaster();
+    this.mouse_ = new THREE.Vector2();
+    this.interactableObjects = []; 
+  }
+
+  async setInteractableObjects(interactableObjects) {
+    this.interactableObjects = interactableObjects;
   }
 
   update(timeElapsedS) {
@@ -163,6 +170,7 @@ class FirstPersonCamera {
     this.updateHeadBob_(timeElapsedS);
     this.input_.update(timeElapsedS);
     this.updateCameraCoordinatesDisplay();
+    this.checkInteraction();
   }
 
   updateCamera_(_) {
@@ -292,6 +300,40 @@ class FirstPersonCamera {
     this.rotation_.copy(q);
   }
 
+  checkInteraction() {
+    // Use Three js raycaster to find if camera is pointing at interactable Object
+    this.raycaster_.setFromCamera(this.mouse_, this.camera_);
+    const intersects = this.raycaster_.intersectObjects(this.interactableObjects, true); // Notice the 'true' for recursive
+  
+    for (let i = 0; i < intersects.length; i++) {
+      let object = intersects[i].object;
+
+      // Traverse up to find the root parent that's in the interactableObjects array
+      while (object && !this.interactableObjects.includes(object)) {
+        object = object.parent;
+      }
+      if (object && this.camera_.position.distanceTo(object.position) < 8) {
+        
+        switch (object.name) {
+          case 'Boxxx':
+            console.log("Action for Boxxx");
+            break;
+
+          case 'jbox':
+            console.log("Action for jbox");
+            break;
+            
+          case 'computer':
+            console.log("Action for computer");
+            break;
+            
+          default:
+            break;
+        }
+      }
+    }
+  }
+  
   updateCameraCoordinatesDisplay() {
     const coordinatesElement = document.getElementById('camera-coordinates');
     if (coordinatesElement) {
@@ -303,6 +345,7 @@ class FirstPersonCamera {
 
 class FirstPersonCameraDemo {
   constructor() {
+    this.interactable = [];
     this.initialize_();
   }
 
@@ -325,6 +368,8 @@ class FirstPersonCameraDemo {
     // this.controls_.movementSpeed = 5;
 
     this.fpsCamera_ = new FirstPersonCamera(this.camera_, this.objects_);
+    
+    this.fpsCamera_.setInteractableObjects(this.interactable);
   }
 
   initializeRenderer_() {
@@ -391,11 +436,13 @@ class FirstPersonCameraDemo {
     const box = new THREE.Mesh(
       new THREE.BoxGeometry(4, 4, 4),
       new THREE.MeshStandardMaterial({map: checkerboard}));
+    box.name = "Boxxx";
     box.position.set(0, 2, 0);
     box.rotation.y = Math.PI / 4; // Rotate the box by pi/4
     box.castShadow = true;
     box.receiveShadow = true;
     this.scene_.add(box);
+    this.interactable.push(box);
 
     const meshes = [
       box];
@@ -723,12 +770,14 @@ class FirstPersonCameraDemo {
       this.scene_.add(table.scene);
 
       const comp = await this.loadModel_('Software/Computer/old_computer.glb');
+      comp.scene.name = "computer";
       comp.scene.scale.set(0.6, 0.6, 0.6);
       comp.scene.rotation.y = -3 *Math.PI / 4;
       comp.scene.position.x += 18.3;
       comp.scene.position.y += 2;
       comp.scene.position.z += 18.3;
       this.scene_.add(comp.scene);
+      this.interactable.push(comp.scene);
 
       const shelf1 = await this.loadModel_('Software/Shelf/floating_shelf.glb');
       shelf1.scene.scale.set(2, 2, 2);
@@ -836,6 +885,7 @@ class FirstPersonCameraDemo {
       amp1.scene.position.z += -20;
       this.scene_.add(amp1.scene);
 
+
       const amp2 = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
       amp2.scene.scale.set(6, 6, 6);
       amp2.scene.rotation.y = -3*Math.PI / 5;
@@ -845,12 +895,14 @@ class FirstPersonCameraDemo {
       this.scene_.add(amp2.scene);
 
       const jbox = await this.loadModel_('Music/Jukebox/jukebox.glb');
+      jbox.scene.name = "jbox";
       jbox.scene.scale.set(2, 2, 2);
       jbox.scene.rotation.y = -Math.PI / 4;
       jbox.scene.position.x += 16;
       jbox.scene.position.y += 0.5;
       jbox.scene.position.z += -16;
       this.scene_.add(jbox.scene);
+      this.interactable.push(jbox.scene);
 
       const guit = await this.loadModel_('Music/Guitar/fender_stratocaster_guitar.glb');
       guit.scene.scale.set(14, 14, 14);
@@ -865,9 +917,8 @@ class FirstPersonCameraDemo {
     } catch (error) {
       console.error('Error loading model:', error);
     }
+    // console.log(this.interactable);
   }
-
-  
 
   async loadModel_(url) {
     const loader = new GLTFLoader();
