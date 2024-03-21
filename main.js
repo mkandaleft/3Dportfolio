@@ -159,8 +159,18 @@ class FirstPersonCamera {
     this.interactableObjects = []; 
   }
 
-  setInteractableObjects(interactableObjects) {
+  async setInteractableObjects(interactableObjects) {
     this.interactableObjects = interactableObjects;
+
+    console.log(this.interactableObjects);
+    console.log(this.interactableObjects.length);
+    for (let object of interactableObjects) {
+      console.log("haahaha")
+      for (let child of object.children) {
+        child.parentObject = object;
+        console.log("haahaha")
+      }
+    }
   }
 
   update(timeElapsedS) {
@@ -303,19 +313,31 @@ class FirstPersonCamera {
   checkInteraction() {
     // Update the picking ray with the camera and mouse position
     this.raycaster_.setFromCamera(this.mouse_, this.camera_);
-    // console.log(this.interactableObjects);
+    //console.log(this.interactableObjects);
   
     // Calculate objects intersecting the picking ray
     const intersects = this.raycaster_.intersectObjects(this.interactableObjects);
+    //const intersects = this.raycaster_.intersectObjects(this.interactableObjects).filter(intersect => this.interactableObjects.includes(intersect.object));
     //console.log(this.interactableObjects);
-    
+    //console.log(intersects.length)
     for (let i = 0; i < intersects.length; i++) {
-      const object = intersects[i].object;
-      console.log("Hekooooooo")
-      // Perform interaction logic for each intersected object
-      // ...
-    }
-    
+      const object = intersects[i].object.parentObject || intersects[i].object;;
+      const distance = this.camera_.position.distanceTo(object);
+      //console.log(i)
+      
+      if (distance < 5) {
+        switch (i) {
+          case 0:
+            console.log("Harrroo")
+            break;
+          case 1:
+  
+            break;
+          default:
+            break;
+        }
+      }
+    } 
   }
 
   updateCameraCoordinatesDisplay() {
@@ -425,6 +447,7 @@ class FirstPersonCameraDemo {
     box.castShadow = true;
     box.receiveShadow = true;
     this.scene_.add(box);
+    this.interactable.push(box);
 
     const meshes = [
       box];
