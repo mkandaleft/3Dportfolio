@@ -8,7 +8,8 @@ const KEYS = {
   's': 83,
   'w': 87,
   'd': 68,
-  'r': 82
+  'r': 82,
+  'escape': 27
 };
 
 function clamp(x, a, b) {
@@ -179,10 +180,16 @@ class FirstPersonCamera {
   update(timeElapsedS) {
     this.updateRotation_(timeElapsedS);
     this.updateCamera_(timeElapsedS);
-    this.updateTranslation_(timeElapsedS);
     this.updateHeadBob_(timeElapsedS);
     this.input_.update(timeElapsedS);
     this.updateCameraCoordinatesDisplay();
+
+    if (!this.isZoomedIn) {
+      this.updateTranslation_(timeElapsedS);
+    }
+    if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {
+      this.resetView();
+    }
   }
 
   updateCamera_(_) {
@@ -231,30 +238,25 @@ class FirstPersonCamera {
     const forwardVelocity = (this.input_.key(KEYS.w) ? 1 : 0) + (this.input_.key(KEYS.s) ? -1 : 0)
     const strafeVelocity = (this.input_.key(KEYS.a) ? 1 : 0) + (this.input_.key(KEYS.d) ? -1 : 0)
 
-    if (this.input_.key(KEYS.r) && this.isZoomedIn) {
-      this.resetView();
-    }
-
     const qx = new THREE.Quaternion();
     qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);
 
-    if (!this.isZoomedIn) {
-      const forward = new THREE.Vector3(0, 0, -1);
-      forward.applyQuaternion(qx);
-      forward.multiplyScalar(forwardVelocity * timeElapsedS * 10);
-  
-      const left = new THREE.Vector3(-1, 0, 0);
-      left.applyQuaternion(qx);
-      left.multiplyScalar(strafeVelocity * timeElapsedS * 10);
-      
-      this.translation_.add(forward);
-      this.translation_.add(left);
-    }
+    const forward = new THREE.Vector3(0, 0, -1);
+    forward.applyQuaternion(qx);
+    forward.multiplyScalar(forwardVelocity * timeElapsedS * 10);
+
+    const left = new THREE.Vector3(-1, 0, 0);
+    left.applyQuaternion(qx);
+    left.multiplyScalar(strafeVelocity * timeElapsedS * 10);
+    
+    this.translation_.add(forward);
+    this.translation_.add(left);
 
     if (forwardVelocity != 0 || strafeVelocity != 0) {
       this.headBobActive_ = true;
     }
-/*
+
+
     // Limit camera translation in room
     const roomDimensions = { minX: -14.5, maxX: 14.5, minY: 0, maxY: 4, minZ: -14.5, maxZ: 14.5 };
     if (this.translation_.x < roomDimensions.minX) {
@@ -269,8 +271,8 @@ class FirstPersonCamera {
     if (this.translation_.z > roomDimensions.maxZ) {
       this.translation_.z = roomDimensions.maxZ
     }
-*/
-    // Limit camera translation in box
+
+          // Limit camera translation in box
     const boxDimensions = { minX: -5, maxX: 5, minY: 0, maxY: 4, minZ: -5, maxZ: 5 };
     const inBox = this.translation_.x > boxDimensions.minX && this.translation_.x < boxDimensions.maxX && this.translation_.z > boxDimensions.minZ && this.translation_.z < boxDimensions.maxZ;
     
@@ -336,7 +338,6 @@ class FirstPersonCamera {
   
       if (object && this.camera_.position.distanceTo(object.position) < 8) {
         // Perform action based on the object's name without directly checking for mouse input here
-
         this.zoomToObject(object);
       }
     }
@@ -344,6 +345,7 @@ class FirstPersonCamera {
   
   zoomToObject(object) {
     this.originalPosition = this.camera_.position.clone();
+    console
     this.originalQuaternion = this.camera_.quaternion.clone();
 
     switch (object.name) {
@@ -352,27 +354,29 @@ class FirstPersonCamera {
         break;
 
       case 'jbox':
-        console.log("xbox");
+        const zoomPosition1 = new THREE.Vector3(14.85, 3, -14.85);
+        this.translation_.copy(zoomPosition1);
 
-        const zoomPosition1 = new THREE.Vector3();
-        zoomPosition1.setFromMatrixPosition(object.matrixWorld);
-        zoomPosition1.x += 14.5;
-        zoomPosition1.y += 3;
-        zoomPosition1.z += -14.5;
-        this.camera_.position.lerp(zoomPosition1, 0.5); 
-        this.camera_.lookAt(object.position);
-        this.displayContent('contentForJBox');
+        const zoomRotation1 = new THREE.Quaternion();
+        zoomRotation1.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 7*Math.PI / 4);
+  
+        const q1 = new THREE.Quaternion();
+        q1.multiply(zoomRotation1);
+    
+        this.rotation_.copy(q1);
         break;
       
       case 'computer':
-        console.log("comp");
+        const zoomPosition2 = new THREE.Vector3(17, 3, 17);
+        this.translation_.copy(zoomPosition2);
 
-        const zoomPosition2 = new THREE.Vector3();
-        zoomPosition2.setFromMatrixPosition(object.matrixWorld);
-        zoomPosition2.z += 0;
-        this.camera_.position.lerp(zoomPosition2, 0.5); 
-        this.camera_.lookAt(object.position);
-        this.displayContent('contentForComputer');
+        const zoomRotation2 = new THREE.Quaternion();
+        zoomRotation2.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 5*Math.PI / 4);
+  
+        const q2 = new THREE.Quaternion();
+        q2.multiply(zoomRotation2);
+    
+        this.rotation_.copy(q2);
         break;
       
       default:
@@ -405,7 +409,6 @@ class FirstPersonCamera {
       div.style.display = 'none';
     });
   }
-  
   
   updateCameraCoordinatesDisplay() {
     const coordinatesElement = document.getElementById('camera-coordinates');
