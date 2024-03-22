@@ -1,8 +1,9 @@
 var audio = new Audio();
 
 export function loadSong(song) {
-    audio.src = song;
-    audio.play();
+    //audio.src = song;
+    console.log("Playing music");
+    //audio.play();
 }
 
 function playMusic() {
