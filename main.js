@@ -364,6 +364,7 @@ class FirstPersonCamera {
         q1.multiply(zoomRotation1);
     
         this.rotation_.copy(q1);
+        this.displayContent("contentForJBox")
         break;
       
       case 'computer':
@@ -377,6 +378,7 @@ class FirstPersonCamera {
         q2.multiply(zoomRotation2);
     
         this.rotation_.copy(q2);
+        this.displayContent("contentForComputer")
         break;
       
       default:
