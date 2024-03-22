@@ -183,9 +183,6 @@ class FirstPersonCamera {
     this.updateHeadBob_(timeElapsedS);
     this.input_.update(timeElapsedS);
     this.updateCameraCoordinatesDisplay();
-
-
-    // this.checkInteraction();
   }
 
   updateCamera_(_) {
@@ -217,13 +214,15 @@ class FirstPersonCamera {
 
   updateHeadBob_(timeElapsedS) {
     if (this.headBobActive_) {
-      const wavelength = Math.PI;
-      const nextStep = 1 + Math.floor(((this.headBobTimer_ + 0.00001) * 10) / wavelength);
-      const nextStepTime = nextStep * wavelength / 10;
-      this.headBobTimer_ = Math.min(this.headBobTimer_ + timeElapsedS, nextStepTime);
-
-      if (this.headBobTimer_ == nextStepTime) {
-        this.headBobActive_ = false;
+      if (!this.isZoomedIn) {
+        const wavelength = Math.PI;
+        const nextStep = 1 + Math.floor(((this.headBobTimer_ + 0.00001) * 10) / wavelength);
+        const nextStepTime = nextStep * wavelength / 10;
+        this.headBobTimer_ = Math.min(this.headBobTimer_ + timeElapsedS, nextStepTime);
+  
+        if (this.headBobTimer_ == nextStepTime) {
+          this.headBobActive_ = false;
+        }
       }
     }
   }
@@ -239,16 +238,18 @@ class FirstPersonCamera {
     const qx = new THREE.Quaternion();
     qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);
 
-    const forward = new THREE.Vector3(0, 0, -1);
-    forward.applyQuaternion(qx);
-    forward.multiplyScalar(forwardVelocity * timeElapsedS * 10);
-
-    const left = new THREE.Vector3(-1, 0, 0);
-    left.applyQuaternion(qx);
-    left.multiplyScalar(strafeVelocity * timeElapsedS * 10);
-    
-    this.translation_.add(forward);
-    this.translation_.add(left);
+    if (!this.isZoomedIn) {
+      const forward = new THREE.Vector3(0, 0, -1);
+      forward.applyQuaternion(qx);
+      forward.multiplyScalar(forwardVelocity * timeElapsedS * 10);
+  
+      const left = new THREE.Vector3(-1, 0, 0);
+      left.applyQuaternion(qx);
+      left.multiplyScalar(strafeVelocity * timeElapsedS * 10);
+      
+      this.translation_.add(forward);
+      this.translation_.add(left);
+    }
 
     if (forwardVelocity != 0 || strafeVelocity != 0) {
       this.headBobActive_ = true;
@@ -304,19 +305,21 @@ class FirstPersonCamera {
     const xh = this.input_.current_.mouseXDelta / window.innerWidth;
     const yh = this.input_.current_.mouseYDelta / window.innerHeight;
 
-    this.phi_ += -xh * this.phiSpeed_;
-    this.theta_ = clamp(this.theta_ + -yh * this.thetaSpeed_, -Math.PI / 3, Math.PI / 3);
-
-    const qx = new THREE.Quaternion();
-    qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);
-    const qz = new THREE.Quaternion();
-    qz.setFromAxisAngle(new THREE.Vector3(1, 0, 0), this.theta_);
-
-    const q = new THREE.Quaternion();
-    q.multiply(qx);
-    q.multiply(qz);
-
-    this.rotation_.copy(q);
+    if (!this.isZoomedIn) {
+      this.phi_ += -xh * this.phiSpeed_;
+      this.theta_ = clamp(this.theta_ + -yh * this.thetaSpeed_, -Math.PI / 3, Math.PI / 3);
+  
+      const qx = new THREE.Quaternion();
+      qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);
+      const qz = new THREE.Quaternion();
+      qz.setFromAxisAngle(new THREE.Vector3(1, 0, 0), this.theta_);
+  
+      const q = new THREE.Quaternion();
+      q.multiply(qx);
+      q.multiply(qz);
+  
+      this.rotation_.copy(q);
+    }
   }
 
   checkInteraction() {
@@ -375,7 +378,6 @@ class FirstPersonCamera {
       default:
         break;
     }
-
     this.isZoomedIn = true;
   }
   
