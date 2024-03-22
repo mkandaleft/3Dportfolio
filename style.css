@@ -35,8 +35,13 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 100px;
   line-height: 1.1;
+}
+
+div {
+  font-size: 24px;
+  border-bottom: 1px solid #000;
 }
 
 #app {
@@ -53,14 +58,23 @@ h1 {
   transform: translate(-50%, -50%);
   width: 900px;
   height: 900px;
-  border: 3px solid #fff;
-  background-color: rgba(255, 255, 255, 0.8);
+  border: 10px solid #434343db;
+  background-color: rgba(138, 137, 137, 0.97);
   color: black;
   text-align: center;
   padding: 20px;
   box-sizing: border-box;
+  border-radius: 40px;
   overflow-y: auto;
   z-index: 1000;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+.controls, .song-list {
+  width: 50%;
 }
 
 .logo {

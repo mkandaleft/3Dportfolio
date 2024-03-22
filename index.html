@@ -11,10 +11,46 @@
       <div id="camera-coordinates" style="position: absolute; top: 0; left: 0;"></div>
     </div>
     <div id="contentForComputer" class="object-content" style="display: none;">
-      Implement the zoomToObject method to smoothly move the camera towards the object. 
-      This could involve interpolating the camera's position and look-at target over time. 
-      For simplicity, you might just set the camera position near the object and look 
-      directly at it, but a smooth animation would provide a better user experience.
+      <h1>My Music</h1>
+      <div>
+        I listening to music and I love playing music. There is no better way to 
+        decorate time than with music. I am multi instrumentalist, I primarily play 
+        guitar but I also play bass, drums as well as some piano.
+      </div>
+      <div>
+        In fact, I play with a band called The Hucks. We released our second album in
+        2023 and are currently working on the third. You can play our music right here. 
+        Enjoy!
+      </div>
+      <div class="container">
+        <div class="controls">
+            <!-- Your control buttons -->
+            <button onclick="playMusic()">Play</button>
+            <button onclick="pauseMusic()">Pause</button>
+            <button onclick="skipMusic()">Skip</button>
+            <!-- More control buttons as needed -->
+        </div>
+          <div class="song-list">
+            <!-- List of songs -->
+            <ul>
+              <li><a href="#" id='song1'>1 Cactus Bayou</a></li>
+              <li><a href="#" id='2. Wild Wild Woman.wav'>2 Wild Wild Woman</a></li>
+              <li><a href="#" id='3. Like a Berry on a Vine.wav'>3 (Like a) Berry on a Vine</a></li>
+              <li><a href="#" id='4. Room Full of Sheep.wav'>4 Room Full of Sheep</a></li>
+              <li><a href="#" id='5. Vino Tinto.wav'>5 Vino Tinto</a></li>
+              <li><a href="#" id='6. Bossa Rocka.wav'>6 Bossa Rocka</a></li>
+              <li><a href="#" id='7. Merging with the Sky.wav'>7 Merging with the Sky</a></li>
+              <li><a href="#" id='8. Traveling Man.wav'>8 Traveling Man</a></li>
+              <li><a href="#" id='9. Is It Over Yet.wav'>9 Is It Over Yet</a></li>
+              <li><a href="#" id='10. Sweet Chili Heat.wav'>10 Sweet Chili Heat</a></li>
+              <li><a href="#" id='11. Two Lovers.wav'>11 Two Lovers</a></li>
+              <li><a href="#" id='12. Endless Sparkles.wav'>12 Endless Sparkles</a></li>
+              <li><a href="#" id='13. Cry of the West.wav'>13 Cry of the west</a></li>
+              <!-- More songs as needed -->
+            </ul>
+          </div>
+        </div>
+    
     </div>
     <div id="contentForJBox" class="object-content" style="display: none;">
       Implement the zoomToObject method to smoothly move the camera towards the object. 
@@ -22,6 +58,8 @@
       For simplicity, you might just set the camera position near the object and look 
       directly at it, but a smooth animation would provide a better user experience.
     </div>
-    <script type="module" src="/main.js"></script>
+    <script type="module" src="/main.js">
+      import { loadSong } from '/music.js'; 
+    </script>
   </body>
 </html>

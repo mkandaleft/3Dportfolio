@@ -1,4 +1,5 @@
 import './style.css'
+import { loadSong } from '/music.js';
 
 import * as THREE from 'https://cdn.skypack.dev/three@0.136';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
@@ -43,8 +44,8 @@ class InputController {
     this.target_.addEventListener('click', (e) => {
       // Request pointer lock for first-person control
       if (document.pointerLockElement !== this.target_ && document.mozPointerLockElement !== this.target_) {
-        document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
-        document.body.requestPointerLock();
+        //document.body.requestPointerdwsLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
+        //document.body.requestPointerLock();
         this.checkForInteraction();
       } else {
         // If already in pointer lock, check for interactions
@@ -393,7 +394,6 @@ class FirstPersonCamera {
       div.style.display = 'none';
     });
   
-    // Show the specified content
     const contentElement = document.getElementById(contentId);
     if (contentElement) {
       contentElement.style.display = 'block';
@@ -1248,4 +1248,9 @@ let _APP = null;
 
 window.addEventListener('DOMContentLoaded', () => {
   _APP = new FirstPersonCameraDemo();
+});
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('song1').addEventListener('click', () => loadSong('1. Cactus Bayou.wav'));
+  document.getElementById('song2').addEventListener('click', () => loadSong('2. Wild Wild Woman.wav'));
+  
 });
