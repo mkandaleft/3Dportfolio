@@ -36,12 +36,15 @@ body {
 
 h1 {
   font-size: 100px;
+  font-weight: bold;
   line-height: 1.1;
+  color: #234E52;
 }
 
 div {
   font-size: 24px;
-  border-bottom: 1px solid #000;
+  padding: 10px;
+  color: #234E52;
 }
 
 #app {
@@ -67,6 +70,8 @@ div {
   border-radius: 40px;
   overflow-y: auto;
   z-index: 1000;
+  background-color: #E0F2F1;
+  border-color: #38B2AC;
 }
 
 .container {

@@ -2,7 +2,6 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.136';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import FirstPersonCamera from './FirstPersonCamera';
-import { loadSong } from './music.js';
 
 class FirstPersonCameraDemo {
   constructor() {
@@ -825,10 +824,5 @@ class FirstPersonCameraDemo {
     this.fpsCamera_.update(timeElapsedS);
   }
 }
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('song1').addEventListener('click', () => loadSong('1. Cactus Bayou.wav'));
-  document.getElementById('song2').addEventListener('click', () => loadSong('2. Wild Wild Woman.wav'));
-  
-});
 
 export default FirstPersonCameraDemo;

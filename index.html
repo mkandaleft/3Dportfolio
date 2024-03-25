@@ -10,23 +10,24 @@
     <div id="app">
       <div id="camera-coordinates" style="position: absolute; top: 0; left: 0;"></div>
     </div>
-    <div id="contentForJBox" class="object-content" style="display: none;">
-      <h1>My Music</h1>
-      <div>
+    <div id="contentForJBox" class="object-content" style="display: none;" p-6>
+      <h1  mb-4>My Music</h1>
+      <div mb-2>
         I listening to music and I love playing music. There is no better way to 
         decorate time than with music. I am multi instrumentalist, I primarily play 
         guitar but I also play bass, drums as well as some piano.
       </div>
-      <div>
-        In fact, I play with a band called The Hucks. We released our second album in
-        2023 and are currently working on the third. You can play our music right here. 
-        Enjoy!
+        <div style="margin-bottom: 20px;">
+          In fact, I play with a band called The Hucks. We released our second album in
+          2023 and are currently working on the third. You can play our music right here. 
+          Enjoy!
+        </div>
+        <iframe style="border-radius:12px; margin-bottom: 20px;" src="https://open.spotify.com/embed/album/4aYu23eRlHRq0Xs3ysSvGI?utm_source=generator" 
+        width="100%" height="352" frameBorder="0" 
+        allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; 
+        picture-in-picture" loading="lazy"></iframe>
+        <img src="Pictures/the_hucks.jpeg" width="778px" style="border: 30px solid; color: #234E52; margin-bottom: 20px;"></img>
       </div>
-      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/4aYu23eRlHRq0Xs3ysSvGI?utm_source=generator" 
-      width="100%" height="352" frameBorder="0" 
-      allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; 
-      picture-in-picture" loading="lazy"></iframe>
-    </div>
     <img src="emi_tran.jpg" id="contentForComputer" class="object-content" style="display: none;"></img>
     <script type="module" src="src/main.js">
       import { loadSong } from '/music.js'; 
