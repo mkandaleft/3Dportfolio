@@ -47,26 +47,6 @@ div {
   color: #234E52;
 }
 
-span {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100px;
-  height: 50px;
-  border: 10px solid #434343db;
-  background-color: rgba(138, 137, 137, 0.97);
-  color: black;
-  text-align: center;
-  padding: 20px;
-  box-sizing: border-box;
-  border-radius: 40px;
-  overflow-y: auto;
-  z-index: 1000;
-  background-color: #E0F2F1;
-  border-color: #38B2AC;
-}
-
 #app {
   max-width: 1280px;
   margin: 0 auto;
@@ -92,6 +72,14 @@ span {
   z-index: 1000;
   background-color: #E0F2F1;
   border-color: #38B2AC;
+}
+
+.pointer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
 }
 
 .container {
