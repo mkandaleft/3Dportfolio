@@ -44,12 +44,11 @@ class FirstPersonCamera {
     this.updateCamera_(timeElapsedS);
     this.updateHeadBob_(timeElapsedS);
     this.input_.update(timeElapsedS);
+    this.promptInteraction();
     this.updateCameraCoordinatesDisplay();
 
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
-    } else {
-      console.log("Hii")
     }
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {
       this.resetView();
@@ -188,20 +187,43 @@ class FirstPersonCamera {
     }
   }
 
+  promptInteraction() {
+    this.raycaster_.setFromCamera(this.mouse_, this.camera_);
+    const intersects = this.raycaster_.intersectObjects(this.interactableObjects, true);
+    
+    const clickPrompt = document.getElementById('click-prompt');
+
+    if (intersects.length > 0 && !this.isZoomedIn) {
+      let object = intersects[0].object;
+
+      // Traverse up to find the interactable object
+      while (object && !this.interactableObjects.includes(object)) {
+        object = object.parent;
+      }
+    
+      if (object && this.camera_.position.distanceTo(object.position) < 8) {
+        clickPrompt.style.display = 'block';
+        this.displayContent('click-prompt')
+      } else {
+        clickPrompt.style.display = 'none';
+      }
+    } else {
+      clickPrompt.style.display = 'none';
+    }
+  }
+
   checkInteraction() {
     this.raycaster_.setFromCamera(this.mouse_, this.camera_);
     const intersects = this.raycaster_.intersectObjects(this.interactableObjects, true);
   
     if (intersects.length > 0) {
-      let object = intersects[0].object; // Assuming we're interested in the first intersected object
+      let object = intersects[0].object;
   
-      // Traverse up to find the interactable object
       while (object && !this.interactableObjects.includes(object)) {
         object = object.parent;
       }
   
       if (object && this.camera_.position.distanceTo(object.position) < 8) {
-        // Perform action based on the object's name without directly checking for mouse input here
         this.zoomToObject(object);
       }
     }
