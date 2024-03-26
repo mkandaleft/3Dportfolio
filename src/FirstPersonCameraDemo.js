@@ -424,18 +424,18 @@ class FirstPersonCameraDemo {
       const table = await this.loadModel_('Software/Table/wooden_table_game_ready_asset.glb');
       table.scene.scale.set(3, 3, 3);
       table.scene.rotation.y = -Math.PI / 4;
-      table.scene.position.x += 18;
+      table.scene.position.x += 16.5;
       table.scene.position.y += -0.2;
-      table.scene.position.z += 18;
+      table.scene.position.z += 16.5;
       this.scene_.add(table.scene);
 
       const comp = await this.loadModel_('Software/Computer/old_computer.glb');
       comp.scene.name = "computer";
       comp.scene.scale.set(0.6, 0.6, 0.6);
       comp.scene.rotation.y = -3 *Math.PI / 4;
-      comp.scene.position.x += 18.3;
+      comp.scene.position.x += 16.8;
       comp.scene.position.y += 2;
-      comp.scene.position.z += 18.3;
+      comp.scene.position.z += 16.8;
       this.scene_.add(comp.scene);
       this.interactable.push(comp.scene);
 

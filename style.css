@@ -41,10 +41,32 @@ h1 {
   color: #234E52;
 }
 
+h2 {
+  font-size: 40px;
+  font-weight: bold;
+  line-height: 1.1;
+  color: #234E52;
+}
+
 div {
   font-size: 24px;
   padding: 10px;
   color: #234E52;
+}
+
+table {
+  width: 815px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th, td {
+  border: 4px solid #234E52;
+  padding: 8px;
+}
+
+th {
+  background-color: #f2f2f2;
 }
 
 #app {
