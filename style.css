@@ -54,6 +54,11 @@ div {
   color: #234E52;
 }
 
+span {
+  font-size: 24px;
+  color: #234E52;
+}
+
 table {
   width: 815px;
   border-collapse: collapse;

@@ -496,41 +496,63 @@ class FirstPersonCameraDemo {
       plantB2.scene.position.z += 20;
       this.scene_.add(plantB2.scene);
 
-      const holog = await this.loadModel_('Career/Hologram/hologram_police_robots.glb');
-      plantB2.scene.scale.set(0.3, 0.3, 0.3);
-      holog.scene.rotation.y = 3*Math.PI / 4;
-      holog.scene.position.x += -18;
-      holog.scene.position.y += 0.4;
-      holog.scene.position.z += 18;
-      this.scene_.add(holog.scene);
+      const scroll = await this.loadModel_('Career/Scroll/scroll.glb');
+      scroll.scene.scale.set(0.8, 0.8, 0.8);
+      scroll.scene.name = "scroll";
+
+      const quaternionY = new THREE.Quaternion();
+      quaternionY.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 9*Math.PI / 16);
+      scroll.scene.applyQuaternion(quaternionY);
+
+      const quaternionX = new THREE.Quaternion();
+      quaternionX.setFromAxisAngle(new THREE.Vector3(1, 0, 1).normalize(), Math.PI / 2);
+      scroll.scene.applyQuaternion(quaternionX);
+
+      const quaternionY2 = new THREE.Quaternion();
+      quaternionY2.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), Math.PI);
+      scroll.scene.applyQuaternion(quaternionY2);
+
+      const quaternionX2 = new THREE.Quaternion();
+      quaternionX2.setFromAxisAngle(new THREE.Vector3(1, 0, -1).normalize(), Math.PI / 64);
+      scroll.scene.applyQuaternion(quaternionX2);
+
+      scroll.scene.position.x += -8.5;
+      scroll.scene.position.y += 2.5;
+      scroll.scene.position.z += 18.6;
+
+      this.scene_.add(scroll.scene);
+      this.interactable.push(scroll.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
 
     // Add Projects
     try {
-      const screens1 = await this.loadModel_('Projects/Screens/retro_cyberpunk_computer_screens.glb');
-      screens1.scene.scale.set(1, 1, 0.5);
-      screens1.scene.rotation.y = 3*Math.PI / 2;
-      const rotationAxis1 = new THREE.Vector3(0, 0, -1).normalize();
-      const rotationAngle1 = Math.PI / 8;
-      screens1.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
-      screens1.scene.position.x += -21;
-      screens1.scene.position.y += 5;
-      screens1.scene.position.z += -10;
-      this.scene_.add(screens1.scene);
+      const tv1 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+      tv1.scene.name = "tv1";
+      tv1.scene.scale.set(4, 4, 4);
+      tv1.scene.rotation.y = 0 / 2;
+      const rotationAxis1 = new THREE.Vector3(1, 0, 0).normalize();
+      const rotationAngle1 = Math.PI / 5;
+      tv1.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+      tv1.scene.position.x += -25;
+      tv1.scene.position.y += 6.5;
+      tv1.scene.position.z += -19;
+      this.scene_.add(tv1.scene);
+      this.interactable.push(tv1.scene);
 
-      const screens2 = await this.loadModel_('Projects/Screens/retro_cyberpunk_computer_screens.glb');
-      screens2.scene.scale.set(1, 1, 0.5);
-      screens2.scene.rotation.y = Math.PI;
+      const tv2 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+      tv2.scene.name = "tv2";
+      tv2.scene.scale.set(4, 4, 4);
+      tv2.scene.rotation.y = 0 / 2;
       const rotationAxis2 = new THREE.Vector3(1, 0, 0).normalize();
-      const rotationAngle2 = Math.PI / 8;
-      screens2.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
-      screens2.scene.position.x += -14;
-      screens2.scene.position.y += 5;
-      screens2.scene.position.z += -21;
-      this.scene_.add(screens2.scene);
-
+      const rotationAngle2 = Math.PI / 5;
+      tv2.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+      tv2.scene.position.x += -25;
+      tv2.scene.position.y += 10;
+      tv2.scene.position.z += -19;
+      this.scene_.add(tv2.scene);
+      this.interactable.push(tv2.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
@@ -577,7 +599,6 @@ class FirstPersonCameraDemo {
     } catch (error) {
       console.error('Error loading model:', error);
     }
-    // console.log(this.interactable);
   }
 
   async loadModel_(url) {

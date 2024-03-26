@@ -46,6 +46,7 @@ class FirstPersonCamera {
     this.input_.update(timeElapsedS);
     this.promptInteraction();
     this.updateCameraCoordinatesDisplay();
+    this.printCameraRotation();
 
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
@@ -201,7 +202,7 @@ class FirstPersonCamera {
         object = object.parent;
       }
     
-      if (object && this.camera_.position.distanceTo(object.position) < 8) {
+      if (object && this.camera_.position.distanceTo(object.position) < 15) {
         clickPrompt.style.display = 'block';
         this.displayContent('click-prompt')
       } else {
@@ -223,7 +224,7 @@ class FirstPersonCamera {
         object = object.parent;
       }
   
-      if (object && this.camera_.position.distanceTo(object.position) < 8) {
+      if (object && this.camera_.position.distanceTo(object.position) < 15) {
         this.zoomToObject(object);
       }
     }
@@ -231,7 +232,6 @@ class FirstPersonCamera {
   
   zoomToObject(object) {
     this.originalPosition = this.camera_.position.clone();
-    console
     this.originalQuaternion = this.camera_.quaternion.clone();
 
     document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
@@ -243,31 +243,63 @@ class FirstPersonCamera {
         break;
 
       case 'jbox':
-        const zoomPosition1 = new THREE.Vector3(14.85, 3, -14.85);
-        this.translation_.copy(zoomPosition1);
+        const zoomPositionJbox = new THREE.Vector3(14.85, 3, -14.85);
+        this.translation_.copy(zoomPositionJbox);
 
-        const zoomRotation1 = new THREE.Quaternion();
-        zoomRotation1.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 7*Math.PI / 4);
+        const zoomRotationJBox = new THREE.Quaternion();
+        zoomRotationJBox.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 7*Math.PI / 4);
   
         const q1 = new THREE.Quaternion();
-        q1.multiply(zoomRotation1);
+        q1.multiply(zoomRotationJBox);
     
         this.rotation_.copy(q1);
         this.displayContent("contentForJBox")
         break;
       
       case 'computer':
-        const zoomPosition2 = new THREE.Vector3(17, 3, 17);
-        this.translation_.copy(zoomPosition2);
+        const zoomPositionComp = new THREE.Vector3(17, 3, 17);
+        this.translation_.copy(zoomPositionComp);
 
-        const zoomRotation2 = new THREE.Quaternion();
-        zoomRotation2.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 5*Math.PI / 4);
+        const zoomRotationComp = new THREE.Quaternion();
+        zoomRotationComp.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 5*Math.PI / 4);
   
         const q2 = new THREE.Quaternion();
-        q2.multiply(zoomRotation2);
+        q2.multiply(zoomRotationComp);
     
         this.rotation_.copy(q2);
         this.displayContent("contentForComputer")
+        break;
+
+      case 'scroll':
+        const zoomPositionScroll = new THREE.Vector3(-14, 3, 14);
+        this.translation_.copy(zoomPositionScroll);
+
+        const zoomRotationScroll = new THREE.Quaternion();
+        zoomRotationScroll.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 3*Math.PI / 4);
+  
+        const q3 = new THREE.Quaternion();
+        q3.multiply(zoomRotationScroll);
+    
+        this.rotation_.copy(q3);
+        this.displayContent("contentForCareer")
+        break;
+      
+      case 'tv1':
+        const zoomPositionTV1 = new THREE.Vector3(-14.5, 2.5, -18);
+        this.translation_.copy(zoomPositionTV1);
+
+        const zoomRotationTV1 = new THREE.Quaternion();
+        zoomRotationTV1.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 0 / 8);
+
+        const zoomRotationTV1x = new THREE.Quaternion();
+        zoomRotationTV1x.setFromAxisAngle(new THREE.Vector3(-1, 0, 0).normalize(), -Math.PI / 5);
+
+        const q4 = new THREE.Quaternion();
+        q4.multiply(zoomRotationTV1);
+        q4.multiply(zoomRotationTV1x);
+
+        this.rotation_.copy(q4);
+        this.displayContent("contentForCondoMAXium")
         break;
       
       default:
@@ -311,6 +343,12 @@ class FirstPersonCamera {
     const coordinatesElement = document.getElementById('camera-coordinates');
     if (coordinatesElement) {
       coordinatesElement.textContent = `Camera Position: x=${this.translation_.x.toFixed(2)}, y=${this.translation_.y.toFixed(2)}, z=${this.translation_.z.toFixed(2)}`;
+    }
+  }
+  printCameraRotation() {
+    const rotationElement = document.getElementById('camera-rotation');
+    if (rotationElement) {
+      rotationElement.textContent = `Camera Rotation: phi=${this.phi_.toFixed(2)}, theta=${this.theta_.toFixed(2)}`;
     }
   }
 }
