@@ -545,14 +545,80 @@ class FirstPersonCameraDemo {
       tv2.scene.name = "tv2";
       tv2.scene.scale.set(4, 4, 4);
       tv2.scene.rotation.y = 0 / 2;
-      const rotationAxis2 = new THREE.Vector3(1, 0, 0).normalize();
-      const rotationAngle2 = Math.PI / 5;
-      tv2.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+      tv2.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
       tv2.scene.position.x += -25;
       tv2.scene.position.y += 10;
       tv2.scene.position.z += -19;
       this.scene_.add(tv2.scene);
       this.interactable.push(tv2.scene);
+
+      const tv3 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+      tv3.scene.name = "tv3";
+      tv3.scene.scale.set(4, 4, 4);
+      tv3.scene.rotation.y = 0 / 2;
+      tv3.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+      tv3.scene.position.x += -20;
+      tv3.scene.position.y += 6.5;
+      tv3.scene.position.z += -19;
+      this.scene_.add(tv3.scene);
+      this.interactable.push(tv3.scene);
+
+      const tv4 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+      tv4.scene.name = "tv4";
+      tv4.scene.scale.set(4, 4, 4);
+      tv4.scene.rotation.y = 0 / 2;
+      tv4.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+      tv4.scene.position.x += -20;
+      tv4.scene.position.y += 10;
+      tv4.scene.position.z += -19;
+      this.scene_.add(tv4.scene);
+      this.interactable.push(tv4.scene);
+
+      const tv5 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+      tv5.scene.name = "tv5";
+      tv5.scene.scale.set(4, 4, 4);
+      tv5.scene.rotation.y = Math.PI / 2;
+      const rotationAxis2 = new THREE.Vector3(0, 0, 1).normalize();
+      const rotationAngle2 = -Math.PI / 5;
+      tv5.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+      tv5.scene.position.x += -19;
+      tv5.scene.position.y += 6.5;
+      tv5.scene.position.z += -4.5;
+      this.scene_.add(tv5.scene);
+      this.interactable.push(tv5.scene);
+
+      const tv6 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+      tv6.scene.name = "tv6";
+      tv6.scene.scale.set(4, 4, 4);
+      tv6.scene.rotation.y = Math.PI / 2;
+      tv6.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+      tv6.scene.position.x += -19;
+      tv6.scene.position.y += 10;
+      tv6.scene.position.z += -4.5;
+      this.scene_.add(tv6.scene);
+      this.interactable.push(tv6.scene);
+
+      const tv7 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+      tv7.scene.name = "tv7";
+      tv7.scene.scale.set(4, 4, 4);
+      tv7.scene.rotation.y = Math.PI / 2;
+      tv7.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+      tv7.scene.position.x += -19;
+      tv7.scene.position.y += 6.5;
+      tv7.scene.position.z += 0.5;
+      this.scene_.add(tv7.scene);
+      this.interactable.push(tv7.scene);
+
+      const tv8 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+      tv8.scene.name = "tv8";
+      tv8.scene.scale.set(4, 4, 4);
+      tv8.scene.rotation.y = Math.PI / 2;
+      tv8.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+      tv8.scene.position.x += -19;
+      tv8.scene.position.y += 10;
+      tv8.scene.position.z += 0.5;
+      this.scene_.add(tv8.scene);
+      this.interactable.push(tv8.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
