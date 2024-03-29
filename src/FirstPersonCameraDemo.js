@@ -10,15 +10,22 @@ class FirstPersonCameraDemo {
   }
 
   initialize_() {
-    this.initializeRenderer_();
-    this.initializeLights_();
-    this.initializeScene_();
-    this.initializePostFX_();
-    this.initializeDemo_();
+    return new Promise(resolve => {
+      this.initializeRenderer_();
+      this.initializeLights_();
+      this.initializeScene_();
+      this.initializePostFX_();
+      this.initializeDemo_();
 
-    this.previousRAF_ = null;
-    this.raf_();
-    this.onWindowResize_();
+      this.previousRAF_ = null;
+
+      // Delay the start of rendering by 5 seconds
+      setTimeout(() => {
+        this.raf_();
+        this.onWindowResize_();
+        resolve();
+      }, 5000);
+    });
   }
 
   initializeDemo_() {
