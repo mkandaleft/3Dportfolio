@@ -32,12 +32,6 @@ body {
   min-height: 100vh;
 }
 
-.center-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 h1 {
   font-size: 100px;
   font-weight: bold;
@@ -95,6 +89,29 @@ th {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.start-screen {
+  position: fixed;
+  width: 900px;
+  height: 900px;
+  border: 10px solid #434343db;
+  background-color: rgba(138, 137, 137, 0.97);
+  color: black;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 40px;
+  overflow-y: auto;
+  z-index: 1000;
+  background-color: #E0F2F1;
+  border-color: #38B2AC;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .object-content {
@@ -156,7 +173,7 @@ th {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 5px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;

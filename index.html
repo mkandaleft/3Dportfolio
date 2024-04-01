@@ -7,10 +7,26 @@
     <title>Vite App</title>
   </head>
   <body>
-    <div id="overlay">
-      <button id="start-button">Click to start</button>
+    <div id="overlay" class="start-screen">
+      <div mb-2>
+        <h1 mb-4>Welcome!</h1>
+        This 3D First Person View webapp is an early version of my personal website 
+        (Mark Kandaleft). It is my way of showing you my experiences, career and 
+        personality in a fun and creative way.
+        </br></br>
+        <button id="start-button">Click to start</button>
+        </br></br>
+        Click on this button to start the experience. The app will merge your mouse 
+        to the browser window for camera control, <strong>you can always return by 
+        pressing escape.</strong>
+        <h2 mb-2>Controls</h2>
+        1) WASD to walk around</br>
+        2) Mouse to look around</br>
+        3) Left click to interact with objects</br>
+        4) escape to quit mouse lock
+      </div>
     </div>
-    <div id="loading" style="display: none;">
+    <div id="loading" style="display: none;" class="loading-screen">
       Loading...
     </div>
     <div id="app" style="display: none;" class="center-container">
