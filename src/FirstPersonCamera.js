@@ -46,7 +46,6 @@ class FirstPersonCamera {
     this.input_.update(timeElapsedS);
     this.promptInteraction();
     this.updateCameraCoordinatesDisplay();
-    this.printCameraRotation();
 
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
@@ -343,12 +342,6 @@ class FirstPersonCamera {
     const coordinatesElement = document.getElementById('camera-coordinates');
     if (coordinatesElement) {
       coordinatesElement.textContent = `Camera Position: x=${this.translation_.x.toFixed(2)}, y=${this.translation_.y.toFixed(2)}, z=${this.translation_.z.toFixed(2)}`;
-    }
-  }
-  printCameraRotation() {
-    const rotationElement = document.getElementById('camera-rotation');
-    if (rotationElement) {
-      rotationElement.textContent = `Camera Rotation: phi=${this.phi_.toFixed(2)}, theta=${this.theta_.toFixed(2)}`;
     }
   }
 }
