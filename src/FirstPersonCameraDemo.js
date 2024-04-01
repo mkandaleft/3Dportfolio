@@ -6,19 +6,25 @@ import FirstPersonCamera from './FirstPersonCamera';
 class FirstPersonCameraDemo {
   constructor() {
     this.interactable = [];
-    this.initialize_();
   }
 
   initialize_() {
-    this.initializeRenderer_();
-    this.initializeLights_();
-    this.initializeScene_();
-    this.initializePostFX_();
-    this.initializeDemo_();
+    return new Promise(resolve => {
+      this.initializeRenderer_();
+      this.initializeLights_();
+      this.initializeScene_();
+      this.initializePostFX_();
+      this.initializeDemo_();
 
-    this.previousRAF_ = null;
-    this.raf_();
-    this.onWindowResize_();
+      this.previousRAF_ = null;
+
+      // Delay the start of rendering by 5 seconds
+      setTimeout(() => {
+        this.raf_();
+        this.onWindowResize_();
+        resolve();
+      }, 8000);
+    });
   }
 
   initializeDemo_() {
@@ -669,9 +675,9 @@ class FirstPersonCameraDemo {
 
   async loadModel_(url) {
     const loader = new GLTFLoader();
-    console.log(loader);
     return new Promise((resolve, reject) => {
       loader.load(url, resolve, undefined, reject);
+      //console.log(url);
     });
   }
 
