@@ -119,10 +119,10 @@ th {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 100vw; /* 80% of the viewport width */
-  height: 100vh; /* 80% of the viewport height */
-  max-width: 900px; /* but no larger than 900px */
-  max-height: 900px; /* but no larger than 900px */
+  width: 100vw;
+  height: 100vh;
+  max-width: 900px;
+  max-height: 900px;
   border: 10px solid #434343db;
   background-color: rgba(138, 137, 137, 0.97);
   color: black;
@@ -134,6 +134,19 @@ th {
   z-index: 1000;
   background-color: #E0F2F1;
   border-color: #38B2AC;
+}
+
+.return-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 0.5em 1em;
+  background-color: #38B2AC;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1010;
 }
 
 .pointer {
