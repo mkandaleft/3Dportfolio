@@ -6,7 +6,6 @@ import FirstPersonCamera from './FirstPersonCamera';
 class FirstPersonCameraDemo {
   constructor() {
     this.interactable = [];
-    this.initialize_();
   }
 
   initialize_() {
@@ -24,7 +23,7 @@ class FirstPersonCameraDemo {
         this.raf_();
         this.onWindowResize_();
         resolve();
-      }, 2000);
+      }, 8000);
     });
   }
 
@@ -676,9 +675,9 @@ class FirstPersonCameraDemo {
 
   async loadModel_(url) {
     const loader = new GLTFLoader();
-    console.log(loader);
     return new Promise((resolve, reject) => {
       loader.load(url, resolve, undefined, reject);
+      //console.log(url);
     });
   }
 
