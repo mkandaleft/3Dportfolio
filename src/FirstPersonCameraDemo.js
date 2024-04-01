@@ -77,7 +77,7 @@ class FirstPersonCameraDemo {
   ]);
 
     // loads space background
-    const spaceTexture = new THREE.TextureLoader().load('nebula-background.webp');
+    const spaceTexture = new THREE.TextureLoader().load('Pictures/galaxy.jpg');
     spaceTexture.encoding = THREE.sRGBEncoding;
     const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
     const sphereMaterial = new THREE.MeshBasicMaterial({
