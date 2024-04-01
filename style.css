@@ -91,7 +91,7 @@ th {
   text-align: center;
 }
 
-.start-screen {
+.start-screen, .loading-screen {
   position: fixed;
   width: 900px;
   height: 900px;
@@ -119,8 +119,10 @@ th {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 900px;
-  height: 900px;
+  width: 100vw; /* 80% of the viewport width */
+  height: 100vh; /* 80% of the viewport height */
+  max-width: 900px; /* but no larger than 900px */
+  max-height: 900px; /* but no larger than 900px */
   border: 10px solid #434343db;
   background-color: rgba(138, 137, 137, 0.97);
   color: black;
