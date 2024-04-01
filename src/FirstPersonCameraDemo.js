@@ -24,7 +24,7 @@ class FirstPersonCameraDemo {
         this.raf_();
         this.onWindowResize_();
         resolve();
-      }, 5000);
+      }, 2000);
     });
   }
 
