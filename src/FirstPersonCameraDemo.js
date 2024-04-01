@@ -88,38 +88,6 @@ class FirstPersonCameraDemo {
     this.scene_.add(sphere);
 
     texture.encoding = THREE.sRGBEncoding;
-    // this.scene_.background = texture;
-
-    const mapLoader = new THREE.TextureLoader();
-    const maxAnisotropy = this.threejs_.capabilities.getMaxAnisotropy();
-    const checkerboard = mapLoader.load('concrete-backdrop.jpg');
-    checkerboard.anisotropy = maxAnisotropy;
-    checkerboard.wrapS = THREE.RepeatWrapping;
-    checkerboard.wrapT = THREE.RepeatWrapping;
-    checkerboard.repeat.set(32, 32);
-    checkerboard.encoding = THREE.sRGBEncoding;
-
-    const box = new THREE.Mesh(
-      new THREE.BoxGeometry(4, 4, 4),
-      new THREE.MeshStandardMaterial({map: checkerboard}));
-    box.name = "Boxxx";
-    box.position.set(0, 2, 0);
-    box.rotation.y = Math.PI / 4; // Rotate the box by pi/4
-    box.castShadow = true;
-    box.receiveShadow = true;
-    this.scene_.add(box);
-    this.interactable.push(box);
-
-    const meshes = [
-      box];
-
-    this.objects_ = [];
-
-    for (let i = 0; i < meshes.length; ++i) {
-      const b = new THREE.Box3();
-      b.setFromObject(meshes[i]);
-      this.objects_.push(b);
-    }
 
     // Load Floor
     try {

@@ -68,18 +68,18 @@ class FirstPersonCamera {
     forward.multiplyScalar(100);
     forward.add(this.translation_);
 
-    let closest = forward;
-    const result = new THREE.Vector3();
-    const ray = new THREE.Ray(this.translation_, dir);
-    for (let i = 0; i < this.objects_.length; ++i) {
-      if (ray.intersectBox(this.objects_[i], result)) {
-        if (result.distanceTo(ray.origin) < closest.distanceTo(ray.origin)) {
-          closest = result.clone();
-        }
-      }
-    }
+    // let closest = forward;
+    // const result = new THREE.Vector3();
+    // const ray = new THREE.Ray(this.translation_, dir);
+    // for (let i = 0; i < this.objects_.length; ++i) {
+    //   if (ray.intersectBox(this.objects_[i], result)) {
+    //     if (result.distanceTo(ray.origin) < closest.distanceTo(ray.origin)) {
+    //       closest = result.clone();
+    //     }
+    //   }
+    // }
 
-    this.camera_.lookAt(closest);
+    // this.camera_.lookAt(closest);
   }
 
   updateHeadBob_(timeElapsedS) {
@@ -135,35 +135,36 @@ class FirstPersonCamera {
       this.translation_.z = roomDimensions.maxZ
     }
 
-          // Limit camera translation in box
-    const boxDimensions = { minX: -5, maxX: 5, minY: 0, maxY: 4, minZ: -5, maxZ: 5 };
-    const inBox = this.translation_.x > boxDimensions.minX && this.translation_.x < boxDimensions.maxX && this.translation_.z > boxDimensions.minZ && this.translation_.z < boxDimensions.maxZ;
+    // Limit camera translation in middle box
+
+    // const boxDimensions = { minX: -5, maxX: 5, minY: 0, maxY: 4, minZ: -5, maxZ: 5 };
+    // const inBox = this.translation_.x > boxDimensions.minX && this.translation_.x < boxDimensions.maxX && this.translation_.z > boxDimensions.minZ && this.translation_.z < boxDimensions.maxZ;
     
-    if (inBox) {
-      const distances = {
-        minX: Math.abs(this.translation_.x - boxDimensions.minX),
-        maxX: Math.abs(this.translation_.x - boxDimensions.maxX),
-        minZ: Math.abs(this.translation_.z - boxDimensions.minZ),
-        maxZ: Math.abs(this.translation_.z - boxDimensions.maxZ),
-      };
+    // if (inBox) {
+    //   const distances = {
+    //     minX: Math.abs(this.translation_.x - boxDimensions.minX),
+    //     maxX: Math.abs(this.translation_.x - boxDimensions.maxX),
+    //     minZ: Math.abs(this.translation_.z - boxDimensions.minZ),
+    //     maxZ: Math.abs(this.translation_.z - boxDimensions.maxZ),
+    //   };
     
-      const minDistance = Math.min(distances.minX, distances.maxX, distances.minZ, distances.maxZ);
+    //   const minDistance = Math.min(distances.minX, distances.maxX, distances.minZ, distances.maxZ);
     
-      switch (minDistance) {
-        case distances.minX:
-          this.translation_.x = boxDimensions.minX;
-          break;
-        case distances.maxX:
-          this.translation_.x = boxDimensions.maxX;
-          break;
-        case distances.minZ:
-          this.translation_.z = boxDimensions.minZ;
-          break;
-        case distances.maxZ:
-          this.translation_.z = boxDimensions.maxZ;
-          break;
-      }
-    }
+    //   switch (minDistance) {
+    //     case distances.minX:
+    //       this.translation_.x = boxDimensions.minX;
+    //       break;
+    //     case distances.maxX:
+    //       this.translation_.x = boxDimensions.maxX;
+    //       break;
+    //     case distances.minZ:
+    //       this.translation_.z = boxDimensions.minZ;
+    //       break;
+    //     case distances.maxZ:
+    //       this.translation_.z = boxDimensions.maxZ;
+    //       break;
+    //   }
+    // }
   }
 
   updateRotation_(timeElapsedS) {
@@ -237,10 +238,6 @@ class FirstPersonCamera {
     document.exitPointerLock();
 
     switch (object.name) {
-      case 'Boxxx':
-        console.log("Action for Boxxx");
-        break;
-
       case 'jbox':
         const zoomPositionJbox = new THREE.Vector3(14.85, 3, -14.85);
         this.translation_.copy(zoomPositionJbox);
