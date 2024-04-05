@@ -37,7 +37,7 @@ class FirstPersonCamera {
       this.resetButtons = document.querySelectorAll(".resetView");
       this.resetButtons.forEach(function(button) {
         button.addEventListener("click", function() {  
-          this.resetView();
+          this.resetView();  
         }.bind(this));
       }.bind(this));
   }
@@ -57,8 +57,10 @@ class FirstPersonCamera {
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
     }
-    if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {
-      this.resetView();
+    if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
+      console.log(this.isZoomedIn);
+      this.resetView();  
+      console.log(this.isZoomedIn);
     }
   }
 
@@ -324,17 +326,20 @@ class FirstPersonCamera {
   }
 
   resetView() {
-    this.camera_.position.copy(this.originalPosition);
-    this.camera_.quaternion.copy(this.originalQuaternion);
-    
-    document.body.requestPointerdwsLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
-    document.body.requestPointerLock();
+    // requestAnimationFrame helps with synchronizing events
+    requestAnimationFrame(() => {
+      this.camera_.position.copy(this.originalPosition);
+      this.camera_.quaternion.copy(this.originalQuaternion);
+      
+      document.body.requestPointerdwsLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
+      document.body.requestPointerLock();
 
-    this.isZoomedIn = false;
-    
+      this.isZoomedIn = false;
+
     // Hide all object-specific content divs
-    document.querySelectorAll('.object-content').forEach(div => {
-      div.style.display = 'none';
+      document.querySelectorAll('.object-content').forEach(div => {
+        div.style.display = 'none';
+      });
     });
   }
 
