@@ -33,6 +33,13 @@ class FirstPersonCamera {
       this.mouse_ = new THREE.Vector2();
       this.interactableObjects = []; 
       this.input_.target_.addEventListener('checkInteraction', () => this.checkInteraction());
+
+      this.resetButtons = document.querySelectorAll(".resetView");
+      this.resetButtons.forEach(function(button) {
+        button.addEventListener("click", function() {  
+          this.resetView();
+        }.bind(this));
+      }.bind(this));
   }
   
   async setInteractableObjects(interactableObjects) {
@@ -324,7 +331,7 @@ class FirstPersonCamera {
     document.body.requestPointerLock();
 
     this.isZoomedIn = false;
-  
+    
     // Hide all object-specific content divs
     document.querySelectorAll('.object-content').forEach(div => {
       div.style.display = 'none';
