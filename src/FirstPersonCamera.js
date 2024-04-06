@@ -58,6 +58,13 @@ class FirstPersonCamera {
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
       this.resetView();  
     }
+    if (this.input_.key(KEYS.escape)) {
+      if (this.isZoomedIn) {
+        this.resetView();
+      }
+      this.displayContent('escapeMenu');
+      this.displayBackButton();
+    }
   }
 
   updateCamera_(_) {
@@ -329,7 +336,7 @@ class FirstPersonCamera {
       contentElement.style.display = 'block';
     }
   }
-
+  
   resetView() {
     // requestAnimationFrame helps with synchronizing events
     requestAnimationFrame(() => {
