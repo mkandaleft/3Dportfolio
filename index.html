@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Mark's WebApp</title>
   </head>
   <body>
     <div id="overlay" class="start-screen">
@@ -36,8 +36,9 @@
       </div>
     </div>
     <div id="app" style="display: none;" class="center-container">
-      <div id="camera-coordinates" style="position: absolute; top: 0; left: 0;"></div>
+      <!--div id="camera-coordinates" style="position: absolute; top: 0; left: 0;"></div-->
       <img id="click-prompt" style="display: none;" src="Pictures/pointer.png" class="pointer"></img>
+      <button id="resetView" style="display: none;">Return</button>
       <div id="contentForJBox" class="object-content" style="display: none;" p-6>
         <h1  mb-4>My Music</h1>
         <div mb-2>
@@ -55,7 +56,6 @@
         allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; 
         picture-in-picture" loading="lazy" target="_blank"></iframe>
         <img src="Pictures/the_hucks.jpeg" width="778px" style="border: 30px solid; color: #234E52; margin-bottom: 20px;"></img>  
-        <button class="resetView">Return</button>
       </div>
       <div id="contentForComputer" class="object-content" style="display: none;">
         <h1  mb-4>Languages & Environments</h1>
@@ -105,7 +105,6 @@
         <div mb-2>
           <strong>Gaming: </strong> Unreal Engine 5.3, Unity
         </div>
-        <button class="resetView">Return</button>
       </div>
       <div id="contentForCareer" class="object-content" style="display: none;">
         <h1 mb-4>Career</h1>
@@ -180,7 +179,6 @@
           My first job during high school was to supervise the arena during free skating 
           and hockey season.<br><br>
         </div>
-        <button class="resetView">Return</button>
       </div>
       <div id="contentForCondoMAXium" class="object-content" style="display: none;">
         <h1 mb-4>CondoMAXium</h1>
@@ -207,7 +205,6 @@
             <img src="Pictures/the_hucks.jpeg" width="500px" style="border: 10px solid; color: #234E52; margin-bottom: 20px;"></img>
           </div>
         </div>
-        <button class="resetView">Return</button>
       </div>
       <img id="hidden" class="object-content" src="Pictures/emi.jpg" style="display: none;"></img>
     </div>

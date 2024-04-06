@@ -34,12 +34,10 @@ class FirstPersonCamera {
       this.interactableObjects = []; 
       this.input_.target_.addEventListener('checkInteraction', () => this.checkInteraction());
 
-      this.resetButtons = document.querySelectorAll(".resetView");
-      this.resetButtons.forEach(function(button) {
-        button.addEventListener("click", function() {  
-          this.resetView();  
-        }.bind(this));
-      }.bind(this));
+      this.resetButton = document.getElementById("resetView");
+      this.resetButton.addEventListener("click", () => {
+        this.resetView();
+      });
   }
   
   async setInteractableObjects(interactableObjects) {
@@ -52,15 +50,13 @@ class FirstPersonCamera {
     this.updateHeadBob_(timeElapsedS);
     this.input_.update(timeElapsedS);
     this.promptInteraction();
-    this.updateCameraCoordinatesDisplay();
+    // this.updateCameraCoordinatesDisplay();
 
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
     }
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
-      console.log(this.isZoomedIn);
       this.resetView();  
-      console.log(this.isZoomedIn);
     }
   }
 
@@ -258,7 +254,8 @@ class FirstPersonCamera {
         q1.multiply(zoomRotationJBox);
     
         this.rotation_.copy(q1);
-        this.displayContent("contentForJBox")
+        this.displayContent("contentForJBox");
+        this.displayBackButton();
         break;
       
       case 'computer':
@@ -272,7 +269,8 @@ class FirstPersonCamera {
         q2.multiply(zoomRotationComp);
     
         this.rotation_.copy(q2);
-        this.displayContent("contentForComputer")
+        this.displayContent("contentForComputer");
+        this.displayBackButton();
         break;
 
       case 'scroll':
@@ -286,7 +284,8 @@ class FirstPersonCamera {
         q3.multiply(zoomRotationScroll);
     
         this.rotation_.copy(q3);
-        this.displayContent("contentForCareer")
+        this.displayContent("contentForCareer");
+        this.displayBackButton();
         break;
       
       case 'tv1':
@@ -304,13 +303,19 @@ class FirstPersonCamera {
         q4.multiply(zoomRotationTV1x);
 
         this.rotation_.copy(q4);
-        this.displayContent("contentForCondoMAXium")
+        this.displayContent("contentForCondoMAXium");
+        this.displayBackButton();
         break;
       
       default:
         break;
     }
     this.isZoomedIn = true;
+  }
+
+  displayBackButton() {
+    const backButton = document.getElementById('resetView');
+    backButton.style.display = 'block';
   }
   
   displayContent(contentId) {
@@ -336,7 +341,9 @@ class FirstPersonCamera {
 
       this.isZoomedIn = false;
 
-    // Hide all object-specific content divs
+      const backButton = document.getElementById('resetView');
+      backButton.style.display = 'none';
+
       document.querySelectorAll('.object-content').forEach(div => {
         div.style.display = 'none';
       });
@@ -347,12 +354,12 @@ class FirstPersonCamera {
     return this.isZoomedIn;
   }
   
-  updateCameraCoordinatesDisplay() {
-    const coordinatesElement = document.getElementById('camera-coordinates');
-    if (coordinatesElement) {
-      coordinatesElement.textContent = `Camera Position: x=${this.translation_.x.toFixed(2)}, y=${this.translation_.y.toFixed(2)}, z=${this.translation_.z.toFixed(2)}`;
-    }
-  }
+  // updateCameraCoordinatesDisplay() {
+  //   const coordinatesElement = document.getElementById('camera-coordinates');
+  //   if (coordinatesElement) {
+  //     coordinatesElement.textContent = `Camera Position: x=${this.translation_.x.toFixed(2)}, y=${this.translation_.y.toFixed(2)}, z=${this.translation_.z.toFixed(2)}`;
+  //   }
+  // }
 }
 
 export default FirstPersonCamera;

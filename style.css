@@ -91,6 +91,19 @@ th {
   text-align: center;
 }
 
+#resetView {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(50%);
+  opacity: 0.7;
+  z-index: 1100;
+  background-color: #1a1a1a;
+  color: white;
+  padding: 25px 25px;
+  border-radius: 0 8px 8px 0;
+}
+
 .start-screen, .loading-screen {
   position: fixed;
   width: 900px;
@@ -109,7 +122,7 @@ th {
 }
 
 .center-container {
-  display: flex;
+  display: fixed;
   justify-content: center;
   align-items: center;
 }
@@ -134,19 +147,6 @@ th {
   z-index: 1000;
   background-color: #E0F2F1;
   border-color: #38B2AC;
-}
-
-.return-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 0.5em 1em;
-  background-color: #38B2AC;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  z-index: 1010;
 }
 
 .pointer {
