@@ -23,16 +23,9 @@ class InputController {
     this.target_.addEventListener('mouseup', (e) => this.onMouseUp_(e), false);
     this.target_.addEventListener('keydown', (e) => this.onKeyDown_(e), false);
     this.target_.addEventListener('keyup', (e) => this.onKeyUp_(e), false);
-    
-    this.target_.addEventListener('click', (e) => {
-      if (this.isZoomedCallback && !this.isZoomedCallback()) {
-        this.requestPointerLock();
-      }
-      this.checkForInteraction();
-    }, false);
-
-    // this.target_addEventListener('pointerlockchange', this.onPointerLockChange.bind(this), false);
-    // this.target_addEventListener('mozpointerlockchange', this.onPointerLockChange.bind(this), false);
+    this.target_.addEventListener('click', (e) => this.onClick_(e), false);
+    this.target_.addEventListener('pointerlockchange', this.onPointerLockChange.bind(this), false);
+    this.target_.addEventListener('mozpointerlockchange', this.onPointerLockChange.bind(this), false);
   }
 
   checkForInteraction() {
@@ -45,13 +38,23 @@ class InputController {
     this.target_.body.requestPointerLock();
   }
 
-
-
+  onClick_(e) {
+    if (this.isZoomedCallback && !this.isZoomedCallback()) {
+      this.requestPointerLock();
+    }
+    this.checkForInteraction();
+  }
 
   onPointerLockChange() {
     if (this.target_.pointerLockElement === null || this.target_.mozPointerLockElement === null) {
-      // Pointer is unlocked
-      // Add your code here to handle the event
+
+      const event = new CustomEvent('pointerLockChange');
+      this.target_.dispatchEvent(event);
+
+      // if (!this.isZoomedCallback) {
+      //   const event = new CustomEvent('pointerLockChange');
+      //   this.target_.dispatchEvent(event);
+      // }
     }
   }
 
