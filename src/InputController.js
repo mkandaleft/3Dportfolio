@@ -30,6 +30,9 @@ class InputController {
       }
       this.checkForInteraction();
     }, false);
+
+    // this.target_addEventListener('pointerlockchange', this.onPointerLockChange.bind(this), false);
+    // this.target_addEventListener('mozpointerlockchange', this.onPointerLockChange.bind(this), false);
   }
 
   checkForInteraction() {
@@ -38,30 +41,19 @@ class InputController {
   }
     
   requestPointerLock() {
-    document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
-    document.body.requestPointerLock();
+    this.target_.body.requestPointerLock = this.target_.body.requestPointerLock || this.target_.body.mozRequestPointerLock;
+    this.target_.body.requestPointerLock();
   }
-  
-    /*
-    lockChangeAlert() {
-      const ptLock = document.pointerLockElement === this.target_;
-      const mzPoint = document.mozPointerLockElement === this.target_;
-      console.log(ptLock);
-      console.log(mzPoint);
-      setTimeout(() => {  // Delay the execution of the method
-        // Check if the document is in pointer lock mode
-        if (document.pointerLockElement === this.target_ || document.mozPointerLockElement === this.target_) {
-        console.log('The pointer lock status is now locked');
-        // Do any additional pointer lock setup here
-        this.target_.addEventListener('mousemove', this.onMouseMoveBound_, false);
-        } else {
-        console.log('The pointer lock status is now unlocked');  
-        // Do any additional pointer lock cleanup here
-        this.target_.removeEventListener('mousemove', this.onMouseMoveBound_, false);
-        }
-      }, 0);
+
+
+
+
+  onPointerLockChange() {
+    if (this.target_.pointerLockElement === null || this.target_.mozPointerLockElement === null) {
+      // Pointer is unlocked
+      // Add your code here to handle the event
     }
-    */
+  }
 
   onMouseMove_(e) {
     // Calculate how much the mouse has moved
