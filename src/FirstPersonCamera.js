@@ -253,7 +253,7 @@ class FirstPersonCamera {
   menuHandler() {
     this.isInMenu = true;
     this.isZoomedIn = true;
-    this.displayContent("resetView");
+    this.displayContent("escapeMenu");
     this.displayBackButton();
   }
   
