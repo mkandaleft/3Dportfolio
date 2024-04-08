@@ -1,4 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>FirstPersonCamera.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
 
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="FirstPersonCamera.html">FirstPersonCamera</a><ul class='methods'><li data-type='method'><a href="FirstPersonCamera.html#checkInteraction">checkInteraction</a></li><li data-type='method'><a href="FirstPersonCamera.html#displayBackButton">displayBackButton</a></li><li data-type='method'><a href="FirstPersonCamera.html#displayContent">displayContent</a></li><li data-type='method'><a href="FirstPersonCamera.html#isZoomedCallback">isZoomedCallback</a></li><li data-type='method'><a href="FirstPersonCamera.html#menuHandler">menuHandler</a></li><li data-type='method'><a href="FirstPersonCamera.html#pointerLockChange">pointerLockChange</a></li><li data-type='method'><a href="FirstPersonCamera.html#promptInteraction">promptInteraction</a></li><li data-type='method'><a href="FirstPersonCamera.html#resetView">resetView</a></li><li data-type='method'><a href="FirstPersonCamera.html#setInteractableObjects">setInteractableObjects</a></li><li data-type='method'><a href="FirstPersonCamera.html#update">update</a></li><li data-type='method'><a href="FirstPersonCamera.html#updateCamera_">updateCamera_</a></li><li data-type='method'><a href="FirstPersonCamera.html#updateHeadBob_">updateHeadBob_</a></li><li data-type='method'><a href="FirstPersonCamera.html#updateRotation_">updateRotation_</a></li><li data-type='method'><a href="FirstPersonCamera.html#updateTranslation_">updateTranslation_</a></li><li data-type='method'><a href="FirstPersonCamera.html#zoomToObject">zoomToObject</a></li></ul></li><li><a href="FirstPersonCameraDemo.html">FirstPersonCameraDemo</a><ul class='methods'><li data-type='method'><a href="FirstPersonCameraDemo.html#initializeDemo_">initializeDemo_</a></li><li data-type='method'><a href="FirstPersonCameraDemo.html#initializeLights_">initializeLights_</a></li><li data-type='method'><a href="FirstPersonCameraDemo.html#initializeRenderer_">initializeRenderer_</a></li><li data-type='method'><a href="FirstPersonCameraDemo.html#initializeScene_">initializeScene_</a></li><li data-type='method'><a href="FirstPersonCameraDemo.html#initialize_">initialize_</a></li><li data-type='method'><a href="FirstPersonCameraDemo.html#loadModel_">loadModel_</a></li><li data-type='method'><a href="FirstPersonCameraDemo.html#onWindowResize_">onWindowResize_</a></li><li data-type='method'><a href="FirstPersonCameraDemo.html#raf_">raf_</a></li><li data-type='method'><a href="FirstPersonCameraDemo.html#step_">step_</a></li></ul></li><li><a href="InputController.html">InputController</a><ul class='methods'><li data-type='method'><a href="InputController.html#checkForInteraction">checkForInteraction</a></li><li data-type='method'><a href="InputController.html#initialize_">initialize_</a></li><li data-type='method'><a href="InputController.html#isReady">isReady</a></li><li data-type='method'><a href="InputController.html#key">key</a></li><li data-type='method'><a href="InputController.html#onClick_">onClick_</a></li><li data-type='method'><a href="InputController.html#onKeyDown_">onKeyDown_</a></li><li data-type='method'><a href="InputController.html#onKeyUp_">onKeyUp_</a></li><li data-type='method'><a href="InputController.html#onMouseDown_">onMouseDown_</a></li><li data-type='method'><a href="InputController.html#onMouseMove_">onMouseMove_</a></li><li data-type='method'><a href="InputController.html#onMouseUp_">onMouseUp_</a></li><li data-type='method'><a href="InputController.html#onPointerLockChange_">onPointerLockChange_</a></li><li data-type='method'><a href="InputController.html#requestPointerLock">requestPointerLock</a></li><li data-type='method'><a href="InputController.html#update">update</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#KEYS">KEYS</a></li><li><a href="global.html#clamp">clamp</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">FirstPersonCamera.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
 import * as THREE from 'https://cdn.skypack.dev/three@0.136';
 import InputController from './InputController';
 
@@ -36,7 +85,7 @@ class FirstPersonCamera {
    * Creates a new FirstPersonCamera and use this.input_ to create a new InputController.
    * Attaches event listeners to the document for the checkInteraction and pointerLockChange events.
    * @param {THREE.Camera} camera - The camera to control.
-   * @param {Array<THREE.Object3D>} objects - The objects to interact with.
+   * @param {Array&lt;THREE.Object3D>} objects - The objects to interact with.
    * @constructor
    */
   constructor(camera, objects) {
@@ -87,7 +136,7 @@ class FirstPersonCamera {
       this.updateTranslation_(timeElapsedS);
     }
     // Reset view if 'r' is pressed and camera is zoomed in
-    if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
+    if ((this.input_.key(KEYS.r)) &amp;&amp; this.isZoomedIn) {  
       this.resetView();  
     }
     
@@ -165,13 +214,13 @@ class FirstPersonCamera {
 
     // Limit camera translation in room
     const roomDimensions = { minX: -14.5, maxX: 14.5, minY: 0, maxY: 4, minZ: -14.5, maxZ: 14.5 };
-    if (this.translation_.x < roomDimensions.minX) {
+    if (this.translation_.x &lt; roomDimensions.minX) {
       this.translation_.x = roomDimensions.minX
     }
     if (this.translation_.x > roomDimensions.maxX) {
       this.translation_.x = roomDimensions.maxX
     }
-    if (this.translation_.z < roomDimensions.minZ) {
+    if (this.translation_.z &lt; roomDimensions.minZ) {
       this.translation_.z = roomDimensions.minZ
     }
     if (this.translation_.z > roomDimensions.maxZ) {
@@ -217,15 +266,15 @@ class FirstPersonCamera {
     
     const clickPrompt = document.getElementById('click-prompt');
 
-    if (intersects.length > 0 && !this.isZoomedIn) {
+    if (intersects.length > 0 &amp;&amp; !this.isZoomedIn) {
       let object = intersects[0].object;
 
       // Traverse up to find the interactable object instead of the mesh
-      while (object && !this.interactableObjects.includes(object)) {
+      while (object &amp;&amp; !this.interactableObjects.includes(object)) {
         object = object.parent;
       }
       // Display click prompt if object is facing user and is close enough
-      if (object && this.camera_.position.distanceTo(object.position) < 15) {
+      if (object &amp;&amp; this.camera_.position.distanceTo(object.position) &lt; 15) {
         clickPrompt.style.display = 'block';
         this.displayContent('click-prompt')
       } else {
@@ -247,11 +296,11 @@ class FirstPersonCamera {
     if (intersects.length > 0) {
       let object = intersects[0].object;
   
-      while (object && !this.interactableObjects.includes(object)) {
+      while (object &amp;&amp; !this.interactableObjects.includes(object)) {
         object = object.parent;
       }
   
-      if (object && this.camera_.position.distanceTo(object.position) < 15) {
+      if (object &amp;&amp; this.camera_.position.distanceTo(object.position) &lt; 15) {
         this.zoomToObject(object);
       }
     }
@@ -433,4 +482,30 @@ class FirstPersonCamera {
   // }
 }
 
-export default FirstPersonCamera;
+export default FirstPersonCamera;</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Mon Apr 08 2024 17:18:19 GMT-0400 (Eastern Daylight Saving Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>
