@@ -13,12 +13,11 @@ class FirstPersonCameraDemo {
       this.initializeRenderer_();
       this.initializeLights_();
       this.initializeScene_();
-      this.initializePostFX_();
       this.initializeDemo_();
 
       this.previousRAF_ = null;
 
-      // Delay the start of rendering by 5 seconds
+      // Delay the start of rendering by 8 seconds
       setTimeout(() => {
         this.raf_();
         this.onWindowResize_();
@@ -28,13 +27,7 @@ class FirstPersonCameraDemo {
   }
 
   initializeDemo_() {
-    // this.controls_ = new FirstPersonControls(
-    //     this.camera_, this.threejs_.domElement);
-    // this.controls_.lookSpeed = 0.8;
-    // this.controls_.movementSpeed = 5;
-
     this.fpsCamera_ = new FirstPersonCamera(this.camera_, this.objects_);
-    
     this.fpsCamera_.setInteractableObjects(this.interactable);
   }
 
@@ -70,11 +63,6 @@ class FirstPersonCameraDemo {
   }
 
   async initializeScene_() {
-    const loader = new THREE.CubeTextureLoader();
-    const texture = loader.load([
-
-      'concrete-backdrop.jpg',
-  ]);
 
     // loads space background
     const spaceTexture = new THREE.TextureLoader().load('Pictures/galaxy.jpg');
@@ -86,8 +74,6 @@ class FirstPersonCameraDemo {
     });
     const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
     this.scene_.add(sphere);
-
-    texture.encoding = THREE.sRGBEncoding;
 
     // Load Floor
     try {
@@ -124,54 +110,54 @@ class FirstPersonCameraDemo {
     // Load Walls
     try {
       const wall1 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall1.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall1.scene.scale.set(6, 5, 8);
       wall1.scene.position.x += 12;
       wall1.scene.position.z += -22;
       this.scene_.add(wall1.scene);
       
       const wall2 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall2.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall2.scene.scale.set(6, 5, 8);
       wall2.scene.position.x += -12;
       wall2.scene.position.z += -22;
       this.scene_.add(wall2.scene);
       
       const wall3 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall3.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
-      wall3.scene.rotation.y = Math.PI / 2; // Rotate the wall 90 degrees
+      wall3.scene.scale.set(6, 5, 8);
+      wall3.scene.rotation.y = Math.PI / 2;
       wall3.scene.position.x += -22;
       wall3.scene.position.z += 12;
       this.scene_.add(wall3.scene);
       
       const wall4 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall4.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall4.scene.scale.set(6, 5, 8);
       wall4.scene.rotation.y = Math.PI / 2;
       wall4.scene.position.x += -22;
       wall4.scene.position.z += -12;
       this.scene_.add(wall4.scene);
 
       const wall5 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall5.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall5.scene.scale.set(6, 5, 8);
       wall5.scene.rotation.y = Math.PI;
       wall5.scene.position.x += 12;
       wall5.scene.position.z += 22;
       this.scene_.add(wall5.scene);
       
       const wall6 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall6.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall6.scene.scale.set(6, 5, 8);
       wall6.scene.rotation.y = Math.PI;
       wall6.scene.position.x += -12;
       wall6.scene.position.z += 22;
       this.scene_.add(wall6.scene);
       
       const wall7 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall7.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall7.scene.scale.set(6, 5, 8);
       wall7.scene.rotation.y = 3*Math.PI / 2;
       wall7.scene.position.x += 22;
       wall7.scene.position.z += 12;
       this.scene_.add(wall7.scene);
       
       const wall8 = await this.loadModel_('Map/Wall/source/Wall (bake light).gltf');
-      wall8.scene.scale.set(6, 5, 8); // Scale the wall up by a factor of 2 in all directions
+      wall8.scene.scale.set(6, 5, 8);
       wall8.scene.rotation.y = 3*Math.PI / 2;
       wall8.scene.position.x += 22;
       wall8.scene.position.z += -12;
@@ -645,7 +631,6 @@ class FirstPersonCameraDemo {
     const loader = new GLTFLoader();
     return new Promise((resolve, reject) => {
       loader.load(url, resolve, undefined, reject);
-      //console.log(url);
     });
   }
 
@@ -727,8 +712,7 @@ class FirstPersonCameraDemo {
     //const spotLightHelper4 = new THREE.SpotLightHelper(light4);
     //this.scene_.add(spotLightHelper4)
 
-    // Center liights
-
+    // Center lights
     const light5 = new THREE.SpotLight(
       light.color, light.intensity, light.distance, light.angle, light.penumbra, light.decay);
     light5.castShadow = light.castShadow;
@@ -809,48 +793,6 @@ class FirstPersonCameraDemo {
     
   }
 
-  loadMaterial_(name, tiling) {
-    const mapLoader = new THREE.TextureLoader();
-    const maxAnisotropy = this.threejs_.capabilities.getMaxAnisotropy();
-
-    const metalMap = mapLoader.load('resources/freepbr/' + name + 'metallic.png');
-    metalMap.anisotropy = maxAnisotropy;
-    metalMap.wrapS = THREE.RepeatWrapping;
-    metalMap.wrapT = THREE.RepeatWrapping;
-    metalMap.repeat.set(tiling, tiling);
-
-    const albedo = mapLoader.load('resources/freepbr/' + name + 'albedo.png');
-    albedo.anisotropy = maxAnisotropy;
-    albedo.wrapS = THREE.RepeatWrapping;
-    albedo.wrapT = THREE.RepeatWrapping;
-    albedo.repeat.set(tiling, tiling);
-    albedo.encoding = THREE.sRGBEncoding;
-
-    const normalMap = mapLoader.load('resources/freepbr/' + name + 'normal.png');
-    normalMap.anisotropy = maxAnisotropy;
-    normalMap.wrapS = THREE.RepeatWrapping;
-    normalMap.wrapT = THREE.RepeatWrapping;
-    normalMap.repeat.set(tiling, tiling);
-
-    const roughnessMap = mapLoader.load('resources/freepbr/' + name + 'roughness.png');
-    roughnessMap.anisotropy = maxAnisotropy;
-    roughnessMap.wrapS = THREE.RepeatWrapping;
-    roughnessMap.wrapT = THREE.RepeatWrapping;
-    roughnessMap.repeat.set(tiling, tiling);
-
-    const material = new THREE.MeshStandardMaterial({
-      metalnessMap: metalMap,
-      map: albedo,
-      normalMap: normalMap,
-      roughnessMap: roughnessMap,
-    });
-
-    return material;
-  }
-
-  initializePostFX_() {
-  }
-
   onWindowResize_() {
     this.camera_.aspect = window.innerWidth / window.innerHeight;
     this.camera_.updateProjectionMatrix();
@@ -880,8 +822,6 @@ class FirstPersonCameraDemo {
 
   step_(timeElapsed) {
     const timeElapsedS = timeElapsed * 0.001;
-
-    // this.controls_.update(timeElapsedS);
     this.fpsCamera_.update(timeElapsedS);
   }
 }

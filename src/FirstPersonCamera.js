@@ -59,6 +59,7 @@ class FirstPersonCamera {
       this.resetView();  
     }
     
+    // Under development to escape menu and zoom with escape
     if (this.input_.key(KEYS.escape)) {
       if (this.isZoomedIn) {
         // this.resetView();
@@ -78,19 +79,6 @@ class FirstPersonCamera {
 
     forward.multiplyScalar(100);
     forward.add(this.translation_);
-
-    // let closest = forward;
-    // const result = new THREE.Vector3();
-    // const ray = new THREE.Ray(this.translation_, dir);
-    // for (let i = 0; i < this.objects_.length; ++i) {
-    //   if (ray.intersectBox(this.objects_[i], result)) {
-    //     if (result.distanceTo(ray.origin) < closest.distanceTo(ray.origin)) {
-    //       closest = result.clone();
-    //     }
-    //   }
-    // }
-
-    // this.camera_.lookAt(closest);
   }
 
   updateHeadBob_(timeElapsedS) {
@@ -146,7 +134,7 @@ class FirstPersonCamera {
       this.translation_.z = roomDimensions.maxZ
     }
 
-    // Limit camera translation in middle box
+    // Limit camera translation in middle box, kept for later use
 
     // const boxDimensions = { minX: -5, maxX: 5, minY: 0, maxY: 4, minZ: -5, maxZ: 5 };
     // const inBox = this.translation_.x > boxDimensions.minX && this.translation_.x < boxDimensions.maxX && this.translation_.z > boxDimensions.minZ && this.translation_.z < boxDimensions.maxZ;
@@ -242,9 +230,6 @@ class FirstPersonCamera {
   }
 
   pointerLockChange() {
-    if (this.isZoomedIn) {
-      // this.resetView();
-    }
     if (!this.isZoomedIn) {
       this.menuHandler();
     } 
@@ -374,7 +359,6 @@ class FirstPersonCamera {
       this.isZoomedIn = false;
       this.isInMenu = false;
     });
-    console.log("huhh?");
   }
 
   isZoomedCallback() {

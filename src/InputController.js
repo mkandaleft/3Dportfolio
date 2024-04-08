@@ -47,14 +47,8 @@ class InputController {
 
   onPointerLockChange() {
     if (this.target_.pointerLockElement === null || this.target_.mozPointerLockElement === null) {
-
       const event = new CustomEvent('pointerLockChange');
       this.target_.dispatchEvent(event);
-
-      // if (!this.isZoomedCallback) {
-      //   const event = new CustomEvent('pointerLockChange');
-      //   this.target_.dispatchEvent(event);
-      // }
     }
   }
 
