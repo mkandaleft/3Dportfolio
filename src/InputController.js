@@ -23,13 +23,9 @@ class InputController {
     this.target_.addEventListener('mouseup', (e) => this.onMouseUp_(e), false);
     this.target_.addEventListener('keydown', (e) => this.onKeyDown_(e), false);
     this.target_.addEventListener('keyup', (e) => this.onKeyUp_(e), false);
-    
-    this.target_.addEventListener('click', (e) => {
-      if (this.isZoomedCallback && !this.isZoomedCallback()) {
-        this.requestPointerLock();
-      }
-      this.checkForInteraction();
-    }, false);
+    this.target_.addEventListener('click', (e) => this.onClick_(e), false);
+    this.target_.addEventListener('pointerlockchange', this.onPointerLockChange.bind(this), false);
+    this.target_.addEventListener('mozpointerlockchange', this.onPointerLockChange.bind(this), false);
   }
 
   checkForInteraction() {
@@ -38,30 +34,29 @@ class InputController {
   }
     
   requestPointerLock() {
-    document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
-    document.body.requestPointerLock();
+    this.target_.body.requestPointerLock = this.target_.body.requestPointerLock || this.target_.body.mozRequestPointerLock;
+    this.target_.body.requestPointerLock();
   }
-  
-    /*
-    lockChangeAlert() {
-      const ptLock = document.pointerLockElement === this.target_;
-      const mzPoint = document.mozPointerLockElement === this.target_;
-      console.log(ptLock);
-      console.log(mzPoint);
-      setTimeout(() => {  // Delay the execution of the method
-        // Check if the document is in pointer lock mode
-        if (document.pointerLockElement === this.target_ || document.mozPointerLockElement === this.target_) {
-        console.log('The pointer lock status is now locked');
-        // Do any additional pointer lock setup here
-        this.target_.addEventListener('mousemove', this.onMouseMoveBound_, false);
-        } else {
-        console.log('The pointer lock status is now unlocked');  
-        // Do any additional pointer lock cleanup here
-        this.target_.removeEventListener('mousemove', this.onMouseMoveBound_, false);
-        }
-      }, 0);
+
+  onClick_(e) {
+    if (this.isZoomedCallback && !this.isZoomedCallback()) {
+      this.requestPointerLock();
     }
-    */
+    this.checkForInteraction();
+  }
+
+  onPointerLockChange() {
+    if (this.target_.pointerLockElement === null || this.target_.mozPointerLockElement === null) {
+
+      const event = new CustomEvent('pointerLockChange');
+      this.target_.dispatchEvent(event);
+
+      // if (!this.isZoomedCallback) {
+      //   const event = new CustomEvent('pointerLockChange');
+      //   this.target_.dispatchEvent(event);
+      // }
+    }
+  }
 
   onMouseMove_(e) {
     // Calculate how much the mouse has moved

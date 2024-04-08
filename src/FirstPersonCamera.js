@@ -19,6 +19,7 @@ class FirstPersonCamera {
   constructor(camera, objects) {
       this.camera_ = camera;
       this.isZoomedIn = false;
+      this.isInMenu - false;
       this.input_ = new InputController(document, this.isZoomedCallback.bind(this));
       this.rotation_ = new THREE.Quaternion();
       this.translation_ = new THREE.Vector3(0, 2.5, 0);
@@ -33,11 +34,10 @@ class FirstPersonCamera {
       this.mouse_ = new THREE.Vector2();
       this.interactableObjects = []; 
       this.input_.target_.addEventListener('checkInteraction', () => this.checkInteraction());
+      this.input_.target_.addEventListener('pointerLockChange', () => this.pointerLockChange());
 
       this.resetButton = document.getElementById("resetView");
-      this.resetButton.addEventListener("click", () => {
-        this.resetView();
-      });
+      this.resetButton.addEventListener("click", () => this.resetView());
   }
   
   async setInteractableObjects(interactableObjects) {
@@ -57,6 +57,12 @@ class FirstPersonCamera {
     }
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
       this.resetView();  
+    }
+    
+    if (this.input_.key(KEYS.escape)) {
+      if (this.isZoomedIn) {
+        // this.resetView();
+      }
     }
   }
 
@@ -234,6 +240,22 @@ class FirstPersonCamera {
       }
     }
   }
+
+  pointerLockChange() {
+    if (this.isZoomedIn) {
+      // this.resetView();
+    }
+    if (!this.isZoomedIn) {
+      this.menuHandler();
+    } 
+  }
+
+  menuHandler() {
+    this.isInMenu = true;
+    this.isZoomedIn = true;
+    this.displayContent("escapeMenu");
+    this.displayBackButton();
+  }
   
   zoomToObject(object) {
     this.originalPosition = this.camera_.position.clone();
@@ -329,25 +351,30 @@ class FirstPersonCamera {
       contentElement.style.display = 'block';
     }
   }
-
+  
   resetView() {
     // requestAnimationFrame helps with synchronizing events
     requestAnimationFrame(() => {
-      this.camera_.position.copy(this.originalPosition);
-      this.camera_.quaternion.copy(this.originalQuaternion);
-      
-      document.body.requestPointerdwsLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
-      document.body.requestPointerLock();
-
-      this.isZoomedIn = false;
-
+      // zoom out of object if not in menu
+      if (!this.isInMenu) {
+        this.camera_.position.copy(this.originalPosition);
+        this.camera_.quaternion.copy(this.originalQuaternion);
+      }
+  
       const backButton = document.getElementById('resetView');
       backButton.style.display = 'none';
 
       document.querySelectorAll('.object-content').forEach(div => {
         div.style.display = 'none';
       });
+            
+      document.body.requestPointerdwsLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
+      document.body.requestPointerLock();
+
+      this.isZoomedIn = false;
+      this.isInMenu = false;
     });
+    console.log("huhh?");
   }
 
   isZoomedCallback() {
