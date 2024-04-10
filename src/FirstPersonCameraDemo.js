@@ -533,7 +533,7 @@ class FirstPersonCameraDemo {
       tv2.scene.position.y += 10;
       tv2.scene.position.z += -19;
       this.scene_.add(tv2.scene);
-      this.interactable.push(tv2.scene);
+      // this.interactable.push(tv2.scene);
 
       const tv3 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv3.scene.name = "tv3";
@@ -544,7 +544,7 @@ class FirstPersonCameraDemo {
       tv3.scene.position.y += 6.5;
       tv3.scene.position.z += -19;
       this.scene_.add(tv3.scene);
-      this.interactable.push(tv3.scene);
+      // this.interactable.push(tv3.scene);
 
       const tv4 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv4.scene.name = "tv4";
@@ -555,7 +555,7 @@ class FirstPersonCameraDemo {
       tv4.scene.position.y += 10;
       tv4.scene.position.z += -19;
       this.scene_.add(tv4.scene);
-      this.interactable.push(tv4.scene);
+      // this.interactable.push(tv4.scene);
 
       const tv5 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv5.scene.name = "tv5";
@@ -568,7 +568,7 @@ class FirstPersonCameraDemo {
       tv5.scene.position.y += 6.5;
       tv5.scene.position.z += -4.5;
       this.scene_.add(tv5.scene);
-      this.interactable.push(tv5.scene);
+      // this.interactable.push(tv5.scene);
 
       const tv6 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv6.scene.name = "tv6";
@@ -579,7 +579,7 @@ class FirstPersonCameraDemo {
       tv6.scene.position.y += 10;
       tv6.scene.position.z += -4.5;
       this.scene_.add(tv6.scene);
-      this.interactable.push(tv6.scene);
+      // this.interactable.push(tv6.scene);
 
       const tv7 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv7.scene.name = "tv7";
@@ -590,7 +590,7 @@ class FirstPersonCameraDemo {
       tv7.scene.position.y += 6.5;
       tv7.scene.position.z += 0.5;
       this.scene_.add(tv7.scene);
-      this.interactable.push(tv7.scene);
+      // this.interactable.push(tv7.scene);
 
       const tv8 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv8.scene.name = "tv8";
@@ -601,7 +601,7 @@ class FirstPersonCameraDemo {
       tv8.scene.position.y += 10;
       tv8.scene.position.z += 0.5;
       this.scene_.add(tv8.scene);
-      this.interactable.push(tv8.scene);
+      // this.interactable.push(tv8.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
