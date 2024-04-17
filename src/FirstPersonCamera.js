@@ -419,7 +419,10 @@ class FirstPersonCamera {
       this.isInMenu = false;
     });
   }
-
+  
+  /**
+   * Exits the simulation by reloading the page.
+   */
   exitSimulation() {
     location.reload();
   }
