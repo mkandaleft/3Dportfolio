@@ -61,6 +61,9 @@ class FirstPersonCamera {
 
       this.resetButton = document.getElementById("resetView");
       this.resetButton.addEventListener("click", () => this.resetView());
+
+      this.exitButton = document.getElementById("ExitButton");
+      this.exitButton.addEventListener("click", () => this.exitSimulation());
   }
   
   /**
@@ -415,6 +418,10 @@ class FirstPersonCamera {
       this.isZoomedIn = false;
       this.isInMenu = false;
     });
+  }
+
+  exitSimulation() {
+    location.reload();
   }
 
   /**
