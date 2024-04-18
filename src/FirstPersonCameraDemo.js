@@ -45,6 +45,7 @@ class FirstPersonCameraDemo {
   initializeDemo_() {
     this.fpsCamera_ = new FirstPersonCamera(this.camera_, this.objects_);
     this.fpsCamera_.setInteractableObjects(this.interactable);
+    document.addEventListener('checkTVDisplay', () => this.checkTVDisplay());
   }
 
   /**
@@ -838,6 +839,10 @@ class FirstPersonCameraDemo {
     this.uiCamera_.updateProjectionMatrix();
 
     this.threejs_.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  checkTVDisplay() {
+    console.log("checkTVDisplay");
   }
 
   /**

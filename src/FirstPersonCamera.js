@@ -230,7 +230,8 @@ class FirstPersonCamera {
       // Display click prompt if object is facing user and is close enough
       if (object && this.camera_.position.distanceTo(object.position) < 15) {
         clickPrompt.style.display = 'block';
-        this.displayContent('click-prompt')
+        this.displayContent('click-prompt');
+        this.checkForTVDisplay();
       } else {
         clickPrompt.style.display = 'none';
       }
@@ -433,6 +434,11 @@ class FirstPersonCamera {
    */
   isZoomedCallback() {
     return this.isZoomedIn;
+  }
+
+  checkForTVDisplay() {
+    const event = new CustomEvent('checkTVDisplay');
+    this.input_.target_.dispatchEvent(event);
   }
   
   // updateCameraCoordinatesDisplay() {
