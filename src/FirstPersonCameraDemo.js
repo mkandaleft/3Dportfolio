@@ -32,7 +32,6 @@ class FirstPersonCameraDemo {
 
       // Delay the start of rendering by 8 seconds
       setTimeout(() => {  
-        console.log("First raf_");
         this.raf_();
         this.onWindowResize_();
         resolve();
@@ -658,24 +657,6 @@ class FirstPersonCameraDemo {
     } catch (error) {
       console.error('Error loading model:', error);
     }
-   
-    // TV Display
-    const condoMAXiumTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/condomaxTv.png');
-    condoMAXiumTVDisplay.encoding = THREE.sRGBEncoding;
-    const tv1Geometry = new THREE.PlaneGeometry(4, 2);
-    const tv1Material = new THREE.MeshBasicMaterial({ map: condoMAXiumTVDisplay });
-    const tv1Display = new THREE.Mesh(tv1Geometry, tv1Material);
-
-
-    tv1Display.rotation.y = 0 / 2;
-    tv1Display.rotation.x = Math.PI / 5;
-    // const rotationAxis1 = new THREE.Vector3(1, 0, 0).normalize();
-    // const rotationAngle1 = Math.PI / 2;
-    // tv1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
-    tv1Display.scale.set(1.1, 1.2, 1.1);
-    tv1Display.position.set(-14.8, 4.35, -20.55);
-    tv1Display.name = "tv1Display";
-    this.scene_.add(tv1Display);
   }
 
   /**
@@ -867,18 +848,31 @@ class FirstPersonCameraDemo {
           const tv1Material = new THREE.MeshBasicMaterial({ map: condoMAXiumTVDisplay });
           const tv1Display = new THREE.Mesh(tv1Geometry, tv1Material);
 
-
           tv1Display.rotation.y = 0 / 2;
           tv1Display.rotation.x = Math.PI / 5;
-          // const rotationAxis1 = new THREE.Vector3(1, 0, 0).normalize();
-          // const rotationAngle1 = Math.PI / 2;
-          // tv1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
           tv1Display.scale.set(1.1, 1.2, 1.1);
           tv1Display.position.set(-14.8, 4.35, -20.55);
           tv1Display.name = "tv1Display";
           this.scene_.add(tv1Display);
-          console.log("tv1");
-          break;
+
+          // Animation
+          const initialScale = new THREE.Vector3(1, 0, 1);
+          const targetScale = tv1Display.scale.clone();
+          const duration = 500; // 1 second
+
+          const animate = (timestamp) => {
+            const elapsed = timestamp - start;
+            const progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
+            const scale = initialScale.clone().lerp(targetScale, progress);
+            tv1Display.scale.copy(scale);
+
+            if (progress < 1) {
+              requestAnimationFrame(animate);
+            }
+          };
+
+          const start = performance.now();
+          requestAnimationFrame(animate);
         }
         break;
 
