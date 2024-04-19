@@ -256,7 +256,7 @@ class FirstPersonCamera {
         object = object.parent;
       }
   
-      if (object && this.camera_.position.distanceTo(object.position) < 15) {
+      if (object && this.camera_.position.distanceTo(object.position) < 15 && !this.isInMenu) {
         this.zoomToObject(object);
       }
     }
@@ -293,6 +293,9 @@ class FirstPersonCamera {
       }
     }
     if (this.isZoomedIn) {
+      this.dispatchTVRemoveDisplay("computer");
+      this.dispatchTVRemoveDisplay("jbox");
+      this.dispatchTVRemoveDisplay("scroll");
       this.dispatchTVRemoveDisplay("tv1");
     }
   }
