@@ -149,6 +149,26 @@ th {
   border-color: #38B2AC;
 }
 
+.tvDisplay {
+  /* Set the initial size of the element */
+  width: 100px; /* This size should be a starting point that's reasonable for your content */
+  height: 100px; /* Adjust the size as necessary for your content */
+  
+  /* Style your content */
+  padding: 10px;
+  border: 1px solid #434343db;
+  background-color: rgba(138, 137, 137, 0.97);
+  color: black;
+  text-align: center;
+  box-sizing: border-box;
+  overflow-y: auto;
+  z-index: 1000;
+  background-color: #E0F2F1;
+  border-color: #38B2AC;
+  font-size: 16px; /* This is an example size. Adjust as needed. */
+}
+
+
 .pointer {
   position: fixed;
   top: 50%;

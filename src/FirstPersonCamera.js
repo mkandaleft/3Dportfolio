@@ -85,6 +85,7 @@ class FirstPersonCamera {
     this.input_.update(timeElapsedS);
     this.promptInteraction();
 
+
     // Allow translation if not zoomed in
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
@@ -167,19 +168,19 @@ class FirstPersonCamera {
     }
 
     // Limit camera translation in room
-    const roomDimensions = { minX: -14.5, maxX: 14.5, minY: 0, maxY: 4, minZ: -14.5, maxZ: 14.5 };
-    if (this.translation_.x < roomDimensions.minX) {
-      this.translation_.x = roomDimensions.minX
-    }
-    if (this.translation_.x > roomDimensions.maxX) {
-      this.translation_.x = roomDimensions.maxX
-    }
-    if (this.translation_.z < roomDimensions.minZ) {
-      this.translation_.z = roomDimensions.minZ
-    }
-    if (this.translation_.z > roomDimensions.maxZ) {
-      this.translation_.z = roomDimensions.maxZ
-    }
+    // const roomDimensions = { minX: -14.5, maxX: 14.5, minY: 0, maxY: 4, minZ: -14.5, maxZ: 14.5 };
+    // if (this.translation_.x < roomDimensions.minX) {
+    //   this.translation_.x = roomDimensions.minX
+    // }
+    // if (this.translation_.x > roomDimensions.maxX) {
+    //   this.translation_.x = roomDimensions.maxX
+    // }
+    // if (this.translation_.z < roomDimensions.minZ) {
+    //   this.translation_.z = roomDimensions.minZ
+    // }
+    // if (this.translation_.z > roomDimensions.maxZ) {
+    //   this.translation_.z = roomDimensions.maxZ
+    // }
   }
 
   /**
@@ -222,6 +223,7 @@ class FirstPersonCamera {
 
     if (intersects.length > 0 && !this.isZoomedIn) {
       let object = intersects[0].object;
+      this.checkForTVDisplay("tv1");
 
       // Traverse up to find the interactable object instead of the mesh
       while (object && !this.interactableObjects.includes(object)) {
@@ -231,7 +233,6 @@ class FirstPersonCamera {
       if (object && this.camera_.position.distanceTo(object.position) < 15) {
         clickPrompt.style.display = 'block';
         this.displayContent('click-prompt');
-        this.checkForTVDisplay();
       } else {
         clickPrompt.style.display = 'none';
       }
@@ -266,7 +267,7 @@ class FirstPersonCamera {
    */
   pointerLockChange() {
     if (!this.isZoomedIn) {
-      this.menuHandler();
+      // this.menuHandler();
     } 
   }
 
@@ -436,8 +437,8 @@ class FirstPersonCamera {
     return this.isZoomedIn;
   }
 
-  checkForTVDisplay() {
-    const event = new CustomEvent('checkTVDisplay');
+  checkForTVDisplay(contentName) {
+    const event = new CustomEvent('checkTVDisplay', { detail: { contentName: contentName } });
     this.input_.target_.dispatchEvent(event);
   }
   

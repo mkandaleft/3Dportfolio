@@ -1,6 +1,7 @@
 
 import * as THREE from 'https://cdn.skypack.dev/three@0.136';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.136/examples/jsm/loaders/GLTFLoader.js';
+import { CSS3DRenderer, CSS3DObject } from 'three/examples/jsm/Addons.js';
 import FirstPersonCamera from './FirstPersonCamera';
 
 /**
@@ -45,7 +46,7 @@ class FirstPersonCameraDemo {
   initializeDemo_() {
     this.fpsCamera_ = new FirstPersonCamera(this.camera_, this.objects_);
     this.fpsCamera_.setInteractableObjects(this.interactable);
-    document.addEventListener('checkTVDisplay', () => this.checkTVDisplay());
+    document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
   }
 
   /**
@@ -61,6 +62,7 @@ class FirstPersonCameraDemo {
     this.threejs_.setSize(window.innerWidth, window.innerHeight);
     this.threejs_.physicallyCorrectLights = true;
     this.threejs_.outputEncoding = THREE.sRGBEncoding;
+    this.threejs_.domElement.style.zIndex = 2;
 
     document.body.appendChild(this.threejs_.domElement);
 
@@ -80,6 +82,16 @@ class FirstPersonCameraDemo {
     this.uiCamera_ = new THREE.OrthographicCamera(
         -1, 1, 1 * aspect, -1 * aspect, 1, 1000);
     this.uiScene_ = new THREE.Scene();
+
+    this.tvRenderer_ = new CSS3DRenderer();
+    this.tvRenderer_.setSize(window.innerWidth, window.innerHeight);
+    this.tvRenderer_.domElement.style.position = 'absolute';
+    this.tvRenderer_.domElement.style.top = 0;
+    this.tvRenderer_.domElement.style.pointerEvents = 'none';
+    this.tvRenderer_.domElement.style.zIndex = 1;
+    document.body.appendChild(this.tvRenderer_.domElement);
+
+    this.tvDisplay_ = new THREE.Scene();
   }
 
   /**
@@ -837,12 +849,30 @@ class FirstPersonCameraDemo {
     this.uiCamera_.left = -this.camera_.aspect;
     this.uiCamera_.right = this.camera_.aspect;
     this.uiCamera_.updateProjectionMatrix();
-
+    this.tvRenderer_.setSize(window.innerWidth, window.innerHeight);
     this.threejs_.setSize(window.innerWidth, window.innerHeight);
   }
 
-  checkTVDisplay() {
-    console.log("checkTVDisplay");
+  checkTVDisplay(contentName) {
+    switch (contentName) {
+      case "tv1":
+
+        const div = document.getElementById("contentForCondoMAXium");
+        div.className = "tvDisplay";
+        div.style.width = "100px";
+        div.style.height = "100px";
+
+        const divContainer = new CSS3DObject(div);
+        divContainer.position.set(0, 3, 0);
+        divContainer.scale.set(0.02, 0.02, 0.02);
+        this.tvDisplay_.add(divContainer);
+
+
+        break;
+
+      default:
+        break;
+    }
   }
 
   /**
@@ -857,7 +887,9 @@ class FirstPersonCameraDemo {
       this.step_(t - this.previousRAF_);
       this.threejs_.autoClear = true;
       this.threejs_.render(this.scene_, this.camera_);
+      this.tvRenderer_.render(this.tvDisplay_, this.camera_);
       this.threejs_.autoClear = false;
+      this.tvRenderer_.autoClear = false;
       this.threejs_.render(this.uiScene_, this.uiCamera_);
       this.previousRAF_ = t;
       this.raf_();
