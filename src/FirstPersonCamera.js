@@ -100,6 +100,7 @@ class FirstPersonCamera {
         // this.resetView();
       }
     }
+    this.checkDistanceToTV();
   }
 
   /**
@@ -219,6 +220,7 @@ class FirstPersonCamera {
     const intersects = this.raycaster_.intersectObjects(this.interactableObjects, true);
     
     const clickPrompt = document.getElementById('click-prompt');
+    clickPrompt.style.transform = 'scale(0.5)';
 
     if (intersects.length > 0 && !this.isZoomedIn) {
       let object = intersects[0].object;
@@ -230,7 +232,7 @@ class FirstPersonCamera {
       // Display click prompt if object is facing user and is close enough
       if (object && this.camera_.position.distanceTo(object.position) < 15) {
         clickPrompt.style.display = 'block';
-        this.displayContent('click-prompt')
+        this.displayContent('click-prompt');
       } else {
         clickPrompt.style.display = 'none';
       }
@@ -254,9 +256,47 @@ class FirstPersonCamera {
         object = object.parent;
       }
   
-      if (object && this.camera_.position.distanceTo(object.position) < 15) {
+      if (object && this.camera_.position.distanceTo(object.position) < 15 && !this.isInMenu) {
         this.zoomToObject(object);
       }
+    }
+  }
+
+  checkDistanceToTV() {
+    if (!this.isZoomedIn) {
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) < 10) {
+        this.dispatchTVDisplay("computer");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) >= 10) {
+        this.dispatchTVRemoveDisplay("computer");
+      }
+
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) < 10) {
+        this.dispatchTVDisplay("jbox");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) >= 10) {
+        this.dispatchTVRemoveDisplay("jbox");
+      }
+
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) < 10) {
+        this.dispatchTVDisplay("scroll");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) >= 10) {
+        this.dispatchTVRemoveDisplay("scroll");
+      }
+
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) < 10) {
+        this.dispatchTVDisplay("tv1");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) >= 10) {
+        this.dispatchTVRemoveDisplay("tv1");
+      }
+    }
+    if (this.isZoomedIn) {
+      this.dispatchTVRemoveDisplay("computer");
+      this.dispatchTVRemoveDisplay("jbox");
+      this.dispatchTVRemoveDisplay("scroll");
+      this.dispatchTVRemoveDisplay("tv1");
     }
   }
 
@@ -387,6 +427,16 @@ class FirstPersonCamera {
     if (contentElement) {
       contentElement.style.display = 'block';
     }
+  }
+
+  dispatchTVDisplay(contentName) {
+    const event = new CustomEvent('checkTVDisplay', { detail: { contentName: contentName } });
+    this.input_.target_.dispatchEvent(event);
+  }
+
+  dispatchTVRemoveDisplay(contentName) {
+    const event = new CustomEvent('checkTVRemoveDisplay', { detail: { contentName: contentName } });
+    this.input_.target_.dispatchEvent(event);
   }
   
   /**
