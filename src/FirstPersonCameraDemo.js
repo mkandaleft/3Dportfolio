@@ -648,6 +648,32 @@ class FirstPersonCameraDemo {
     } catch (error) {
       console.error('Error loading model:', error);
     }
+
+    // // loads space background
+    // const spaceTexture = new THREE.TextureLoader().load('Pictures/galaxy.jpg');
+    // spaceTexture.encoding = THREE.sRGBEncoding;
+    // const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
+    // const sphereMaterial = new THREE.MeshBasicMaterial({
+    //   map: spaceTexture,
+    //   side: THREE.BackSide
+    // });
+    // const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    // this.scene_.add(sphere);
+
+    // TV Display
+    const condoMAXiumTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/condomaxTv.png');
+    condoMAXiumTVDisplay.encoding = THREE.sRGBEncoding;
+    const tv1Geometry = new THREE.PlaneGeometry(2, 2);
+    const tv1Material = new THREE.MeshBasicMaterial({ map: condoMAXiumTVDisplay });
+    const tv1Screen = new THREE.Mesh(tv1Geometry, tv1Material);
+
+
+    // tv1Screen.scale.set(2, 2, 2);
+    tv1Screen.position.set(1, 3, 0);
+    tv1Screen.rotation.x = 0*Math.PI / 4;
+    this.scene_.add(tv1Screen);
+
+
   }
 
   /**
