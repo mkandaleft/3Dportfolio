@@ -837,15 +837,87 @@ class FirstPersonCameraDemo {
   checkTVDisplay(contentName) {
     switch (contentName) {
       case "computer":
-        console.log("computer");
+        let computerDisplay = this.scene_.getObjectByName("computerDisplay");
+        if (!computerDisplay) {
+          // Load TV Display texture
+          const computerTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/softwareDisplay.png');
+          computerTVDisplay.encoding = THREE.sRGBEncoding;
+          
+          // Create TV Display geometry and material
+          const computerGeometry = new THREE.PlaneGeometry(2, 2);
+          const computerMaterial = new THREE.MeshBasicMaterial({ map: computerTVDisplay });
+          computerDisplay = new THREE.Mesh(computerGeometry, computerMaterial);
+  
+          // Set initial properties of the TV Display
+          computerDisplay.rotation.y = 5*Math.PI / 4;
+          computerDisplay.position.set(15.5, 2.2, 15.5);
+          computerDisplay.name = "computerDisplay";
+          this.scene_.add(computerDisplay);
+  
+          // Set initial and target scales for the animation
+          const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
+          const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
+          const duration = 500; // Duration of the animation in milliseconds
+          
+          // Start the animation
+          this.animateTVDisplay(computerDisplay, initialScale, targetScale, duration);
+        }
         break;
       
-      case "jbox":
-        console.log("jbox");
+      case "jbox":        
+      let jboxDisplay = this.scene_.getObjectByName("jboxDisplay");
+      if (!jboxDisplay) {
+        // Load TV Display texture
+        const jboxTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/musicDisplay.png');
+        jboxTVDisplay.encoding = THREE.sRGBEncoding;
+        
+        // Create TV Display geometry and material
+        const jboxGeometry = new THREE.PlaneGeometry(2, 2);
+        const jboxMaterial = new THREE.MeshBasicMaterial({ map: jboxTVDisplay });
+        jboxDisplay = new THREE.Mesh(jboxGeometry, jboxMaterial);
+
+        // Set initial properties of the TV Display
+        jboxDisplay.rotation.y = 7*Math.PI / 4;
+        jboxDisplay.position.set(15.4, 2.2, -15.4);
+        jboxDisplay.name = "jboxDisplay";
+        this.scene_.add(jboxDisplay);
+
+        // Set initial and target scales for the animation
+        const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
+        const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
+        const duration = 500; // Duration of the animation in milliseconds
+        
+        // Start the animation
+        this.animateTVDisplay(jboxDisplay, initialScale, targetScale, duration);
+      }
         break;
 
       case "scroll":
-        console.log("scroll");
+        let scrollDisplay = this.scene_.getObjectByName("scrollDisplay");
+        if (!scrollDisplay) {
+          // Load TV Display texture
+          const scrollTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/careerDisplay.png');
+          scrollTVDisplay.encoding = THREE.sRGBEncoding;
+          
+          // Create TV Display geometry and material
+          const scrollGeometry = new THREE.PlaneGeometry(2, 2);
+          const scrollMaterial = new THREE.MeshBasicMaterial({ map: scrollTVDisplay });
+          scrollDisplay = new THREE.Mesh(scrollGeometry, scrollMaterial);
+  
+          // Set initial properties of the TV Display
+          scrollDisplay.rotation.y = 3*Math.PI / 4;
+          scrollDisplay.position.set(-15.4, 2.2, 15.4);
+          scrollDisplay.name = "scrollDisplay";
+          this.scene_.add(scrollDisplay);
+  
+          // Set initial and target scales for the animation
+          const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
+          const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
+          const duration = 500; // Duration of the animation in milliseconds
+          
+          // Start the animation
+          this.animateTVDisplay(scrollDisplay, initialScale, targetScale, duration);
+        }
         break;
 
       case "tv1":
@@ -923,16 +995,25 @@ class FirstPersonCameraDemo {
   checkTVRemoveDisplay(contentName) {
     
     switch (contentName) {
-      case "computer":
-        console.log("removing computer");
+      case "computer":        
+      const computerDisplay = this.scene_.getObjectByName("computerDisplay");
+      if (computerDisplay) {
+        this.scene_.remove(computerDisplay);
+      }
         break;
     
       case "jbox":
-        console.log("removing jbox");
+        const jboxDisplay = this.scene_.getObjectByName("jboxDisplay");
+        if (jboxDisplay) {
+          this.scene_.remove(jboxDisplay);
+        }
         break;
 
       case "scroll":
-        console.log("removing scroll");
+        const scrollDisplay = this.scene_.getObjectByName("scrollDisplay");
+        if (scrollDisplay) {
+          this.scene_.remove(scrollDisplay);
+        }
         break;
 
       case "tv1":
