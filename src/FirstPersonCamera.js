@@ -263,7 +263,28 @@ class FirstPersonCamera {
 
   checkDistanceToTV() {
     if (!this.isZoomedIn) {
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) < 10 && !this.isZoomedIn) {
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) < 10) {
+        this.dispatchTVDisplay("computer");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) >= 10) {
+        this.dispatchTVRemoveDisplay("computer");
+      }
+
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) < 10) {
+        this.dispatchTVDisplay("jbox");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) >= 10) {
+        this.dispatchTVRemoveDisplay("jbox");
+      }
+
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) < 10) {
+        this.dispatchTVDisplay("scroll");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) >= 10) {
+        this.dispatchTVRemoveDisplay("scroll");
+      }
+
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) < 10) {
         this.dispatchTVDisplay("tv1");
       }
       if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) >= 10) {

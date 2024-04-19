@@ -836,6 +836,18 @@ class FirstPersonCameraDemo {
 
   checkTVDisplay(contentName) {
     switch (contentName) {
+      case "computer":
+        console.log("computer");
+        break;
+      
+      case "jbox":
+        console.log("jbox");
+        break;
+
+      case "scroll":
+        console.log("scroll");
+        break;
+
       case "tv1":
         let tv1Display = this.scene_.getObjectByName("tv1Display");
         if (!tv1Display) {
@@ -911,11 +923,24 @@ class FirstPersonCameraDemo {
   checkTVRemoveDisplay(contentName) {
     
     switch (contentName) {
+      case "computer":
+        console.log("removing computer");
+        break;
+    
+      case "jbox":
+        console.log("removing jbox");
+        break;
+
+      case "scroll":
+        console.log("removing scroll");
+        break;
+
       case "tv1":
-      const tv1Display = this.scene_.getObjectByName("tv1Display");
-      if (tv1Display) {
-        this.scene_.remove(tv1Display);
-      }
+        const tv1Display = this.scene_.getObjectByName("tv1Display");
+        if (tv1Display) {
+          this.scene_.remove(tv1Display);
+        }
+        break;
 
       default:
         break;
