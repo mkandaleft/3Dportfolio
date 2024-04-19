@@ -100,6 +100,7 @@ class FirstPersonCamera {
         // this.resetView();
       }
     }
+    this.checkDistanceToTV();
   }
 
   /**
@@ -230,7 +231,7 @@ class FirstPersonCamera {
       // Display click prompt if object is facing user and is close enough
       if (object && this.camera_.position.distanceTo(object.position) < 15) {
         clickPrompt.style.display = 'block';
-        this.displayContent('click-prompt')
+        this.displayContent('click-prompt');
       } else {
         clickPrompt.style.display = 'none';
       }
@@ -257,6 +258,20 @@ class FirstPersonCamera {
       if (object && this.camera_.position.distanceTo(object.position) < 15) {
         this.zoomToObject(object);
       }
+    }
+  }
+
+  checkDistanceToTV() {
+    if (!this.isZoomedIn) {
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) < 10 && !this.isZoomedIn) {
+        this.dispatchTVDisplay("tv1");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) >= 10) {
+        this.dispatchTVRemoveDisplay("tv1");
+      }
+    }
+    if (this.isZoomedIn) {
+      this.dispatchTVRemoveDisplay("tv1");
     }
   }
 
@@ -387,6 +402,16 @@ class FirstPersonCamera {
     if (contentElement) {
       contentElement.style.display = 'block';
     }
+  }
+
+  dispatchTVDisplay(contentName) {
+    const event = new CustomEvent('checkTVDisplay', { detail: { contentName: contentName } });
+    this.input_.target_.dispatchEvent(event);
+  }
+
+  dispatchTVRemoveDisplay(contentName) {
+    const event = new CustomEvent('checkTVRemoveDisplay', { detail: { contentName: contentName } });
+    this.input_.target_.dispatchEvent(event);
   }
   
   /**

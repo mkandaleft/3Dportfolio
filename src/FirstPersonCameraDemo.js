@@ -31,18 +31,26 @@ class FirstPersonCameraDemo {
       this.previousRAF_ = null;
 
       // Delay the start of rendering by 8 seconds
-      setTimeout(() => {
+      setTimeout(() => {  
+        console.log("First raf_");
         this.raf_();
         this.onWindowResize_();
         resolve();
       }, 8000);
+
+      document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
+
+      document.addEventListener('checkTVRemoveDisplay', (event) => this.checkTVRemoveDisplay(event.detail.contentName));
+     
     });
+    
   }
 
   /**
    * Initializes the demo by creating a new FirstPersonCamera instance and setting interactable objects.
    */
-  initializeDemo_() {
+  initializeDemo_() {    
+    console.log("initializeDemo_");
     this.fpsCamera_ = new FirstPersonCamera(this.camera_, this.objects_);
     this.fpsCamera_.setInteractableObjects(this.interactable);
   }
@@ -51,6 +59,7 @@ class FirstPersonCameraDemo {
    * Initializes the renderer, camera, and scene for the first person camera demo.
    */
   initializeRenderer_() {
+    console.log("initializeRenderer_");
     this.threejs_ = new THREE.WebGLRenderer({
       antialias: false,
     });
@@ -86,6 +95,7 @@ class FirstPersonCameraDemo {
    * This method adds the 3D models to the scene.
    */
   async initializeScene_() {
+    console.log("initializeScene_");
 
     // loads space background
     const spaceTexture = new THREE.TextureLoader().load('Pictures/galaxy.jpg');
@@ -648,32 +658,24 @@ class FirstPersonCameraDemo {
     } catch (error) {
       console.error('Error loading model:', error);
     }
-
-    // // loads space background
-    // const spaceTexture = new THREE.TextureLoader().load('Pictures/galaxy.jpg');
-    // spaceTexture.encoding = THREE.sRGBEncoding;
-    // const sphereGeometry = new THREE.SphereGeometry(500, 60, 40);
-    // const sphereMaterial = new THREE.MeshBasicMaterial({
-    //   map: spaceTexture,
-    //   side: THREE.BackSide
-    // });
-    // const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    // this.scene_.add(sphere);
-
+   
     // TV Display
     const condoMAXiumTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/condomaxTv.png');
     condoMAXiumTVDisplay.encoding = THREE.sRGBEncoding;
-    const tv1Geometry = new THREE.PlaneGeometry(2, 2);
+    const tv1Geometry = new THREE.PlaneGeometry(4, 2);
     const tv1Material = new THREE.MeshBasicMaterial({ map: condoMAXiumTVDisplay });
-    const tv1Screen = new THREE.Mesh(tv1Geometry, tv1Material);
+    const tv1Display = new THREE.Mesh(tv1Geometry, tv1Material);
 
 
-    // tv1Screen.scale.set(2, 2, 2);
-    tv1Screen.position.set(1, 3, 0);
-    tv1Screen.rotation.x = 0*Math.PI / 4;
-    this.scene_.add(tv1Screen);
-
-
+    tv1Display.rotation.y = 0 / 2;
+    tv1Display.rotation.x = Math.PI / 5;
+    // const rotationAxis1 = new THREE.Vector3(1, 0, 0).normalize();
+    // const rotationAngle1 = Math.PI / 2;
+    // tv1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+    tv1Display.scale.set(1.1, 1.2, 1.1);
+    tv1Display.position.set(-14.8, 4.35, -20.55);
+    tv1Display.name = "tv1Display";
+    this.scene_.add(tv1Display);
   }
 
   /**
@@ -692,6 +694,7 @@ class FirstPersonCameraDemo {
    * Initializes the lights in the scene.
    */
   initializeLights_() {
+    console.log("initializeLights_");
     const distance = 50.0;
     const angle = Math.PI / 5.5;
     const penumbra = 0.5;
@@ -850,6 +853,75 @@ class FirstPersonCameraDemo {
     
   }
 
+  checkTVDisplay(contentName) {
+
+    switch (contentName) {
+      case "tv1":
+
+        const tv1Display = this.scene_.getObjectByName("tv1Display");
+        if (!tv1Display) {
+          // TV Display
+          const condoMAXiumTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/condomaxTv.png');
+          condoMAXiumTVDisplay.encoding = THREE.sRGBEncoding;
+          const tv1Geometry = new THREE.PlaneGeometry(4, 2);
+          const tv1Material = new THREE.MeshBasicMaterial({ map: condoMAXiumTVDisplay });
+          const tv1Display = new THREE.Mesh(tv1Geometry, tv1Material);
+
+
+          tv1Display.rotation.y = 0 / 2;
+          tv1Display.rotation.x = Math.PI / 5;
+          // const rotationAxis1 = new THREE.Vector3(1, 0, 0).normalize();
+          // const rotationAngle1 = Math.PI / 2;
+          // tv1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+          tv1Display.scale.set(1.1, 1.2, 1.1);
+          tv1Display.position.set(-14.8, 4.35, -20.55);
+          tv1Display.name = "tv1Display";
+          this.scene_.add(tv1Display);
+          console.log("tv1");
+          break;
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  // if (this.scene_.getObjectById(tv1Display.id) == undefined) {
+  //   // TV Display
+  //   const condoMAXiumTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/condomaxTv.png');
+  //   condoMAXiumTVDisplay.encoding = THREE.sRGBEncoding;
+  //   const tv1Geometry = new THREE.PlaneGeometry(4, 2);
+  //   const tv1Material = new THREE.MeshBasicMaterial({ map: condoMAXiumTVDisplay });
+  //   const tv1Display = new THREE.Mesh(tv1Geometry, tv1Material);
+
+
+  //   tv1Display.rotation.y = 0 / 2;
+  //   tv1Display.rotation.x = Math.PI / 5;
+  //   // const rotationAxis1 = new THREE.Vector3(1, 0, 0).normalize();
+  //   // const rotationAngle1 = Math.PI / 2;
+  //   // tv1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+  //   tv1Display.scale.set(1.1, 1.2, 1.1);
+  //   tv1Display.position.set(-14.8, 4.35, -20.55);
+  //   this.scene_.add(tv1Display);
+  //   break;
+  // }
+
+  checkTVRemoveDisplay(contentName) {
+    
+    switch (contentName) {
+      case "tv1":
+      const tv1Display = this.scene_.getObjectByName("tv1Display");
+      if (tv1Display) {
+        console.log("removing");
+        this.scene_.remove(tv1Display);
+      }
+
+      default:
+        break;
+    }
+  }
+
   /**
    * Handles the window resize event.
    * Updates the camera and UI camera aspect ratios and projection matrices,
@@ -874,7 +946,7 @@ class FirstPersonCameraDemo {
       if (this.previousRAF_ === null) {
         this.previousRAF_ = t;
       }
-
+      
       this.step_(t - this.previousRAF_);
       this.threejs_.autoClear = true;
       this.threejs_.render(this.scene_, this.camera_);
