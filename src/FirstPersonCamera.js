@@ -168,7 +168,7 @@ class FirstPersonCamera {
     }
 
     // Limit camera translation in room
-    const roomDimensions = { minX: -14.5, maxX: 14.5, minY: 0, maxY: 4, minZ: -14.5, maxZ: 14.5 };
+    const roomDimensions = { minX: -14.5, maxX: 14.5, minY: 0, maxY: 10, minZ: -14.5, maxZ: 14.5 };
     if (this.translation_.x < roomDimensions.minX) {
       this.translation_.x = roomDimensions.minX
     }
@@ -474,8 +474,9 @@ class FirstPersonCamera {
     requestAnimationFrame(() => {
       // zoom out of object if not in menu
       if (!this.isInMenu) {
-        this.camera_.position.copy(this.originalPosition);
-        this.camera_.quaternion.copy(this.originalQuaternion);
+        this.translation_.copy(this.originalPosition);
+        this.translation_.y = 2.5;
+        this.rotation_.copy(this.originalQuaternion);
       }
   
       const backButton = document.getElementById('resetView');
