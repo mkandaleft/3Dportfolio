@@ -542,7 +542,7 @@ class FirstPersonCameraDemo {
       tv2.scene.position.y += 10;
       tv2.scene.position.z += -19;
       this.scene_.add(tv2.scene);
-      // this.interactable.push(tv2.scene);
+      this.interactable.push(tv2.scene);
 
       const tv3 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv3.scene.name = "tv3";
@@ -949,6 +949,35 @@ class FirstPersonCameraDemo {
         }
         break;
   
+      case "tv2":
+        let tv2Display = this.scene_.getObjectByName("tv2Display");
+        if (!tv2Display) {
+          // Load TV Display texture
+          const time2ChillTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/time2chillTv.png');
+          time2ChillTVDisplay.encoding = THREE.sRGBEncoding;
+          
+          // Create TV Display geometry and material
+          const tv2Geometry = new THREE.PlaneGeometry(4, 2);
+          const tv2Material = new THREE.MeshBasicMaterial({ map: time2ChillTVDisplay });
+          tv2Display = new THREE.Mesh(tv2Geometry, tv2Material);
+  
+          // Set initial properties of the TV Display
+          tv2Display.rotation.y = 0 / 2;
+          tv2Display.rotation.x = Math.PI / 5;
+          tv2Display.position.set(-14.8, 7.8, -20.55);
+          tv2Display.name = "tv2Display";
+          this.scene_.add(tv2Display);
+  
+          // Set initial and target scales for the animation
+          const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
+          const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
+          const duration = 500; // Duration of the animation in milliseconds
+          
+          // Start the animation
+          this.animateTVDisplay(tv2Display, initialScale, targetScale, duration);
+        }
+        break;
+    
       default:
         break;
     }
@@ -1020,6 +1049,13 @@ class FirstPersonCameraDemo {
         const tv1Display = this.scene_.getObjectByName("tv1Display");
         if (tv1Display) {
           this.scene_.remove(tv1Display);
+        }
+        break;
+
+      case "tv2":
+        const tv2Display = this.scene_.getObjectByName("tv2Display");
+        if (tv2Display) {
+          this.scene_.remove(tv2Display);
         }
         break;
 

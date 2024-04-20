@@ -287,9 +287,11 @@ class FirstPersonCamera {
 
       if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) < 10) {
         this.dispatchTVDisplay("tv1");
+        this.dispatchTVDisplay("tv2");
       }
       if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) >= 10) {
         this.dispatchTVRemoveDisplay("tv1");
+        this.dispatchTVRemoveDisplay("tv2");
       }
     }
     if (this.isZoomedIn) {
@@ -297,6 +299,7 @@ class FirstPersonCamera {
       this.dispatchTVRemoveDisplay("jbox");
       this.dispatchTVRemoveDisplay("scroll");
       this.dispatchTVRemoveDisplay("tv1");
+      this.dispatchTVRemoveDisplay("tv2");
     }
   }
 
@@ -399,6 +402,26 @@ class FirstPersonCamera {
         this.displayBackButton();
         break;
       
+      case 'tv2':
+        const zoomPositionTV2 = new THREE.Vector3(-14.5, 6.5, -18);
+        this.translation_.copy(zoomPositionTV2);
+
+        const zoomRotationTV2 = new THREE.Quaternion();
+        zoomRotationTV2.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 0 / 8);
+
+        const zoomRotationTV2x = new THREE.Quaternion();
+        zoomRotationTV2x.setFromAxisAngle(new THREE.Vector3(-1, 0, 0).normalize(), -Math.PI / 5);
+
+        const q5 = new THREE.Quaternion();
+        q5.multiply(zoomRotationTV2);
+        q5.multiply(zoomRotationTV2x);
+
+        this.rotation_.copy(q5);
+        this.displayContent("contentForTime2Chill");
+        this.displayBackButton();
+        break;
+        
+
       default:
         break;
     }
