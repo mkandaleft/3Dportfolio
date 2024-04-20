@@ -38,9 +38,10 @@ class FirstPersonCameraDemo {
       }, 8000);
 
       document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
-
       document.addEventListener('checkTVRemoveDisplay', (event) => this.checkTVRemoveDisplay(event.detail.contentName));
-     
+
+      document.addEventListener('addControlDisplay', (event) => this.addControlDisplay(event.detail.position, event.detail.rotation));
+      document.addEventListener('removeControlDisplay', (event) => this.removeControlDisplay());
     });
     
   }
@@ -1062,6 +1063,96 @@ class FirstPersonCameraDemo {
       default:
         break;
     }
+  }
+
+  addControlDisplay(position, rotation) {
+    let controlsDisplay = this.scene_.getObjectByName("controlsDisplay");
+    if (!controlsDisplay) {
+      // // Load TV Display texture
+      // const controlsTVDisplay = new THREE.TextureLoader().load('/Pictures/controls.png');
+      // controlsTVDisplay.encoding = THREE.sRGBEncoding;
+
+      // // Create TV Display geometry and material
+      // const controlsGeometry = new THREE.PlaneGeometry(2, 2);
+      // const controlsMaterial = new THREE.MeshBasicMaterial({ map: controlsTVDisplay });
+      // controlsDisplay = new THREE.Mesh(controlsGeometry, controlsMaterial);
+
+      // // Set initial properties of the TV and add to scene
+      // controlsDisplay.name = "controlsDisplay";
+      // this.scene_.add(controlsDisplay);
+
+      // // Set initial and target scales for the animation
+      // const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
+      // const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
+      // const duration = 500; // Duration of the animation in milliseconds
+
+      // // Start the animation
+      // this.animateTVDisplay(controlsDisplay, initialScale, targetScale, duration);
+
+
+
+      // Create a prism geometry with custom wall colors
+      const prismGeometry = new THREE.BoxGeometry(2, 2, 2);
+      const prismMaterials = [
+        new THREE.MeshBasicMaterial({ color: 0xff0000 }), // Red
+        new THREE.MeshBasicMaterial({ color: 0x00ff00 }), // Green
+        new THREE.MeshBasicMaterial({ color: 0x0000ff }), // Blue
+        new THREE.MeshBasicMaterial({ color: 0xffff00 })  // Yellow
+      ];
+      const controlsDisplay = new THREE.Mesh(prismGeometry, prismMaterials);
+
+      controlsDisplay.scale.set(4, 4, 4);
+      // Set initial properties of the controlsDisplay and add it to the scene
+      controlsDisplay.name = "controlsDisplay";
+      this.scene_.add(controlsDisplay);
+
+    }
+    if (controlsDisplay) {
+      controlsDisplay.position[0] = position.x + 6;
+      controlsDisplay.position[1]  = position.y;
+      controlsDisplay.position[2]  = position.z;
+      controlsDisplay.position.copy(position);
+      controlsDisplay.rotation.copy(rotation);
+      console.log("position", controlsDisplay.position);
+    }
+
+
+    // Update the position and rotation of the controlsDisplay based on the camera
+
+
+
+    // const distanceFromCamera = 3;
+    
+
+
+
+    // // Distance the controls menu should appear in front of the camera
+    // const distanceInFrontOfCamera = 5;
+
+    // // // Calculate the position in front of the camera
+    // // const cameraDirection = new THREE.Vector3();  // Create a new vector to store direction
+    // // camera.getWorldDirection(cameraDirection);    // Get the camera's current forward direction
+    // // cameraDirection.multiplyScalar(-distanceInFrontOfCamera); // Move along the direction away from camera
+    // // cameraDirection.add(camera.position);         // Apply the calculated offset to the camera's current position
+    // console.log("position", controlsDisplay.position);
+    // // Set the controls display position
+    // controlsDisplay.position.copy(position).multiplyScalar(-distanceInFrontOfCamera);
+    // controlsDisplay.position.y = 2;
+
+    // // Make the controls display face towards the camera
+    // // Since the camera's forward direction is the negative Z-axis, we take the opposite of the camera's quaternion
+    // controlsDisplay.quaternion.copy(rotation);
+    // controlsDisplay.rotateY(Math.PI); // Rotate the display to face the camera
+
+  }
+
+  removeControlDisplay() {
+
+    const controlsDisplay = this.scene_.getObjectByName("controlsDisplay");
+    if (controlsDisplay) {
+      this.scene_.remove(controlsDisplay);
+    }
+
   }
 
   /**
