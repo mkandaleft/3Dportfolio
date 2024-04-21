@@ -1097,24 +1097,51 @@ class FirstPersonCameraDemo {
         new THREE.MeshBasicMaterial({ color: 0xff0000 }), // Red
         new THREE.MeshBasicMaterial({ color: 0x00ff00 }), // Green
         new THREE.MeshBasicMaterial({ color: 0x0000ff }), // Blue
-        new THREE.MeshBasicMaterial({ color: 0xffff00 })  // Yellow
+        new THREE.MeshBasicMaterial({ color: 0xffff00 }), // Yellow
+        new THREE.MeshBasicMaterial({ color: 0xff00ff }), // Magenta
+        new THREE.MeshBasicMaterial({ color: 0x00ffff })  // Cyan
       ];
       const controlsDisplay = new THREE.Mesh(prismGeometry, prismMaterials);
 
-      controlsDisplay.scale.set(4, 4, 4);
+      controlsDisplay.scale.set(1, 1, 1);
       // Set initial properties of the controlsDisplay and add it to the scene
       controlsDisplay.name = "controlsDisplay";
       this.scene_.add(controlsDisplay);
 
     }
+
     if (controlsDisplay) {
-      controlsDisplay.position[0] = position.x + 6;
-      controlsDisplay.position[1]  = position.y;
-      controlsDisplay.position[2]  = position.z;
-      controlsDisplay.position.copy(position);
-      controlsDisplay.rotation.copy(rotation);
-      console.log("position", controlsDisplay.position);
+      // This value represents the distance the cube is from the camera along the camera's local Z-axis.
+      const distanceInFrontOfCamera = 2;
+
+      // This value represents the lateral distance the cube is from the camera along the camera's local X-axis.
+      const lateralDistance = -2;
+
+      // Calculate the new position
+      const offset = new THREE.Vector3(lateralDistance, 0, -distanceInFrontOfCamera);
+      offset.applyQuaternion(rotation); // Apply the camera's rotation to the offset
+      controlsDisplay.position.copy(position).add(offset); // Set the new position based on the camera's position plus the offset
+      
+      controlsDisplay.position.y = 2.5;
+      // The quaternion should be fine as is if you want the cube to face the same direction as the camera.
+      // If you want the cube to also rotate around its Y axis to face the camera, you might want to adjust it accordingly.
+      controlsDisplay.quaternion.copy(rotation);
+
+
+      console.log("camera position", position);
+      console.log("cube position", controlsDisplay.position);
+      console.log("camera rotation", rotation);
+      console.log("cube rotation", controlsDisplay.quaternion);
     }
+
+
+    // if (controlsDisplay) {
+    //   controlsDisplay.position.copy(position);
+    //   controlsDisplay.position.x += 6;
+    //   controlsDisplay.quaternion.copy(rotation);
+    //   console.log("position", controlsDisplay.position);
+    //   console.log("rotation", controlsDisplay.rotation);
+    // }
 
 
     // Update the position and rotation of the controlsDisplay based on the camera
