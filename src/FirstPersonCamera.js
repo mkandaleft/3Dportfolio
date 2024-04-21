@@ -84,14 +84,10 @@ class FirstPersonCamera {
     this.updateHeadBob_(timeElapsedS);
     this.input_.update(timeElapsedS);
     this.promptInteraction();
-
-    // Allow translation if not zoomed in
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
-      this.dispatchControlDisplay();
-    } else {
-      this.dispatchControlRemove();
     }
+    this.updateControlDisplay();
     // Reset view if 'r' is pressed and camera is zoomed in
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
       this.resetView();  
@@ -463,6 +459,28 @@ class FirstPersonCamera {
   dispatchTVRemoveDisplay(contentName) {
     const event = new CustomEvent('checkTVRemoveDisplay', { detail: { contentName: contentName } });
     this.input_.target_.dispatchEvent(event);
+  }
+
+  updateControlDisplay() {
+    const controlsDisplayArea = { minX: -10, maxX: 10, minY: 0, maxY: 10, minZ: -10, maxZ: 10 };
+    
+    // Allow translation if not zoomed in
+    if (!this.isZoomedIn) {
+      if (
+        this.translation_.x >= controlsDisplayArea.minX &&
+        this.translation_.x <= controlsDisplayArea.maxX &&
+        this.translation_.y >= controlsDisplayArea.minY &&
+        this.translation_.y <= controlsDisplayArea.maxY &&
+        this.translation_.z >= controlsDisplayArea.minZ &&
+        this.translation_.z <= controlsDisplayArea.maxZ
+      ) {
+        this.dispatchControlDisplay();
+      } else {
+        this.dispatchControlRemove();
+      }
+    } else {
+      this.dispatchControlRemove();
+    }
   }
 
   dispatchControlDisplay() {

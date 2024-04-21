@@ -1176,7 +1176,6 @@ class FirstPersonCameraDemo {
   }
 
   removeControlDisplay() {
-
     const controlsDisplay = this.scene_.getObjectByName("controlsDisplay");
     if (controlsDisplay) {
       this.scene_.remove(controlsDisplay);
