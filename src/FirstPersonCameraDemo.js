@@ -1127,11 +1127,13 @@ class FirstPersonCameraDemo {
       // If you want the cube to also rotate around its Y axis to face the camera, you might want to adjust it accordingly.
       controlsDisplay.quaternion.copy(rotation);
 
+      const cameraEuler = new THREE.Euler().setFromQuaternion(rotation, 'YXZ');
+      cameraEuler.x = 0; // Ignore pitch
+      cameraEuler.z = 0; // Ignore roll, if your camera can roll
+      controlsDisplay.quaternion.setFromEuler(cameraEuler);
 
-      console.log("camera position", position);
-      console.log("cube position", controlsDisplay.position);
       console.log("camera rotation", rotation);
-      console.log("cube rotation", controlsDisplay.quaternion);
+      // console.log("cube rotation", controlsDisplay.quaternion);
     }
 
 
