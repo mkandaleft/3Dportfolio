@@ -462,7 +462,7 @@ class FirstPersonCamera {
   }
 
   updateControlDisplay() {
-    const controlsDisplayArea = { minX: -10, maxX: 10, minY: 0, maxY: 10, minZ: -10, maxZ: 10 };
+    const controlsDisplayArea = { minX: -6, maxX: 6, minY: 0, maxY: 10, minZ: -6, maxZ: 6 };
     
     // Allow translation if not zoomed in
     if (!this.isZoomedIn) {
