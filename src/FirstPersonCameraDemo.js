@@ -473,6 +473,28 @@ class FirstPersonCameraDemo {
       tv2.scene.position.y += 25;
       tv2.scene.position.z += -36;
       this.scene_.add(tv2.scene);
+
+
+
+      const bigTV1TVDisplay = new THREE.TextureLoader().load('/Pictures/areYouEntertained.jpeg');
+      bigTV1TVDisplay.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const bigTV1Geometry = new THREE.PlaneGeometry(15, 7.5);
+      const bigTV1Material = new THREE.MeshBasicMaterial({ map: bigTV1TVDisplay });
+      const bigTV1Display = new THREE.Mesh(bigTV1Geometry, bigTV1Material);
+
+
+
+      // Set initial properties of the TV Display
+      bigTV1Display.rotation.y = Math.PI / 2;
+      bigTV1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+      bigTV1Display.position.set(-15.4, 17.5, 0.3);
+      bigTV1Display.name = "bigTV1Display";
+      this.scene_.add(bigTV1Display);
+          
+
+
     }  catch (error) {
       console.error('Error loading model:', error);
     }
