@@ -294,11 +294,11 @@ class FirstPersonCameraDemo {
       this.scene_.add(musicText);
 
 
-      const careerTextPicture = new THREE.TextureLoader().load('/Pictures/music.png');
+      const careerTextPicture = new THREE.TextureLoader().load('/Pictures/career.png');
       careerTextPicture.encoding = THREE.sRGBEncoding;
       
       // Create TV Display geometry and material
-      const careerTextGeometry = new THREE.PlaneGeometry(14, 9.5);
+      const careerTextGeometry = new THREE.PlaneGeometry(13, 9);
       const careerTextMaterial = new THREE.MeshBasicMaterial({ 
         map: careerTextPicture,
         transparent: true,
@@ -311,11 +311,11 @@ class FirstPersonCameraDemo {
       this.scene_.add(careerText);
 
 
-      const skillsTextPicture = new THREE.TextureLoader().load('/Pictures/music.png');
+      const skillsTextPicture = new THREE.TextureLoader().load('/Pictures/skills.png');
       skillsTextPicture.encoding = THREE.sRGBEncoding;
       
       // Create TV Display geometry and material
-      const skillsTextGeometry = new THREE.PlaneGeometry(14, 9.5);
+      const skillsTextGeometry = new THREE.PlaneGeometry(12, 8);
       const skillsTextMaterial = new THREE.MeshBasicMaterial({ 
         map: skillsTextPicture,
         transparent: true,
@@ -324,15 +324,15 @@ class FirstPersonCameraDemo {
 
       // Set initial properties of the TV Display
       skillsText.rotation.y = 5*Math.PI / 4;
-      skillsText.position.set(21.5, 16, 19.5);
+      skillsText.position.set(19.5, 16, 21.5);
       this.scene_.add(skillsText);
 
 
-      const ProjectsTextPicture = new THREE.TextureLoader().load('/Pictures/music.png');
+      const ProjectsTextPicture = new THREE.TextureLoader().load('/Pictures/projects.png');
       ProjectsTextPicture.encoding = THREE.sRGBEncoding;
       
       // Create TV Display geometry and material
-      const ProjectsTextGeometry = new THREE.PlaneGeometry(14, 9.5);
+      const ProjectsTextGeometry = new THREE.PlaneGeometry(13, 9);
       const ProjectsTextMaterial = new THREE.MeshBasicMaterial({ 
         map: ProjectsTextPicture,
         transparent: true,
@@ -341,7 +341,7 @@ class FirstPersonCameraDemo {
 
       // Set initial properties of the TV Display
       ProjectsText.rotation.y = 1*Math.PI / 4;
-      ProjectsText.position.set(-21.5, 16, -19.5);
+      ProjectsText.position.set(-19.5, 16, -21.5);
       this.scene_.add(ProjectsText);
 
     } catch (error) {
