@@ -227,7 +227,6 @@ class FirstPersonCamera {
     const intersects = this.raycaster_.intersectObjects(this.interactableObjects, true);
     
     const clickPrompt = document.getElementById('click-prompt');
-    clickPrompt.style.transform = 'scale(0.5)';
 
     if (intersects.length > 0 && !this.isZoomedIn) {
       let object = intersects[0].object;
