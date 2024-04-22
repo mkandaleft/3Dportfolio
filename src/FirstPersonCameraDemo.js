@@ -484,8 +484,6 @@ class FirstPersonCameraDemo {
       const bigTV1Material = new THREE.MeshBasicMaterial({ map: bigTV1TVDisplay });
       const bigTV1Display = new THREE.Mesh(bigTV1Geometry, bigTV1Material);
 
-
-
       // Set initial properties of the TV Display
       bigTV1Display.rotation.y = Math.PI / 2;
       bigTV1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
@@ -493,6 +491,21 @@ class FirstPersonCameraDemo {
       bigTV1Display.name = "bigTV1Display";
       this.scene_.add(bigTV1Display);
           
+
+      const bigTV2TVDisplay = new THREE.TextureLoader().load('/Pictures/areYouEntertained.jpeg');
+      bigTV2TVDisplay.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const bigTV2Geometry = new THREE.PlaneGeometry(15, 7.5);
+      const bigTV2Material = new THREE.MeshBasicMaterial({ map: bigTV2TVDisplay });
+      const bigTV2Display = new THREE.Mesh(bigTV2Geometry, bigTV2Material);
+
+      // Set initial properties of the TV Display
+      bigTV2Display.rotation.y = 3*Math.PI / 2;
+      bigTV2Display.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+      bigTV2Display.position.set(15.4, 17.5, -0.3);
+      bigTV2Display.name = "bigTV2Display";
+      this.scene_.add(bigTV2Display);
 
 
     }  catch (error) {
