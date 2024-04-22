@@ -467,22 +467,9 @@ class FirstPersonCamera {
   }
 
   updateControlDisplay() {
-    const controlsDisplayArea = { minX: -10, maxX: 10, minY: 0, maxY: 10, minZ: -10, maxZ: 10 };
-
     // Allow translation if not zoomed in
     if (!this.isZoomedIn && (this.totalTimeElapsed <= 1000)) {
-      if (
-      this.translation_.x >= controlsDisplayArea.minX &&
-      this.translation_.x <= controlsDisplayArea.maxX &&
-      this.translation_.y >= controlsDisplayArea.minY &&
-      this.translation_.y <= controlsDisplayArea.maxY &&
-      this.translation_.z >= controlsDisplayArea.minZ &&
-      this.translation_.z <= controlsDisplayArea.maxZ
-      ) {
       this.dispatchControlDisplay();
-      } else {
-      this.dispatchControlRemove();
-      }
     } else {
       this.dispatchControlRemove();
     }

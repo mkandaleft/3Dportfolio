@@ -929,7 +929,7 @@ class FirstPersonCameraDemo {
           const duration = 500; // Duration of the animation in milliseconds
           
           // Start the animation
-          this.animateTVDisplay(computerDisplay, initialScale, targetScale, duration);
+          this.animateTVDisplay(computerDisplay);
         }
         break;
       
@@ -957,7 +957,7 @@ class FirstPersonCameraDemo {
         const duration = 500; // Duration of the animation in milliseconds
         
         // Start the animation
-        this.animateTVDisplay(jboxDisplay, initialScale, targetScale, duration);
+        this.animateTVDisplay(jboxDisplay);
       }
         break;
 
@@ -985,7 +985,7 @@ class FirstPersonCameraDemo {
           const duration = 500; // Duration of the animation in milliseconds
           
           // Start the animation
-          this.animateTVDisplay(scrollDisplay, initialScale, targetScale, duration);
+          this.animateTVDisplay(scrollDisplay);
         }
         break;
 
@@ -1014,7 +1014,7 @@ class FirstPersonCameraDemo {
           const duration = 500; // Duration of the animation in milliseconds
           
           // Start the animation
-          this.animateTVDisplay(tv1Display, initialScale, targetScale, duration);
+          this.animateTVDisplay(tv1Display);
         }
         break;
   
@@ -1043,7 +1043,7 @@ class FirstPersonCameraDemo {
           const duration = 500; // Duration of the animation in milliseconds
           
           // Start the animation
-          this.animateTVDisplay(tv2Display, initialScale, targetScale, duration);
+          this.animateTVDisplay(tv2Display);
         }
         break;
     
@@ -1052,9 +1052,14 @@ class FirstPersonCameraDemo {
     }
   }
   
-  animateTVDisplay(mesh, initialScale, targetScale, duration) {
+  animateTVDisplay(mesh) {
     const start = performance.now();
-  
+
+    // Set initial and target scales for the animation
+    const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
+    const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
+    const duration = 500; // Duration of the animation in milliseconds
+
     const animate = (timestamp) => {
       const elapsed = timestamp - start;
       const progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
@@ -1153,13 +1158,8 @@ class FirstPersonCameraDemo {
       controlsDisplay.name = "controlsDisplay";
       this.scene_.add(controlsDisplay);
 
-      // Set initial and target scales for the animation
-      const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-      const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-      const duration = 500; // Duration of the animation in milliseconds
-
       // Start the animation
-      this.animateTVDisplay(controlsDisplay, initialScale, targetScale, duration);
+      this.animateTVDisplay(controlsDisplay);
 
 
 
