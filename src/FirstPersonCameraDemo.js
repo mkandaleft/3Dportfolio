@@ -1119,7 +1119,7 @@ class FirstPersonCameraDemo {
       const distanceInFrontOfCamera = 1.8;
 
       // This value represents the lateral distance the cube is from the camera along the camera's local X-axis.
-      const lateralDistance = -0.5;
+      const lateralDistance = -0.6;
 
       // Calculate the new position
       const offset = new THREE.Vector3(lateralDistance, 0, -distanceInFrontOfCamera);
@@ -1135,7 +1135,7 @@ class FirstPersonCameraDemo {
       cameraEuler.x = 0; // Ignore pitch
       cameraEuler.z = 0; // Ignore roll, if your camera can roll
       controlsDisplay.quaternion.setFromEuler(cameraEuler);
-      controlsDisplay.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), 3*Math.PI / 8));
+      controlsDisplay.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), 2*Math.PI / 8));
 
       // console.log("controls position", controlsDisplay.position);
       // console.log("camera rotation", rotation);

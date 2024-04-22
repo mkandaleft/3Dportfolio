@@ -90,7 +90,9 @@ class FirstPersonCamera {
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
     }
-    this.updateControlDisplay(timeElapsedS);
+    this.checkDistanceToTV();
+    this.updateControlDisplay();
+
     // Reset view if 'r' is pressed and camera is zoomed in
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
       this.resetView();  
@@ -102,7 +104,7 @@ class FirstPersonCamera {
         // this.resetView();
       }
     }
-    this.checkDistanceToTV();
+    this.totalTimeElapsed += 1;
   }
 
   /**
@@ -464,12 +466,11 @@ class FirstPersonCamera {
     this.input_.target_.dispatchEvent(event);
   }
 
-  updateControlDisplay(timeElapsedS) {
+  updateControlDisplay() {
     const controlsDisplayArea = { minX: -10, maxX: 10, minY: 0, maxY: 10, minZ: -10, maxZ: 10 };
 
-    console.log(this.totalTimeElapsed);
     // Allow translation if not zoomed in
-    if (!this.isZoomedIn && (this.totalTimeElapsed <= 2000)) {
+    if (!this.isZoomedIn && (this.totalTimeElapsed <= 1000)) {
       if (
       this.translation_.x >= controlsDisplayArea.minX &&
       this.translation_.x <= controlsDisplayArea.maxX &&
@@ -485,7 +486,6 @@ class FirstPersonCamera {
     } else {
       this.dispatchControlRemove();
     }
-    this.totalTimeElapsed += 1;
   }
 
   dispatchControlDisplay() {
