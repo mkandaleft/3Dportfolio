@@ -56,6 +56,9 @@ class FirstPersonCamera {
       this.raycaster_ = new THREE.Raycaster();
       this.mouse_ = new THREE.Vector2();
       this.interactableObjects = []; 
+
+      this.totalTimeElapsed = 0;
+
       this.input_.target_.addEventListener('checkInteraction', () => this.checkInteraction());
       this.input_.target_.addEventListener('pointerLockChange', () => this.pointerLockChange());
 
@@ -87,7 +90,7 @@ class FirstPersonCamera {
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
     }
-    this.updateControlDisplay();
+    this.updateControlDisplay(timeElapsedS);
     // Reset view if 'r' is pressed and camera is zoomed in
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
       this.resetView();  
@@ -461,26 +464,28 @@ class FirstPersonCamera {
     this.input_.target_.dispatchEvent(event);
   }
 
-  updateControlDisplay() {
-    const controlsDisplayArea = { minX: -6, maxX: 6, minY: 0, maxY: 10, minZ: -6, maxZ: 6 };
-    
+  updateControlDisplay(timeElapsedS) {
+    const controlsDisplayArea = { minX: -10, maxX: 10, minY: 0, maxY: 10, minZ: -10, maxZ: 10 };
+
+    console.log(this.totalTimeElapsed);
     // Allow translation if not zoomed in
-    if (!this.isZoomedIn) {
+    if (!this.isZoomedIn && (this.totalTimeElapsed <= 2000)) {
       if (
-        this.translation_.x >= controlsDisplayArea.minX &&
-        this.translation_.x <= controlsDisplayArea.maxX &&
-        this.translation_.y >= controlsDisplayArea.minY &&
-        this.translation_.y <= controlsDisplayArea.maxY &&
-        this.translation_.z >= controlsDisplayArea.minZ &&
-        this.translation_.z <= controlsDisplayArea.maxZ
+      this.translation_.x >= controlsDisplayArea.minX &&
+      this.translation_.x <= controlsDisplayArea.maxX &&
+      this.translation_.y >= controlsDisplayArea.minY &&
+      this.translation_.y <= controlsDisplayArea.maxY &&
+      this.translation_.z >= controlsDisplayArea.minZ &&
+      this.translation_.z <= controlsDisplayArea.maxZ
       ) {
-        this.dispatchControlDisplay();
+      this.dispatchControlDisplay();
       } else {
-        this.dispatchControlRemove();
+      this.dispatchControlRemove();
       }
     } else {
       this.dispatchControlRemove();
     }
+    this.totalTimeElapsed += 1;
   }
 
   dispatchControlDisplay() {

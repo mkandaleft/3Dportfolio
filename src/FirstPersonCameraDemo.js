@@ -1116,7 +1116,7 @@ class FirstPersonCameraDemo {
 
     if (controlsDisplay) {
       // This value represents the distance the cube is from the camera along the camera's local Z-axis.
-      const distanceInFrontOfCamera = 1.7;
+      const distanceInFrontOfCamera = 1.8;
 
       // This value represents the lateral distance the cube is from the camera along the camera's local X-axis.
       const lateralDistance = -0.5;
@@ -1137,8 +1137,8 @@ class FirstPersonCameraDemo {
       controlsDisplay.quaternion.setFromEuler(cameraEuler);
       controlsDisplay.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), 3*Math.PI / 8));
 
-      console.log("controls position", controlsDisplay.position);
-      console.log("camera rotation", rotation);
+      // console.log("controls position", controlsDisplay.position);
+      // console.log("camera rotation", rotation);
       // console.log("cube rotation", controlsDisplay.quaternion);
     }
   }
