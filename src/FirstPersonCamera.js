@@ -43,6 +43,7 @@ class FirstPersonCamera {
       this.camera_ = camera;
       this.isZoomedIn = false;
       this.isInMenu - false;
+      this.isAnimating = false;
       this.input_ = new InputController(document, this.isZoomedCallback.bind(this));
       this.rotation_ = new THREE.Quaternion();
       this.translation_ = new THREE.Vector3(0, 2.5, 0);
@@ -92,6 +93,8 @@ class FirstPersonCamera {
     }
     this.checkDistanceToTV();
     this.updateControlDisplay();
+
+    
 
     // Reset view if 'r' is pressed and camera is zoomed in
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
@@ -267,7 +270,7 @@ class FirstPersonCamera {
   }
 
   checkDistanceToTV() {
-    if (!this.isZoomedIn) {
+    if (!this.isZoomedIn && !this.isAnimating) {
       if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) < 10) {
         this.dispatchTVDisplay("computer");
       }
@@ -298,13 +301,13 @@ class FirstPersonCamera {
         this.dispatchTVRemoveDisplay("tv2");
       }
     }
-    if (this.isZoomedIn) {
-      this.dispatchTVRemoveDisplay("computer");
-      this.dispatchTVRemoveDisplay("jbox");
-      this.dispatchTVRemoveDisplay("scroll");
-      this.dispatchTVRemoveDisplay("tv1");
-      this.dispatchTVRemoveDisplay("tv2");
-    }
+    // if (this.isZoomedIn) {
+    //   this.dispatchTVRemoveDisplay("computer");
+    //   this.dispatchTVRemoveDisplay("jbox");
+    //   this.dispatchTVRemoveDisplay("scroll");
+    //   this.dispatchTVRemoveDisplay("tv1");
+    //   this.dispatchTVRemoveDisplay("tv2");
+    // }
   }
 
   /**

@@ -923,6 +923,10 @@ class FirstPersonCameraDemo {
           computerDisplay.name = "computerDisplay";
           this.scene_.add(computerDisplay);
           
+          this.fpsCamera_.isAnimating = true;
+
+
+
           // Start the animation
           this.animateTVDisplay(computerDisplay);
         }
@@ -946,6 +950,7 @@ class FirstPersonCameraDemo {
         jboxDisplay.name = "jboxDisplay";
         this.scene_.add(jboxDisplay);
         
+        this.fpsCamera_.isAnimating = true;
         // Start the animation
         this.animateTVDisplay(jboxDisplay);
       }
@@ -969,6 +974,7 @@ class FirstPersonCameraDemo {
           scrollDisplay.name = "scrollDisplay";
           this.scene_.add(scrollDisplay);
           
+          this.fpsCamera_.isAnimating = true;
           // Start the animation
           this.animateTVDisplay(scrollDisplay);
         }
@@ -993,6 +999,7 @@ class FirstPersonCameraDemo {
           tv1Display.name = "tv1Display";
           this.scene_.add(tv1Display);
           
+          this.fpsCamera_.isAnimating = true;
           // Start the animation
           this.animateTVDisplay(tv1Display);
         }
@@ -1017,6 +1024,7 @@ class FirstPersonCameraDemo {
           tv2Display.name = "tv2Display";
           this.scene_.add(tv2Display);
           
+          this.fpsCamera_.isAnimating = true;
           // Start the animation
           this.animateTVDisplay(tv2Display);
         }
@@ -1033,36 +1041,45 @@ class FirstPersonCameraDemo {
       case "computer":        
       const computerDisplay = this.scene_.getObjectByName("computerDisplay");
       if (computerDisplay) {
-        
-        this.scene_.remove(computerDisplay);
+        this.fpsCamera_.isAnimating = true;
+        console.log("computerDisplay", computerDisplay);
+        this.deAnimateTVDisplay(computerDisplay);
       }
         break;
     
       case "jbox":
         const jboxDisplay = this.scene_.getObjectByName("jboxDisplay");
         if (jboxDisplay) {
-          this.scene_.remove(jboxDisplay);
+          this.fpsCamera_.isAnimating = true;
+          console.log("jboxDisplay", jboxDisplay);
+          this.deAnimateTVDisplay(jboxDisplay);
         }
         break;
 
       case "scroll":
         const scrollDisplay = this.scene_.getObjectByName("scrollDisplay");
         if (scrollDisplay) {
-          this.scene_.remove(scrollDisplay);
+          this.fpsCamera_.isAnimating = true;
+          console.log("scrollDisplay", scrollDisplay);
+          this.deAnimateTVDisplay(scrollDisplay);
         }
         break;
 
       case "tv1":
         const tv1Display = this.scene_.getObjectByName("tv1Display");
         if (tv1Display) {
-          this.scene_.remove(tv1Display);
+          this.fpsCamera_.isAnimating = true;
+          console.log("tv1Display", tv1Display);
+          this.deAnimateTVDisplay(tv1Display);
         }
         break;
 
       case "tv2":
         const tv2Display = this.scene_.getObjectByName("tv2Display");
         if (tv2Display) {
-          this.scene_.remove(tv2Display);
+          this.fpsCamera_.isAnimating = true;
+          console.log("tv2Display", tv2Display);
+          this.deAnimateTVDisplay(tv2Display);
         }
         break;
 
@@ -1072,6 +1089,7 @@ class FirstPersonCameraDemo {
   }
 
   animateTVDisplay(mesh) {
+    console.log("AnimateTVDisplay");
     const start = performance.now();
 
     // Set initial and target scales for the animation
@@ -1088,6 +1106,9 @@ class FirstPersonCameraDemo {
   
       if (progress < 1) {
         requestAnimationFrame(animate);
+      } else {
+        console.log("From animate "+this.fpsCamera_.isAnimating);
+        this.fpsCamera_.isAnimating = false;
       }
     };
   
@@ -1095,6 +1116,7 @@ class FirstPersonCameraDemo {
   }
 
   deAnimateTVDisplay(mesh) {
+    console.log("deAnimateTVDisplay");
     const start = performance.now();
 
     // Set initial and target scales for the animation
@@ -1103,14 +1125,22 @@ class FirstPersonCameraDemo {
     const duration = 500; // Duration of the animation in milliseconds
 
     const deAnimate = (timestamp) => {
+      // console.log("start", start);
+      // console.log("timestamp", timestamp);
+      // console.log("elapsed", elapsed);
       const elapsed = timestamp - start;
       const progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
+      // console.log("progress", progress);
       
       // No need to clone initialScale as we're not changing it
       mesh.scale.lerpVectors(initialScale, targetScale, progress);
   
       if (progress < 1) {
         requestAnimationFrame(deAnimate);
+      } else {
+        this.scene_.remove(mesh);
+        console.log("From de-animate "+this.fpsCamera_.isAnimating);
+        this.fpsCamera_.isAnimating = false;
       }
     };
   
@@ -1193,6 +1223,7 @@ class FirstPersonCameraDemo {
   removeControlDisplay() {
     const controlsDisplay = this.scene_.getObjectByName("controlsDisplay");
     if (controlsDisplay) {
+      this.deAnimateTVDisplay(controlsDisplay);
       this.scene_.remove(controlsDisplay);
     }
 
@@ -1222,7 +1253,7 @@ class FirstPersonCameraDemo {
       if (this.previousRAF_ === null) {
         this.previousRAF_ = t;
       }
-      
+      console.log("From raf "+this.fpsCamera_.isAnimating);
       this.step_(t - this.previousRAF_);
       this.threejs_.autoClear = true;
       this.threejs_.render(this.scene_, this.camera_);
