@@ -157,6 +157,17 @@ th {
   z-index: 1000;
 }
 
+.escape {
+  position: fixed;
+  top: 0;
+  left: 20px; /* Adjust the value as needed */
+  transform: translate(0%, 30%);
+  z-index: 1000;
+  border: 5px solid #434343db;
+  border-color: #234E52;
+  border-radius: 10px;
+}
+
 .container {
   display: flex;
   justify-content: space-between;
