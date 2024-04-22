@@ -922,11 +922,6 @@ class FirstPersonCameraDemo {
           computerDisplay.position.set(15.5, 2.2, 15.5);
           computerDisplay.name = "computerDisplay";
           this.scene_.add(computerDisplay);
-  
-          // Set initial and target scales for the animation
-          const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-          const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-          const duration = 500; // Duration of the animation in milliseconds
           
           // Start the animation
           this.animateTVDisplay(computerDisplay);
@@ -950,11 +945,6 @@ class FirstPersonCameraDemo {
         jboxDisplay.position.set(15.4, 2.2, -15.4);
         jboxDisplay.name = "jboxDisplay";
         this.scene_.add(jboxDisplay);
-
-        // Set initial and target scales for the animation
-        const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-        const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-        const duration = 500; // Duration of the animation in milliseconds
         
         // Start the animation
         this.animateTVDisplay(jboxDisplay);
@@ -978,11 +968,6 @@ class FirstPersonCameraDemo {
           scrollDisplay.position.set(-15.4, 2.2, 15.4);
           scrollDisplay.name = "scrollDisplay";
           this.scene_.add(scrollDisplay);
-  
-          // Set initial and target scales for the animation
-          const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-          const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-          const duration = 500; // Duration of the animation in milliseconds
           
           // Start the animation
           this.animateTVDisplay(scrollDisplay);
@@ -1007,11 +992,6 @@ class FirstPersonCameraDemo {
           tv1Display.position.set(-14.8, 4.35, -20.55);
           tv1Display.name = "tv1Display";
           this.scene_.add(tv1Display);
-  
-          // Set initial and target scales for the animation
-          const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-          const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-          const duration = 500; // Duration of the animation in milliseconds
           
           // Start the animation
           this.animateTVDisplay(tv1Display);
@@ -1036,11 +1016,6 @@ class FirstPersonCameraDemo {
           tv2Display.position.set(-14.8, 7.8, -20.55);
           tv2Display.name = "tv2Display";
           this.scene_.add(tv2Display);
-  
-          // Set initial and target scales for the animation
-          const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-          const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-          const duration = 500; // Duration of the animation in milliseconds
           
           // Start the animation
           this.animateTVDisplay(tv2Display);
@@ -1052,55 +1027,13 @@ class FirstPersonCameraDemo {
     }
   }
   
-  animateTVDisplay(mesh) {
-    const start = performance.now();
-
-    // Set initial and target scales for the animation
-    const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-    const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-    const duration = 500; // Duration of the animation in milliseconds
-
-    const animate = (timestamp) => {
-      const elapsed = timestamp - start;
-      const progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
-      
-      // No need to clone initialScale as we're not changing it
-      mesh.scale.lerpVectors(initialScale, targetScale, progress);
-  
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-  
-    requestAnimationFrame(animate);
-  }
-
-  // if (this.scene_.getObjectById(tv1Display.id) == undefined) {
-  //   // TV Display
-  //   const condoMAXiumTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/condomaxTv.png');
-  //   condoMAXiumTVDisplay.encoding = THREE.sRGBEncoding;
-  //   const tv1Geometry = new THREE.PlaneGeometry(4, 2);
-  //   const tv1Material = new THREE.MeshBasicMaterial({ map: condoMAXiumTVDisplay });
-  //   const tv1Display = new THREE.Mesh(tv1Geometry, tv1Material);
-
-
-  //   tv1Display.rotation.y = 0 / 2;
-  //   tv1Display.rotation.x = Math.PI / 5;
-  //   // const rotationAxis1 = new THREE.Vector3(1, 0, 0).normalize();
-  //   // const rotationAngle1 = Math.PI / 2;
-  //   // tv1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
-  //   tv1Display.scale.set(1.1, 1.2, 1.1);
-  //   tv1Display.position.set(-14.8, 4.35, -20.55);
-  //   this.scene_.add(tv1Display);
-  //   break;
-  // }
-
   checkTVRemoveDisplay(contentName) {
     
     switch (contentName) {
       case "computer":        
       const computerDisplay = this.scene_.getObjectByName("computerDisplay");
       if (computerDisplay) {
+        
         this.scene_.remove(computerDisplay);
       }
         break;
@@ -1136,6 +1069,52 @@ class FirstPersonCameraDemo {
       default:
         break;
     }
+  }
+
+  animateTVDisplay(mesh) {
+    const start = performance.now();
+
+    // Set initial and target scales for the animation
+    const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
+    const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
+    const duration = 500; // Duration of the animation in milliseconds
+
+    const animate = (timestamp) => {
+      const elapsed = timestamp - start;
+      const progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
+      
+      // No need to clone initialScale as we're not changing it
+      mesh.scale.lerpVectors(initialScale, targetScale, progress);
+  
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+  
+    requestAnimationFrame(animate);
+  }
+
+  deAnimateTVDisplay(mesh) {
+    const start = performance.now();
+
+    // Set initial and target scales for the animation
+    const initialScale = new THREE.Vector3(1.1, 1.2, 1.1); // Start with a very thin line
+    const targetScale = new THREE.Vector3(1, 0.001, 1); // The final desired scale
+    const duration = 500; // Duration of the animation in milliseconds
+
+    const deAnimate = (timestamp) => {
+      const elapsed = timestamp - start;
+      const progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
+      
+      // No need to clone initialScale as we're not changing it
+      mesh.scale.lerpVectors(initialScale, targetScale, progress);
+  
+      if (progress < 1) {
+        requestAnimationFrame(deAnimate);
+      }
+    };
+  
+    requestAnimationFrame(deAnimate);
   }
 
   addControlDisplay(position, rotation) {
