@@ -93,8 +93,7 @@ class FirstPersonCamera {
     }
     this.checkDistanceToTV();
     this.updateControlDisplay();
-
-    
+    this.updateEscapeDisplay();
 
     // Reset view if 'r' is pressed and camera is zoomed in
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
@@ -485,6 +484,19 @@ class FirstPersonCamera {
   dispatchControlRemove() {
     const event = new CustomEvent('removeControlDisplay');
     this.input_.target_.dispatchEvent(event);
+  }
+
+  updateEscapeDisplay() {
+    const escapeDisplay = document.getElementById('escapeDisplay');
+    if (!this.isZoomedIn) {
+      if (!escapeDisplay.style.display || escapeDisplay.style.display === 'none') {
+        escapeDisplay.style.display = 'block';
+      }
+    } else {
+      if (escapeDisplay.style.display !== 'none') {
+        escapeDisplay.style.display = 'none';
+      }
+    }
   }
   
   /**
