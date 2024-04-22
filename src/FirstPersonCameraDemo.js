@@ -38,9 +38,7 @@ class FirstPersonCameraDemo {
       }, 8000);
 
       document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
-
       document.addEventListener('checkTVRemoveDisplay', (event) => this.checkTVRemoveDisplay(event.detail.contentName));
-     
     });
     
   }
@@ -200,7 +198,7 @@ class FirstPersonCameraDemo {
 
     // Load Signs
     try {
-      const sign1 = await this.loadModel_('Map/Sign/billboard park-test.glb');
+      const sign1 = await this.loadModel_('Map/Sign/billboard_park.glb');
       sign1.scene.scale.set(0.7, 0.7, 0.7);
       sign1.scene.rotation.y = 5*Math.PI / 4;
       sign1.scene.position.x += 21;
@@ -275,6 +273,74 @@ class FirstPersonCameraDemo {
       plane4.rotation.y = 7*Math.PI / 4;
       plane4.receiveShadow = true;
       this.scene_.add(plane4);
+
+      const musicTextPicture = new THREE.TextureLoader().load('/Pictures/music.png');
+      musicTextPicture.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const musicTextGeometry = new THREE.PlaneGeometry(14, 9.5);
+      const musicTextMaterial = new THREE.MeshBasicMaterial({ 
+        map: musicTextPicture,
+        transparent: true,
+        alphaTest: 0.5 });
+      const musicText = new THREE.Mesh(musicTextGeometry, musicTextMaterial);
+
+      // Set initial properties of the TV Display
+      musicText.rotation.y = 7*Math.PI / 4;
+      musicText.position.set(21.5, 16, -19.5);
+      this.scene_.add(musicText);
+
+
+      const careerTextPicture = new THREE.TextureLoader().load('/Pictures/career.png');
+      careerTextPicture.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const careerTextGeometry = new THREE.PlaneGeometry(13, 9);
+      const careerTextMaterial = new THREE.MeshBasicMaterial({ 
+        map: careerTextPicture,
+        transparent: true,
+        alphaTest: 0.5 });
+      const careerText = new THREE.Mesh(careerTextGeometry, careerTextMaterial);
+
+      // Set initial properties of the TV Display
+      careerText.rotation.y = 3*Math.PI / 4;
+      careerText.position.set(-21.5, 16, 19.5);
+      this.scene_.add(careerText);
+
+
+      const skillsTextPicture = new THREE.TextureLoader().load('/Pictures/skills.png');
+      skillsTextPicture.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const skillsTextGeometry = new THREE.PlaneGeometry(12, 8);
+      const skillsTextMaterial = new THREE.MeshBasicMaterial({ 
+        map: skillsTextPicture,
+        transparent: true,
+        alphaTest: 0.5 });
+      const skillsText = new THREE.Mesh(skillsTextGeometry, skillsTextMaterial);
+
+      // Set initial properties of the TV Display
+      skillsText.rotation.y = 5*Math.PI / 4;
+      skillsText.position.set(19.5, 16, 21.5);
+      this.scene_.add(skillsText);
+
+
+      const ProjectsTextPicture = new THREE.TextureLoader().load('/Pictures/projects.png');
+      ProjectsTextPicture.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const ProjectsTextGeometry = new THREE.PlaneGeometry(13, 9);
+      const ProjectsTextMaterial = new THREE.MeshBasicMaterial({ 
+        map: ProjectsTextPicture,
+        transparent: true,
+        alphaTest: 0.5 });
+      const ProjectsText = new THREE.Mesh(ProjectsTextGeometry, ProjectsTextMaterial);
+
+      // Set initial properties of the TV Display
+      ProjectsText.rotation.y = 1*Math.PI / 4;
+      ProjectsText.position.set(-19.5, 16, -21.5);
+      this.scene_.add(ProjectsText);
+
     } catch (error) {
       console.error('Error loading model:', error);
     }
@@ -407,6 +473,41 @@ class FirstPersonCameraDemo {
       tv2.scene.position.y += 25;
       tv2.scene.position.z += -36;
       this.scene_.add(tv2.scene);
+
+
+
+      const bigTV1TVDisplay = new THREE.TextureLoader().load('/Pictures/areYouEntertained.jpeg');
+      bigTV1TVDisplay.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const bigTV1Geometry = new THREE.PlaneGeometry(15, 7.5);
+      const bigTV1Material = new THREE.MeshBasicMaterial({ map: bigTV1TVDisplay });
+      const bigTV1Display = new THREE.Mesh(bigTV1Geometry, bigTV1Material);
+
+      // Set initial properties of the TV Display
+      bigTV1Display.rotation.y = Math.PI / 2;
+      bigTV1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+      bigTV1Display.position.set(-15.4, 17.5, 0.3);
+      bigTV1Display.name = "bigTV1Display";
+      this.scene_.add(bigTV1Display);
+          
+
+      const bigTV2TVDisplay = new THREE.TextureLoader().load('/Pictures/areYouEntertained.jpeg');
+      bigTV2TVDisplay.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const bigTV2Geometry = new THREE.PlaneGeometry(15, 7.5);
+      const bigTV2Material = new THREE.MeshBasicMaterial({ map: bigTV2TVDisplay });
+      const bigTV2Display = new THREE.Mesh(bigTV2Geometry, bigTV2Material);
+
+      // Set initial properties of the TV Display
+      bigTV2Display.rotation.y = 3*Math.PI / 2;
+      bigTV2Display.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+      bigTV2Display.position.set(15.4, 17.5, -0.3);
+      bigTV2Display.name = "bigTV2Display";
+      this.scene_.add(bigTV2Display);
+
+
     }  catch (error) {
       console.error('Error loading model:', error);
     }
@@ -853,14 +954,13 @@ class FirstPersonCameraDemo {
           computerDisplay.position.set(15.5, 2.2, 15.5);
           computerDisplay.name = "computerDisplay";
           this.scene_.add(computerDisplay);
-  
-          // Set initial and target scales for the animation
-          const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-          const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-          const duration = 500; // Duration of the animation in milliseconds
           
+          this.fpsCamera_.isAnimating = true;
+
+
+
           // Start the animation
-          this.animateTVDisplay(computerDisplay, initialScale, targetScale, duration);
+          this.animateTVDisplay(computerDisplay);
         }
         break;
       
@@ -881,14 +981,10 @@ class FirstPersonCameraDemo {
         jboxDisplay.position.set(15.4, 2.2, -15.4);
         jboxDisplay.name = "jboxDisplay";
         this.scene_.add(jboxDisplay);
-
-        // Set initial and target scales for the animation
-        const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-        const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-        const duration = 500; // Duration of the animation in milliseconds
         
+        this.fpsCamera_.isAnimating = true;
         // Start the animation
-        this.animateTVDisplay(jboxDisplay, initialScale, targetScale, duration);
+        this.animateTVDisplay(jboxDisplay);
       }
         break;
 
@@ -909,14 +1005,10 @@ class FirstPersonCameraDemo {
           scrollDisplay.position.set(-15.4, 2.2, 15.4);
           scrollDisplay.name = "scrollDisplay";
           this.scene_.add(scrollDisplay);
-  
-          // Set initial and target scales for the animation
-          const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-          const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-          const duration = 500; // Duration of the animation in milliseconds
           
+          this.fpsCamera_.isAnimating = true;
           // Start the animation
-          this.animateTVDisplay(scrollDisplay, initialScale, targetScale, duration);
+          this.animateTVDisplay(scrollDisplay);
         }
         break;
 
@@ -938,14 +1030,10 @@ class FirstPersonCameraDemo {
           tv1Display.position.set(-14.8, 4.35, -20.55);
           tv1Display.name = "tv1Display";
           this.scene_.add(tv1Display);
-  
-          // Set initial and target scales for the animation
-          const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-          const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-          const duration = 500; // Duration of the animation in milliseconds
           
+          this.fpsCamera_.isAnimating = true;
           // Start the animation
-          this.animateTVDisplay(tv1Display, initialScale, targetScale, duration);
+          this.animateTVDisplay(tv1Display);
         }
         break;
   
@@ -967,14 +1055,10 @@ class FirstPersonCameraDemo {
           tv2Display.position.set(-14.8, 7.8, -20.55);
           tv2Display.name = "tv2Display";
           this.scene_.add(tv2Display);
-  
-          // Set initial and target scales for the animation
-          const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
-          const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-          const duration = 500; // Duration of the animation in milliseconds
           
+          this.fpsCamera_.isAnimating = true;
           // Start the animation
-          this.animateTVDisplay(tv2Display, initialScale, targetScale, duration);
+          this.animateTVDisplay(tv2Display);
         }
         break;
     
@@ -983,9 +1067,68 @@ class FirstPersonCameraDemo {
     }
   }
   
-  animateTVDisplay(mesh, initialScale, targetScale, duration) {
+  checkTVRemoveDisplay(contentName) {
+    
+    switch (contentName) {
+      case "computer":        
+      const computerDisplay = this.scene_.getObjectByName("computerDisplay");
+      if (computerDisplay) {
+        this.fpsCamera_.isAnimating = true;
+        console.log("computerDisplay", computerDisplay);
+        this.deAnimateTVDisplay(computerDisplay);
+      }
+        break;
+    
+      case "jbox":
+        const jboxDisplay = this.scene_.getObjectByName("jboxDisplay");
+        if (jboxDisplay) {
+          this.fpsCamera_.isAnimating = true;
+          console.log("jboxDisplay", jboxDisplay);
+          this.deAnimateTVDisplay(jboxDisplay);
+        }
+        break;
+
+      case "scroll":
+        const scrollDisplay = this.scene_.getObjectByName("scrollDisplay");
+        if (scrollDisplay) {
+          this.fpsCamera_.isAnimating = true;
+          console.log("scrollDisplay", scrollDisplay);
+          this.deAnimateTVDisplay(scrollDisplay);
+        }
+        break;
+
+      case "tv1":
+        const tv1Display = this.scene_.getObjectByName("tv1Display");
+        if (tv1Display) {
+          this.fpsCamera_.isAnimating = true;
+          console.log("tv1Display", tv1Display);
+          this.deAnimateTVDisplay(tv1Display);
+        }
+        break;
+
+      case "tv2":
+        const tv2Display = this.scene_.getObjectByName("tv2Display");
+        if (tv2Display) {
+          this.fpsCamera_.isAnimating = true;
+          console.log("tv2Display", tv2Display);
+          this.deAnimateTVDisplay(tv2Display);
+        }
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  animateTVDisplay(mesh) {
+    console.log("AnimateTVDisplay");
     const start = performance.now();
-  
+
+    // Set initial and target scales for the animation
+    const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
+    const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
+    const duration = 500; // Duration of the animation in milliseconds
+
     const animate = (timestamp) => {
       const elapsed = timestamp - start;
       const progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
@@ -995,73 +1138,45 @@ class FirstPersonCameraDemo {
   
       if (progress < 1) {
         requestAnimationFrame(animate);
+      } else {
+        console.log("From animate "+this.fpsCamera_.isAnimating);
+        this.fpsCamera_.isAnimating = false;
       }
     };
   
     requestAnimationFrame(animate);
   }
 
-  // if (this.scene_.getObjectById(tv1Display.id) == undefined) {
-  //   // TV Display
-  //   const condoMAXiumTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/condomaxTv.png');
-  //   condoMAXiumTVDisplay.encoding = THREE.sRGBEncoding;
-  //   const tv1Geometry = new THREE.PlaneGeometry(4, 2);
-  //   const tv1Material = new THREE.MeshBasicMaterial({ map: condoMAXiumTVDisplay });
-  //   const tv1Display = new THREE.Mesh(tv1Geometry, tv1Material);
+  deAnimateTVDisplay(mesh) {
+    console.log("deAnimateTVDisplay");
+    const start = performance.now();
 
+    // Set initial and target scales for the animation
+    const initialScale = new THREE.Vector3(1.1, 1.2, 1.1); // Start with a very thin line
+    const targetScale = new THREE.Vector3(1, 0.001, 1); // The final desired scale
+    const duration = 500; // Duration of the animation in milliseconds
 
-  //   tv1Display.rotation.y = 0 / 2;
-  //   tv1Display.rotation.x = Math.PI / 5;
-  //   // const rotationAxis1 = new THREE.Vector3(1, 0, 0).normalize();
-  //   // const rotationAngle1 = Math.PI / 2;
-  //   // tv1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
-  //   tv1Display.scale.set(1.1, 1.2, 1.1);
-  //   tv1Display.position.set(-14.8, 4.35, -20.55);
-  //   this.scene_.add(tv1Display);
-  //   break;
-  // }
-
-  checkTVRemoveDisplay(contentName) {
-    
-    switch (contentName) {
-      case "computer":        
-      const computerDisplay = this.scene_.getObjectByName("computerDisplay");
-      if (computerDisplay) {
-        this.scene_.remove(computerDisplay);
+    const deAnimate = (timestamp) => {
+      // console.log("start", start);
+      // console.log("timestamp", timestamp);
+      // console.log("elapsed", elapsed);
+      const elapsed = timestamp - start;
+      const progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
+      // console.log("progress", progress);
+      
+      // No need to clone initialScale as we're not changing it
+      mesh.scale.lerpVectors(initialScale, targetScale, progress);
+  
+      if (progress < 1) {
+        requestAnimationFrame(deAnimate);
+      } else {
+        this.scene_.remove(mesh);
+        console.log("From de-animate "+this.fpsCamera_.isAnimating);
+        this.fpsCamera_.isAnimating = false;
       }
-        break;
-    
-      case "jbox":
-        const jboxDisplay = this.scene_.getObjectByName("jboxDisplay");
-        if (jboxDisplay) {
-          this.scene_.remove(jboxDisplay);
-        }
-        break;
-
-      case "scroll":
-        const scrollDisplay = this.scene_.getObjectByName("scrollDisplay");
-        if (scrollDisplay) {
-          this.scene_.remove(scrollDisplay);
-        }
-        break;
-
-      case "tv1":
-        const tv1Display = this.scene_.getObjectByName("tv1Display");
-        if (tv1Display) {
-          this.scene_.remove(tv1Display);
-        }
-        break;
-
-      case "tv2":
-        const tv2Display = this.scene_.getObjectByName("tv2Display");
-        if (tv2Display) {
-          this.scene_.remove(tv2Display);
-        }
-        break;
-
-      default:
-        break;
-    }
+    };
+  
+    requestAnimationFrame(deAnimate);
   }
 
   /**
@@ -1088,7 +1203,7 @@ class FirstPersonCameraDemo {
       if (this.previousRAF_ === null) {
         this.previousRAF_ = t;
       }
-      
+      console.log("From raf "+this.fpsCamera_.isAnimating);
       this.step_(t - this.previousRAF_);
       this.threejs_.autoClear = true;
       this.threejs_.render(this.scene_, this.camera_);

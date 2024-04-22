@@ -18,14 +18,8 @@
         </br></br>
         Click on this button to start the experience. The app will merge your mouse 
         to the browser window for camera control, <strong>you can always return by 
-        pressing escape.</strong> If you want to lock back onto the window, simply 
-        click </br>
-        ¯\_(ツ)_/¯
-        <h2 mb-2>Controls</h2>
-        1) WASD to walk around</br>
-        2) Mouse to look around</br>
-        3) Left click to interact with objects</br>
-        4) escape to open menu/unlock pointer</br>
+        pressing escape.</strong></br>
+        ¯\_(ツ)_/¯</br>
         <h2>Enjoy!</h2>
         <strong>Github:</strong> <a href="https://github.com/mkandaleft" target="_blank">mkandaleft</a></br>
         <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/mark-kandaleft-578675266" target="_blank">Mark Kandaleft</a></br>
@@ -43,6 +37,10 @@
     <div id="app" style="display: none;" class="center-container">
       <!--div id="camera-coordinates" style="position: absolute; top: 0; left: 0;"></div-->
       <img id="click-prompt" style="display: none;" src="Pictures/pointer.png" class="pointer"></img>
+      <img id="escapeDisplay" style="display: none;" src="Pictures/escape.png" class="escape"></img>
+      <img id="controlsDisplay" style="display: none;" src="Pictures/controls.png" class="controls"></img>
+
+      
       <button id="resetView" style="display: none;">Return</button>
       <div id="escapeMenu" class="object-content" style="display: none;" p-6>
         <h1>Menu</h1>
@@ -56,11 +54,11 @@
           <h2>Controls</h2>
           1) WASD to walk around</br>
           2) Mouse to look around</br>
-          3) Left click to interact with objects</br>
-          4) escape to open menu/unlock pointer
+          3) Click to interact with objects</br>
+          4) Escape to open menu
         </div>
-        To Exit Simulation</br>
-        <button id="ExitButton">Exit</button>
+        To Exit Simulation</br></br>
+        <button id="ExitButton">Exit</button></br></br>
       </div>
       <div id="contentForJBox" class="object-content" style="display: none;" p-6>
         <h1  mb-4>My Music</h1>
@@ -240,12 +238,6 @@
           <img src="Projects/CondoMAXium/unitList.png" width="800px" style="border: 10px solid; color: #234E52; margin-bottom: 20px;"></img>
         </div>
       </div>
-
-
-
-
-
-
       <div id="contentForTime2Chill" class="object-content" style="display: none;">
         <h1 mb-4>Time2Chill</h1>
         <div mb-2 style="display: flex; align-items: flex-start;">
@@ -286,10 +278,6 @@
           <img src="Projects/Time2Chill/morePages.png" width="800px" style="border: 10px solid; color: #234E52; margin-bottom: 20px;"></img>
         </div>
       </div>
-
-
-
-
       <img id="hidden" class="object-content" src="Pictures/emi.jpg" style="display: none;"></img>
     </div>
     <script type="module" src="src/main.js">

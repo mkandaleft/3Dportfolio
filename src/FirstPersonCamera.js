@@ -43,6 +43,7 @@ class FirstPersonCamera {
       this.camera_ = camera;
       this.isZoomedIn = false;
       this.isInMenu - false;
+      this.isAnimating = false;
       this.input_ = new InputController(document, this.isZoomedCallback.bind(this));
       this.rotation_ = new THREE.Quaternion();
       this.translation_ = new THREE.Vector3(0, 2.5, 0);
@@ -56,6 +57,9 @@ class FirstPersonCamera {
       this.raycaster_ = new THREE.Raycaster();
       this.mouse_ = new THREE.Vector2();
       this.interactableObjects = []; 
+
+      this.totalTimeElapsed = 0;
+
       this.input_.target_.addEventListener('checkInteraction', () => this.checkInteraction());
       this.input_.target_.addEventListener('pointerLockChange', () => this.pointerLockChange());
 
@@ -84,11 +88,13 @@ class FirstPersonCamera {
     this.updateHeadBob_(timeElapsedS);
     this.input_.update(timeElapsedS);
     this.promptInteraction();
-
-    // Allow translation if not zoomed in
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
     }
+    this.checkDistanceToTV();
+    this.updateControlDisplay();
+    this.updateEscapeDisplay();
+
     // Reset view if 'r' is pressed and camera is zoomed in
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
       this.resetView();  
@@ -100,7 +106,7 @@ class FirstPersonCamera {
         // this.resetView();
       }
     }
-    this.checkDistanceToTV();
+    this.totalTimeElapsed += 1;
   }
 
   /**
@@ -220,7 +226,6 @@ class FirstPersonCamera {
     const intersects = this.raycaster_.intersectObjects(this.interactableObjects, true);
     
     const clickPrompt = document.getElementById('click-prompt');
-    clickPrompt.style.transform = 'scale(0.5)';
 
     if (intersects.length > 0 && !this.isZoomedIn) {
       let object = intersects[0].object;
@@ -263,7 +268,7 @@ class FirstPersonCamera {
   }
 
   checkDistanceToTV() {
-    if (!this.isZoomedIn) {
+    if (!this.isZoomedIn && !this.isAnimating) {
       if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) < 10) {
         this.dispatchTVDisplay("computer");
       }
@@ -294,13 +299,13 @@ class FirstPersonCamera {
         this.dispatchTVRemoveDisplay("tv2");
       }
     }
-    if (this.isZoomedIn) {
-      this.dispatchTVRemoveDisplay("computer");
-      this.dispatchTVRemoveDisplay("jbox");
-      this.dispatchTVRemoveDisplay("scroll");
-      this.dispatchTVRemoveDisplay("tv1");
-      this.dispatchTVRemoveDisplay("tv2");
-    }
+    // if (this.isZoomedIn) {
+    //   this.dispatchTVRemoveDisplay("computer");
+    //   this.dispatchTVRemoveDisplay("jbox");
+    //   this.dispatchTVRemoveDisplay("scroll");
+    //   this.dispatchTVRemoveDisplay("tv1");
+    //   this.dispatchTVRemoveDisplay("tv2");
+    // }
   }
 
   /**
@@ -460,6 +465,33 @@ class FirstPersonCamera {
   dispatchTVRemoveDisplay(contentName) {
     const event = new CustomEvent('checkTVRemoveDisplay', { detail: { contentName: contentName } });
     this.input_.target_.dispatchEvent(event);
+  }
+
+  updateControlDisplay() {
+    // Allow translation if not zoomed in
+    if (!this.isZoomedIn && (this.totalTimeElapsed <= 500)) {
+      if (!controlsDisplay.style.display || controlsDisplay.style.display === 'none') {
+        controlsDisplay.style.display = 'block';
+      }
+    } else {
+      if (controlsDisplay.style.display !== 'none') {
+        controlsDisplay.style.display = 'none';
+      }
+    }
+  }
+
+  updateEscapeDisplay() {
+    const escapeDisplay = document.getElementById('escapeDisplay');
+    const controls = document.getElementById('controls');
+    if (!this.isZoomedIn) {
+      if (!escapeDisplay.style.display || escapeDisplay.style.display === 'none') {
+        escapeDisplay.style.display = 'block';
+      }
+    } else {
+      if (escapeDisplay.style.display !== 'none') {
+        escapeDisplay.style.display = 'none';
+      }
+    }
   }
   
   /**

@@ -151,9 +151,27 @@ th {
 
 .pointer {
   position: fixed;
-  top: 36%;
-  left: 42%;
+  top: 50%;
+  left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+.escape {
+  position: fixed;
+  top: 0;
+  left: 20px; /* Adjust the value as needed */
+  transform: translate(0%, 30%);
+  z-index: 1000;
+  border: 5px solid #434343db;
+  border-color: #234E52;
+  border-radius: 10px;
+}
+.controls {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  transform: translate(15%, -10%);
   z-index: 1000;
 }
 
@@ -161,9 +179,7 @@ th {
   display: flex;
   justify-content: space-between;
 }
-.controls, .song-list {
-  width: 50%;
-}
+
 
 .logo {
   height: 6em;
@@ -204,6 +220,9 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+
+
 
 @media (prefers-color-scheme: light) {
   :root {
