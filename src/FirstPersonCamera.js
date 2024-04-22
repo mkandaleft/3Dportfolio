@@ -469,25 +469,20 @@ class FirstPersonCamera {
 
   updateControlDisplay() {
     // Allow translation if not zoomed in
-    if (!this.isZoomedIn && (this.totalTimeElapsed <= 1000)) {
-      this.dispatchControlDisplay();
+    if (!this.isZoomedIn && (this.totalTimeElapsed <= 500)) {
+      if (!controlsDisplay.style.display || controlsDisplay.style.display === 'none') {
+        controlsDisplay.style.display = 'block';
+      }
     } else {
-      this.dispatchControlRemove();
+      if (controlsDisplay.style.display !== 'none') {
+        controlsDisplay.style.display = 'none';
+      }
     }
-  }
-
-  dispatchControlDisplay() {
-    const event = new CustomEvent('addControlDisplay', { detail: { position: this.translation_, rotation: this.rotation_ }});
-    this.input_.target_.dispatchEvent(event);
-  }
-
-  dispatchControlRemove() {
-    const event = new CustomEvent('removeControlDisplay');
-    this.input_.target_.dispatchEvent(event);
   }
 
   updateEscapeDisplay() {
     const escapeDisplay = document.getElementById('escapeDisplay');
+    const controls = document.getElementById('controls');
     if (!this.isZoomedIn) {
       if (!escapeDisplay.style.display || escapeDisplay.style.display === 'none') {
         escapeDisplay.style.display = 'block';

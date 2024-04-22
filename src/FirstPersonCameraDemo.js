@@ -39,9 +39,6 @@ class FirstPersonCameraDemo {
 
       document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
       document.addEventListener('checkTVRemoveDisplay', (event) => this.checkTVRemoveDisplay(event.detail.contentName));
-
-      document.addEventListener('addControlDisplay', (event) => this.addControlDisplay(event.detail.position, event.detail.rotation));
-      document.addEventListener('removeControlDisplay', (event) => this.removeControlDisplay());
     });
     
   }
@@ -1145,88 +1142,6 @@ class FirstPersonCameraDemo {
     };
   
     requestAnimationFrame(deAnimate);
-  }
-
-  addControlDisplay(position, rotation) {
-    let controlsDisplay = this.scene_.getObjectByName("controlsDisplay");
-    if (!controlsDisplay) {
-      // Load TV Display texture
-      const controlsTVDisplay = new THREE.TextureLoader().load('/Pictures/controls.png');
-      controlsTVDisplay.encoding = THREE.sRGBEncoding;
-
-      // Create TV Display geometry and material
-      const controlsGeometry = new THREE.PlaneGeometry(0.9, 0.6);
-      const controlsMaterial = new THREE.MeshBasicMaterial({ 
-        map: controlsTVDisplay,
-        transparent: true, // Set the material to be transparent
-        alphaTest: 0.5
-      });
-      controlsDisplay = new THREE.Mesh(controlsGeometry, controlsMaterial);
-
-      // Set initial properties of the TV and add to scene
-      controlsDisplay.name = "controlsDisplay";
-      this.scene_.add(controlsDisplay);
-
-      // Start the animation
-      this.animateTVDisplay(controlsDisplay);
-
-
-
-      // // Create a prism geometry with custom wall colors
-      // const prismGeometry = new THREE.BoxGeometry(2, 2, 2);
-      // const prismMaterials = [
-      //   new THREE.MeshBasicMaterial({ color: 0xff0000 }), // Red
-      //   new THREE.MeshBasicMaterial({ color: 0x00ff00 }), // Green
-      //   new THREE.MeshBasicMaterial({ color: 0x0000ff }), // Blue
-      //   new THREE.MeshBasicMaterial({ color: 0xffff00 }), // Yellow
-      //   new THREE.MeshBasicMaterial({ color: 0xff00ff }), // Magenta
-      //   new THREE.MeshBasicMaterial({ color: 0x00ffff })  // Cyan
-      // ];
-      // const controlsDisplay = new THREE.Mesh(prismGeometry, prismMaterials);
-
-      // controlsDisplay.scale.set(1, 1, 1);
-      // // Set initial properties of the controlsDisplay and add it to the scene
-      // controlsDisplay.name = "controlsDisplay";
-      // this.scene_.add(controlsDisplay);
-
-    }
-
-    if (controlsDisplay) {
-      // This value represents the distance the cube is from the camera along the camera's local Z-axis.
-      const distanceInFrontOfCamera = 1.8;
-
-      // This value represents the lateral distance the cube is from the camera along the camera's local X-axis.
-      const lateralDistance = -0.6;
-
-      // Calculate the new position
-      const offset = new THREE.Vector3(lateralDistance, 0, -distanceInFrontOfCamera);
-      offset.applyQuaternion(rotation); // Apply the camera's rotation to the offset
-      controlsDisplay.position.copy(position).add(offset); // Set the new position based on the camera's position plus the offset
-      
-      controlsDisplay.position.y = 2.1;
-      // The quaternion should be fine as is if you want the cube to face the same direction as the camera.
-      // If you want the cube to also rotate around its Y axis to face the camera, you might want to adjust it accordingly.
-      controlsDisplay.quaternion.copy(rotation);
-
-      const cameraEuler = new THREE.Euler().setFromQuaternion(rotation, 'YXZ');
-      cameraEuler.x = 0; // Ignore pitch
-      cameraEuler.z = 0; // Ignore roll, if your camera can roll
-      controlsDisplay.quaternion.setFromEuler(cameraEuler);
-      controlsDisplay.quaternion.multiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), 2*Math.PI / 8));
-
-      // console.log("controls position", controlsDisplay.position);
-      // console.log("camera rotation", rotation);
-      // console.log("cube rotation", controlsDisplay.quaternion);
-    }
-  }
-
-  removeControlDisplay() {
-    const controlsDisplay = this.scene_.getObjectByName("controlsDisplay");
-    if (controlsDisplay) {
-      this.deAnimateTVDisplay(controlsDisplay);
-      this.scene_.remove(controlsDisplay);
-    }
-
   }
 
   /**
