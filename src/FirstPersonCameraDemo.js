@@ -201,7 +201,7 @@ class FirstPersonCameraDemo {
 
     // Load Signs
     try {
-      const sign1 = await this.loadModel_('Map/Sign/billboard park-test.glb');
+      const sign1 = await this.loadModel_('Map/Sign/billboard_park.glb');
       sign1.scene.scale.set(0.7, 0.7, 0.7);
       sign1.scene.rotation.y = 5*Math.PI / 4;
       sign1.scene.position.x += 21;
@@ -276,6 +276,74 @@ class FirstPersonCameraDemo {
       plane4.rotation.y = 7*Math.PI / 4;
       plane4.receiveShadow = true;
       this.scene_.add(plane4);
+
+      const musicTextPicture = new THREE.TextureLoader().load('/Pictures/music.png');
+      musicTextPicture.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const musicTextGeometry = new THREE.PlaneGeometry(14, 9.5);
+      const musicTextMaterial = new THREE.MeshBasicMaterial({ 
+        map: musicTextPicture,
+        transparent: true,
+        alphaTest: 0.5 });
+      const musicText = new THREE.Mesh(musicTextGeometry, musicTextMaterial);
+
+      // Set initial properties of the TV Display
+      musicText.rotation.y = 7*Math.PI / 4;
+      musicText.position.set(21.5, 16, -19.5);
+      this.scene_.add(musicText);
+
+
+      const careerTextPicture = new THREE.TextureLoader().load('/Pictures/music.png');
+      careerTextPicture.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const careerTextGeometry = new THREE.PlaneGeometry(14, 9.5);
+      const careerTextMaterial = new THREE.MeshBasicMaterial({ 
+        map: careerTextPicture,
+        transparent: true,
+        alphaTest: 0.5 });
+      const careerText = new THREE.Mesh(careerTextGeometry, careerTextMaterial);
+
+      // Set initial properties of the TV Display
+      careerText.rotation.y = 3*Math.PI / 4;
+      careerText.position.set(-21.5, 16, 19.5);
+      this.scene_.add(careerText);
+
+
+      const skillsTextPicture = new THREE.TextureLoader().load('/Pictures/music.png');
+      skillsTextPicture.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const skillsTextGeometry = new THREE.PlaneGeometry(14, 9.5);
+      const skillsTextMaterial = new THREE.MeshBasicMaterial({ 
+        map: skillsTextPicture,
+        transparent: true,
+        alphaTest: 0.5 });
+      const skillsText = new THREE.Mesh(skillsTextGeometry, skillsTextMaterial);
+
+      // Set initial properties of the TV Display
+      skillsText.rotation.y = 5*Math.PI / 4;
+      skillsText.position.set(21.5, 16, 19.5);
+      this.scene_.add(skillsText);
+
+
+      const ProjectsTextPicture = new THREE.TextureLoader().load('/Pictures/music.png');
+      ProjectsTextPicture.encoding = THREE.sRGBEncoding;
+      
+      // Create TV Display geometry and material
+      const ProjectsTextGeometry = new THREE.PlaneGeometry(14, 9.5);
+      const ProjectsTextMaterial = new THREE.MeshBasicMaterial({ 
+        map: ProjectsTextPicture,
+        transparent: true,
+        alphaTest: 0.5 });
+      const ProjectsText = new THREE.Mesh(ProjectsTextGeometry, ProjectsTextMaterial);
+
+      // Set initial properties of the TV Display
+      ProjectsText.rotation.y = 1*Math.PI / 4;
+      ProjectsText.position.set(-21.5, 16, -19.5);
+      this.scene_.add(ProjectsText);
+
     } catch (error) {
       console.error('Error loading model:', error);
     }
