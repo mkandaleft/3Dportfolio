@@ -94,6 +94,8 @@ class FirstPersonCamera {
     this.updateControlDisplay();
     this.updateEscapeDisplay();
 
+    console.log("Camera",this.interactableObjects);
+
     // Reset view if 'r' is pressed and camera is zoomed in
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
       this.resetView();  
@@ -316,7 +318,7 @@ class FirstPersonCamera {
         this.displayBackButton();
         break;
       
-      case 'computer':
+      case 'computerDisplay':
         const zoomPositionComp = new THREE.Vector3(17, 3, 17);
         this.translation_.copy(zoomPositionComp);
 

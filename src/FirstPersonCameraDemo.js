@@ -496,14 +496,12 @@ class FirstPersonCameraDemo {
       this.scene_.add(table.scene);
 
       const comp = await this.loadModel_('Software/Computer/old_computer.glb');
-      comp.scene.name = "computer";
       comp.scene.scale.set(0.6, 0.6, 0.6);
       comp.scene.rotation.y = -3 *Math.PI / 4;
       comp.scene.position.x += 16.8;
       comp.scene.position.y += 2;
       comp.scene.position.z += 16.8;
       this.scene_.add(comp.scene);
-      this.interactable.push(comp.scene);
 
       const shelf1 = await this.loadModel_('Software/Shelf/floating_shelf.glb');
       shelf1.scene.scale.set(2, 2, 2);
@@ -930,6 +928,7 @@ class FirstPersonCameraDemo {
           computerDisplay.position.set(15.5, 2.2, 15.5);
           computerDisplay.name = "computerDisplay";
           this.scene_.add(computerDisplay);
+          this.interactable.push(computerDisplay);
           
           this.fpsCamera_.isAnimating = true;
           this.animateTVDisplay(computerDisplay);
@@ -1026,6 +1025,10 @@ class FirstPersonCameraDemo {
       const computerDisplay = this.scene_.getObjectByName("computerDisplay");
       // If the TV Display is in the scene, remove it
       if (computerDisplay) {
+        const index = this.interactable.indexOf(computerDisplay);
+        if (index !== -1) {
+          this.interactable.splice(index, 1);
+        }
         this.fpsCamera_.isAnimating = true;
         this.deAnimateTVDisplay(computerDisplay);
       }
@@ -1145,6 +1148,7 @@ class FirstPersonCameraDemo {
       if (this.previousRAF_ === null) {
         this.previousRAF_ = t;
       }
+      console.log("RAF",this.interactable);
       this.step_(t - this.previousRAF_);
       this.threejs_.autoClear = true;
       this.threejs_.render(this.scene_, this.camera_);
