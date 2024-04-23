@@ -41,9 +41,6 @@ class FirstPersonCamera {
    */
   constructor(camera, objects) {
       this.camera_ = camera;
-      this.isZoomedIn = false;
-      this.isInMenu - false;
-      this.isAnimating = false;
       this.input_ = new InputController(document, this.isZoomedCallback.bind(this));
       this.rotation_ = new THREE.Quaternion();
       this.translation_ = new THREE.Vector3(0, 2.5, 0);
@@ -53,12 +50,14 @@ class FirstPersonCamera {
       this.thetaSpeed_ = 10;
       this.headBobActive_ = false;
       this.headBobTimer_ = 0;
-      this.objects_ = objects;
       this.raycaster_ = new THREE.Raycaster();
       this.mouse_ = new THREE.Vector2();
+      this.objects_ = objects;
       this.interactableObjects = []; 
-
       this.totalTimeElapsed = 0;
+      this.isZoomedIn = false;
+      this.isInMenu - false;
+      this.isAnimating = false;
 
       this.input_.target_.addEventListener('checkInteraction', () => this.checkInteraction());
       this.input_.target_.addEventListener('pointerLockChange', () => this.pointerLockChange());
@@ -216,6 +215,25 @@ class FirstPersonCamera {
   }
 
   /**
+   * Calls menuHandler() if lock change event triggered from InputController class.
+   */
+  pointerLockChange() {
+    if (!this.isZoomedIn) {
+      this.menuHandler();
+    } 
+  }
+
+  /**
+   * Handles menu interaction.
+   */
+  menuHandler() {
+    this.isInMenu = true;
+    this.isZoomedIn = true;
+    this.displayContent("escapeMenu");
+    this.displayBackButton();
+  }
+
+  /**
    * Prompts interaction with objects.
    * This method uses a raycaster to detect if user is looking at an object in the scene
    * and is close enough to interact with it.
@@ -267,66 +285,6 @@ class FirstPersonCamera {
     }
   }
 
-  checkDistanceToTV() {
-    if (!this.isZoomedIn && !this.isAnimating) {
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) < 10) {
-        this.dispatchTVDisplay("computer");
-      }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) >= 10) {
-        this.dispatchTVRemoveDisplay("computer");
-      }
-
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) < 10) {
-        this.dispatchTVDisplay("jbox");
-      }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) >= 10) {
-        this.dispatchTVRemoveDisplay("jbox");
-      }
-
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) < 10) {
-        this.dispatchTVDisplay("scroll");
-      }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) >= 10) {
-        this.dispatchTVRemoveDisplay("scroll");
-      }
-
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) < 10) {
-        this.dispatchTVDisplay("tv1");
-        this.dispatchTVDisplay("tv2");
-      }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) >= 10) {
-        this.dispatchTVRemoveDisplay("tv1");
-        this.dispatchTVRemoveDisplay("tv2");
-      }
-    }
-    // if (this.isZoomedIn) {
-    //   this.dispatchTVRemoveDisplay("computer");
-    //   this.dispatchTVRemoveDisplay("jbox");
-    //   this.dispatchTVRemoveDisplay("scroll");
-    //   this.dispatchTVRemoveDisplay("tv1");
-    //   this.dispatchTVRemoveDisplay("tv2");
-    // }
-  }
-
-  /**
-   * Calls menuHandler() if lock change event triggered from InputController class.
-   */
-  pointerLockChange() {
-    if (!this.isZoomedIn) {
-      this.menuHandler();
-    } 
-  }
-
-  /**
-   * Handles menu interaction.
-   */
-  menuHandler() {
-    this.isInMenu = true;
-    this.isZoomedIn = true;
-    this.displayContent("escapeMenu");
-    this.displayBackButton();
-  }
-  
   /**
    * Zooms the camera to an object.
    * @param {THREE.Object3D} object - The object to zoom to.
@@ -434,67 +392,6 @@ class FirstPersonCamera {
   }
 
   /**
-   * Displays the back button on the page.
-   */
-  displayBackButton() {
-    const backButton = document.getElementById('resetView');
-    backButton.style.display = 'block';
-  }
-  
-  /**
-   * Displays the content with the specified ID and hides any previously displayed content.
-   * @param {string} contentId - The ID of the content element to be displayed.
-   */
-  displayContent(contentId) {
-    // Hide any previously displayed content
-    document.querySelectorAll('.object-content').forEach(div => {
-      div.style.display = 'none';
-    });
-  
-    const contentElement = document.getElementById(contentId);
-    if (contentElement) {
-      contentElement.style.display = 'block';
-    }
-  }
-
-  dispatchTVDisplay(contentName) {
-    const event = new CustomEvent('checkTVDisplay', { detail: { contentName: contentName } });
-    this.input_.target_.dispatchEvent(event);
-  }
-
-  dispatchTVRemoveDisplay(contentName) {
-    const event = new CustomEvent('checkTVRemoveDisplay', { detail: { contentName: contentName } });
-    this.input_.target_.dispatchEvent(event);
-  }
-
-  updateControlDisplay() {
-    // Allow translation if not zoomed in
-    if (!this.isZoomedIn && (this.totalTimeElapsed <= 500)) {
-      if (!controlsDisplay.style.display || controlsDisplay.style.display === 'none') {
-        controlsDisplay.style.display = 'block';
-      }
-    } else {
-      if (controlsDisplay.style.display !== 'none') {
-        controlsDisplay.style.display = 'none';
-      }
-    }
-  }
-
-  updateEscapeDisplay() {
-    const escapeDisplay = document.getElementById('escapeDisplay');
-    const controls = document.getElementById('controls');
-    if (!this.isZoomedIn) {
-      if (!escapeDisplay.style.display || escapeDisplay.style.display === 'none') {
-        escapeDisplay.style.display = 'block';
-      }
-    } else {
-      if (escapeDisplay.style.display !== 'none') {
-        escapeDisplay.style.display = 'none';
-      }
-    }
-  }
-  
-  /**
    * Resets the view of the camera.
    * If not in the menu, it zooms out of the object and restores the original position and quaternion of the camera.
    * Hides the resetView button and hides all object content divs.
@@ -524,6 +421,123 @@ class FirstPersonCamera {
       this.isZoomedIn = false;
       this.isInMenu = false;
     });
+  }
+  
+  /**
+   * Displays the back button on the page.
+   */
+  displayBackButton() {
+    const backButton = document.getElementById('resetView');
+    backButton.style.display = 'block';
+  }
+  
+  /**
+   * Displays the content with the specified ID and hides any previously displayed content.
+   * @param {string} contentId - The ID of the content element to be displayed.
+   */
+  displayContent(contentId) {
+    // Hide any previously displayed content
+    document.querySelectorAll('.object-content').forEach(div => {
+      div.style.display = 'none';
+    });
+  
+    const contentElement = document.getElementById(contentId);
+    if (contentElement) {
+      contentElement.style.display = 'block';
+    }
+  }
+
+  /**
+   * Checks the distance to the TVs or interactable objects and dispatches events to display content.
+   */
+  checkDistanceToTV() {
+    if (!this.isZoomedIn && !this.isAnimating) {
+      // Skills
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) < 10) {
+        this.dispatchTVDisplay("computer");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) >= 10) {
+        this.dispatchTVRemoveDisplay("computer");
+      }
+
+      // Music
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) < 10) {
+        this.dispatchTVDisplay("jbox");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) >= 10) {
+        this.dispatchTVRemoveDisplay("jbox");
+      }
+
+      // Career
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) < 10) {
+        this.dispatchTVDisplay("scroll");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) >= 10) {
+        this.dispatchTVRemoveDisplay("scroll");
+      }
+
+      // Projects
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) < 10) {
+        this.dispatchTVDisplay("tv1");
+        this.dispatchTVDisplay("tv2");
+      }
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) >= 10) {
+        this.dispatchTVRemoveDisplay("tv1");
+        this.dispatchTVRemoveDisplay("tv2");
+      }
+    }
+  }
+
+  /**
+   * @param {string} contentName 
+   * Dispatches a custom event to display content for the specified objects.
+   */
+  dispatchTVDisplay(contentName) {
+    const event = new CustomEvent('checkTVDisplay', { detail: { contentName: contentName } });
+    this.input_.target_.dispatchEvent(event);
+  }
+
+  /**
+   * @param {string} contentName 
+   * Dispatches a custom event to remove content for the specified objects.
+   */
+  dispatchTVRemoveDisplay(contentName) {
+    const event = new CustomEvent('checkTVRemoveDisplay', { detail: { contentName: contentName } });
+    this.input_.target_.dispatchEvent(event);
+  }
+
+  /**
+   * Updates the display of the controls.
+   */
+  updateControlDisplay() {
+    // Display controls if not zoomed in and less than 500ms
+    if (!this.isZoomedIn && (this.totalTimeElapsed <= 500)) {
+      if (!controlsDisplay.style.display || controlsDisplay.style.display === 'none') {
+        controlsDisplay.style.display = 'block';
+      }
+    } else {
+      if (controlsDisplay.style.display !== 'none') {
+        controlsDisplay.style.display = 'none';
+      }
+    }
+  }
+
+  /**
+   * Updates the display of the escape element on the top left.
+   */
+  updateEscapeDisplay() {
+    const escapeDisplay = document.getElementById('escapeDisplay');
+
+    // Display escape element if not zoomed in
+    if (!this.isZoomedIn) {
+      if (!escapeDisplay.style.display || escapeDisplay.style.display === 'none') {
+        escapeDisplay.style.display = 'block';
+      }
+    } else {
+      if (escapeDisplay.style.display !== 'none') {
+        escapeDisplay.style.display = 'none';
+      }
+    }
   }
   
   /**

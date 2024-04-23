@@ -192,12 +192,13 @@ class FirstPersonCameraDemo {
       wall8.scene.position.x += 22;
       wall8.scene.position.z += -12;
       this.scene_.add(wall8.scene);
-} catch (error) {
+    } catch (error) {
       console.error('Error loading model:', error);
     }
 
     // Load Signs
     try {
+      // Load Sign 1 Skills (+x, +z)
       const sign1 = await this.loadModel_('Map/Sign/billboard_park.glb');
       sign1.scene.scale.set(0.7, 0.7, 0.7);
       sign1.scene.rotation.y = 5*Math.PI / 4;
@@ -205,6 +206,18 @@ class FirstPersonCameraDemo {
       sign1.scene.position.y += 7;
       sign1.scene.position.z += 21;
       this.scene_.add(sign1.scene);
+
+      const skillsTextPicture = new THREE.TextureLoader().load('/Pictures/skills.png');
+      skillsTextPicture.encoding = THREE.sRGBEncoding;
+      const skillsTextGeometry = new THREE.PlaneGeometry(12, 8);
+      const skillsTextMaterial = new THREE.MeshBasicMaterial({ 
+        map: skillsTextPicture,
+        transparent: true,
+        alphaTest: 0.5 });
+      const skillsText = new THREE.Mesh(skillsTextGeometry, skillsTextMaterial);
+      skillsText.rotation.y = 5*Math.PI / 4;
+      skillsText.position.set(19.5, 16, 21.5);
+      this.scene_.add(skillsText);
 
       const planeGeometry1 = new THREE.PlaneGeometry(20, 20);
       const planeMaterial1 = new THREE.MeshStandardMaterial({ color: 0x808080 });
@@ -216,7 +229,8 @@ class FirstPersonCameraDemo {
       plane1.rotation.y = 5*Math.PI / 4;
       plane1.receiveShadow = true;
       this.scene_.add(plane1);
-      
+
+      // Load Sign 2 Career (-x, +z)
       const sign2 = await this.loadModel_('Map/Sign/billboard_park.glb');
       sign2.scene.scale.set(0.7, 0.7, 0.7);
       sign2.scene.rotation.y = 3*Math.PI / 4;
@@ -235,7 +249,20 @@ class FirstPersonCameraDemo {
       plane2.rotation.y = 3*Math.PI / 4;
       plane2.receiveShadow = true;
       this.scene_.add(plane2);
-      
+
+      const careerTextPicture = new THREE.TextureLoader().load('/Pictures/career.png');
+      careerTextPicture.encoding = THREE.sRGBEncoding;
+      const careerTextGeometry = new THREE.PlaneGeometry(13, 9);
+      const careerTextMaterial = new THREE.MeshBasicMaterial({ 
+        map: careerTextPicture,
+        transparent: true,
+        alphaTest: 0.5 });
+      const careerText = new THREE.Mesh(careerTextGeometry, careerTextMaterial);
+      careerText.rotation.y = 3*Math.PI / 4;
+      careerText.position.set(-21.5, 16, 19.5);
+      this.scene_.add(careerText);
+
+      // Load Sign 3 Projects (-x, -z)
       const sign3 = await this.loadModel_('Map/Sign/billboard_park.glb');
       sign3.scene.scale.set(0.7, 0.7, 0.7);
       sign3.scene.rotation.y = Math.PI / 4;
@@ -255,6 +282,19 @@ class FirstPersonCameraDemo {
       plane3.receiveShadow = true;
       this.scene_.add(plane3);
 
+      const ProjectsTextPicture = new THREE.TextureLoader().load('/Pictures/projects.png');
+      ProjectsTextPicture.encoding = THREE.sRGBEncoding;
+      const ProjectsTextGeometry = new THREE.PlaneGeometry(13, 9);
+      const ProjectsTextMaterial = new THREE.MeshBasicMaterial({ 
+        map: ProjectsTextPicture,
+        transparent: true,
+        alphaTest: 0.5 });
+      const ProjectsText = new THREE.Mesh(ProjectsTextGeometry, ProjectsTextMaterial);
+      ProjectsText.rotation.y = 1*Math.PI / 4;
+      ProjectsText.position.set(-19.5, 16, -21.5);
+      this.scene_.add(ProjectsText);
+
+      // Load Sign 4 Music (+x, -z)
       const sign4 = await this.loadModel_('Map/Sign/billboard_park.glb');
       sign4.scene.scale.set(0.7, 0.7, 0.7);
       sign4.scene.rotation.y = 7*Math.PI / 4;
@@ -276,71 +316,15 @@ class FirstPersonCameraDemo {
 
       const musicTextPicture = new THREE.TextureLoader().load('/Pictures/music.png');
       musicTextPicture.encoding = THREE.sRGBEncoding;
-      
-      // Create TV Display geometry and material
       const musicTextGeometry = new THREE.PlaneGeometry(14, 9.5);
       const musicTextMaterial = new THREE.MeshBasicMaterial({ 
         map: musicTextPicture,
         transparent: true,
         alphaTest: 0.5 });
       const musicText = new THREE.Mesh(musicTextGeometry, musicTextMaterial);
-
-      // Set initial properties of the TV Display
       musicText.rotation.y = 7*Math.PI / 4;
       musicText.position.set(21.5, 16, -19.5);
       this.scene_.add(musicText);
-
-
-      const careerTextPicture = new THREE.TextureLoader().load('/Pictures/career.png');
-      careerTextPicture.encoding = THREE.sRGBEncoding;
-      
-      // Create TV Display geometry and material
-      const careerTextGeometry = new THREE.PlaneGeometry(13, 9);
-      const careerTextMaterial = new THREE.MeshBasicMaterial({ 
-        map: careerTextPicture,
-        transparent: true,
-        alphaTest: 0.5 });
-      const careerText = new THREE.Mesh(careerTextGeometry, careerTextMaterial);
-
-      // Set initial properties of the TV Display
-      careerText.rotation.y = 3*Math.PI / 4;
-      careerText.position.set(-21.5, 16, 19.5);
-      this.scene_.add(careerText);
-
-
-      const skillsTextPicture = new THREE.TextureLoader().load('/Pictures/skills.png');
-      skillsTextPicture.encoding = THREE.sRGBEncoding;
-      
-      // Create TV Display geometry and material
-      const skillsTextGeometry = new THREE.PlaneGeometry(12, 8);
-      const skillsTextMaterial = new THREE.MeshBasicMaterial({ 
-        map: skillsTextPicture,
-        transparent: true,
-        alphaTest: 0.5 });
-      const skillsText = new THREE.Mesh(skillsTextGeometry, skillsTextMaterial);
-
-      // Set initial properties of the TV Display
-      skillsText.rotation.y = 5*Math.PI / 4;
-      skillsText.position.set(19.5, 16, 21.5);
-      this.scene_.add(skillsText);
-
-
-      const ProjectsTextPicture = new THREE.TextureLoader().load('/Pictures/projects.png');
-      ProjectsTextPicture.encoding = THREE.sRGBEncoding;
-      
-      // Create TV Display geometry and material
-      const ProjectsTextGeometry = new THREE.PlaneGeometry(13, 9);
-      const ProjectsTextMaterial = new THREE.MeshBasicMaterial({ 
-        map: ProjectsTextPicture,
-        transparent: true,
-        alphaTest: 0.5 });
-      const ProjectsText = new THREE.Mesh(ProjectsTextGeometry, ProjectsTextMaterial);
-
-      // Set initial properties of the TV Display
-      ProjectsText.rotation.y = 1*Math.PI / 4;
-      ProjectsText.position.set(-19.5, 16, -21.5);
-      this.scene_.add(ProjectsText);
-
     } catch (error) {
       console.error('Error loading model:', error);
     }
@@ -452,6 +436,7 @@ class FirstPersonCameraDemo {
 
     // Load TV's
     try {
+      // Load Big TV 1 and Display
       const tv1 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv1.scene.scale.set(14, 14, 14);
       tv1.scene.rotation.y = Math.PI / 2;
@@ -463,6 +448,18 @@ class FirstPersonCameraDemo {
       tv1.scene.position.z += 36;
       this.scene_.add(tv1.scene);
 
+      const bigTV1TVDisplay = new THREE.TextureLoader().load('/Pictures/areYouEntertained.jpeg');
+      bigTV1TVDisplay.encoding = THREE.sRGBEncoding;
+      const bigTV1Geometry = new THREE.PlaneGeometry(15, 7.5);
+      const bigTV1Material = new THREE.MeshBasicMaterial({ map: bigTV1TVDisplay });
+      const bigTV1Display = new THREE.Mesh(bigTV1Geometry, bigTV1Material);
+      bigTV1Display.rotation.y = Math.PI / 2;
+      bigTV1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
+      bigTV1Display.position.set(-15.4, 17.5, 0.3);
+      bigTV1Display.name = "bigTV1Display";
+      this.scene_.add(bigTV1Display);
+
+      // Load Big TV 2 and Display
       const tv2 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv2.scene.scale.set(14, 14, 14);
       tv2.scene.rotation.y = -Math.PI / 2;
@@ -474,45 +471,21 @@ class FirstPersonCameraDemo {
       tv2.scene.position.z += -36;
       this.scene_.add(tv2.scene);
 
-
-
-      const bigTV1TVDisplay = new THREE.TextureLoader().load('/Pictures/areYouEntertained.jpeg');
-      bigTV1TVDisplay.encoding = THREE.sRGBEncoding;
-      
-      // Create TV Display geometry and material
-      const bigTV1Geometry = new THREE.PlaneGeometry(15, 7.5);
-      const bigTV1Material = new THREE.MeshBasicMaterial({ map: bigTV1TVDisplay });
-      const bigTV1Display = new THREE.Mesh(bigTV1Geometry, bigTV1Material);
-
-      // Set initial properties of the TV Display
-      bigTV1Display.rotation.y = Math.PI / 2;
-      bigTV1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
-      bigTV1Display.position.set(-15.4, 17.5, 0.3);
-      bigTV1Display.name = "bigTV1Display";
-      this.scene_.add(bigTV1Display);
-          
-
       const bigTV2TVDisplay = new THREE.TextureLoader().load('/Pictures/areYouEntertained.jpeg');
       bigTV2TVDisplay.encoding = THREE.sRGBEncoding;
-      
-      // Create TV Display geometry and material
       const bigTV2Geometry = new THREE.PlaneGeometry(15, 7.5);
       const bigTV2Material = new THREE.MeshBasicMaterial({ map: bigTV2TVDisplay });
       const bigTV2Display = new THREE.Mesh(bigTV2Geometry, bigTV2Material);
-
-      // Set initial properties of the TV Display
       bigTV2Display.rotation.y = 3*Math.PI / 2;
       bigTV2Display.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
       bigTV2Display.position.set(15.4, 17.5, -0.3);
       bigTV2Display.name = "bigTV2Display";
       this.scene_.add(bigTV2Display);
-
-
     }  catch (error) {
       console.error('Error loading model:', error);
     }
 
-    // Add Software
+    // Add Software (+x, +z)
     try {
       const table = await this.loadModel_('Software/Table/wooden_table_game_ready_asset.glb');
       table.scene.scale.set(3, 3, 3);
@@ -551,7 +524,7 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
 
-    // Add Career
+    // Add Career (-x, +z)
     try {
       const panth = await this.loadModel_('Career/Pantheon/wk3a_pillar_huth_will.glb');
       panth.scene.scale.set(0.14, 0.14, 0.14);
@@ -619,7 +592,7 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
 
-    // Add Projects
+    // Add Projects (-x, -z)
     try {
       const tv1 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv1.scene.name = "tv1";
@@ -716,7 +689,7 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
 
-    // Add Music
+    // Add Music (+x, -z)
     try {
       const amp1 = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
       amp1.scene.scale.set(6, 6, 6);
@@ -935,96 +908,78 @@ class FirstPersonCameraDemo {
     
   }
 
+  /**
+   * @param {string} contentName 
+   * This function checks if the TV Display is already in the scene. If it is not, it creates the TV Display 
+   * and adds it to the scene for each interactable objects. This method is called when the user approaches
+   * an interactable object.
+   */
   checkTVDisplay(contentName) {
     switch (contentName) {
+      // Skills (+x, +z)
       case "computer":
         let computerDisplay = this.scene_.getObjectByName("computerDisplay");
+        // If the TV Display is not in the scene, create it
         if (!computerDisplay) {
-          // Load TV Display texture
           const computerTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/softwareDisplay.png');
           computerTVDisplay.encoding = THREE.sRGBEncoding;
-          
-          // Create TV Display geometry and material
           const computerGeometry = new THREE.PlaneGeometry(2, 2);
           const computerMaterial = new THREE.MeshBasicMaterial({ map: computerTVDisplay });
           computerDisplay = new THREE.Mesh(computerGeometry, computerMaterial);
-  
-          // Set initial properties of the TV Display
           computerDisplay.rotation.y = 5*Math.PI / 4;
           computerDisplay.position.set(15.5, 2.2, 15.5);
           computerDisplay.name = "computerDisplay";
           this.scene_.add(computerDisplay);
           
           this.fpsCamera_.isAnimating = true;
-
-
-
-          // Start the animation
           this.animateTVDisplay(computerDisplay);
         }
         break;
-      
+      // Music (+x, -z)
       case "jbox":        
       let jboxDisplay = this.scene_.getObjectByName("jboxDisplay");
       if (!jboxDisplay) {
-        // Load TV Display texture
         const jboxTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/musicDisplay.png');
         jboxTVDisplay.encoding = THREE.sRGBEncoding;
-        
-        // Create TV Display geometry and material
         const jboxGeometry = new THREE.PlaneGeometry(2, 2);
         const jboxMaterial = new THREE.MeshBasicMaterial({ map: jboxTVDisplay });
         jboxDisplay = new THREE.Mesh(jboxGeometry, jboxMaterial);
-
-        // Set initial properties of the TV Display
         jboxDisplay.rotation.y = 7*Math.PI / 4;
         jboxDisplay.position.set(15.4, 2.2, -15.4);
         jboxDisplay.name = "jboxDisplay";
         this.scene_.add(jboxDisplay);
         
         this.fpsCamera_.isAnimating = true;
-        // Start the animation
         this.animateTVDisplay(jboxDisplay);
       }
         break;
-
+      // Career (-x, +z)
       case "scroll":
         let scrollDisplay = this.scene_.getObjectByName("scrollDisplay");
         if (!scrollDisplay) {
-          // Load TV Display texture
           const scrollTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/careerDisplay.png');
           scrollTVDisplay.encoding = THREE.sRGBEncoding;
-          
-          // Create TV Display geometry and material
           const scrollGeometry = new THREE.PlaneGeometry(2, 2);
           const scrollMaterial = new THREE.MeshBasicMaterial({ map: scrollTVDisplay });
           scrollDisplay = new THREE.Mesh(scrollGeometry, scrollMaterial);
-  
-          // Set initial properties of the TV Display
           scrollDisplay.rotation.y = 3*Math.PI / 4;
           scrollDisplay.position.set(-15.4, 2.2, 15.4);
           scrollDisplay.name = "scrollDisplay";
           this.scene_.add(scrollDisplay);
           
           this.fpsCamera_.isAnimating = true;
-          // Start the animation
           this.animateTVDisplay(scrollDisplay);
         }
         break;
-
+      // CondoMAXium (+x, -z)
       case "tv1":
         let tv1Display = this.scene_.getObjectByName("tv1Display");
         if (!tv1Display) {
-          // Load TV Display texture
           const condoMAXiumTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/condomaxTv.png');
           condoMAXiumTVDisplay.encoding = THREE.sRGBEncoding;
-          
-          // Create TV Display geometry and material
           const tv1Geometry = new THREE.PlaneGeometry(4, 2);
           const tv1Material = new THREE.MeshBasicMaterial({ map: condoMAXiumTVDisplay });
           tv1Display = new THREE.Mesh(tv1Geometry, tv1Material);
-  
-          // Set initial properties of the TV Display
           tv1Display.rotation.y = 0 / 2;
           tv1Display.rotation.x = Math.PI / 5;
           tv1Display.position.set(-14.8, 4.35, -20.55);
@@ -1032,24 +987,18 @@ class FirstPersonCameraDemo {
           this.scene_.add(tv1Display);
           
           this.fpsCamera_.isAnimating = true;
-          // Start the animation
           this.animateTVDisplay(tv1Display);
         }
         break;
-  
+      // Time2Chill (+x, -z)
       case "tv2":
         let tv2Display = this.scene_.getObjectByName("tv2Display");
         if (!tv2Display) {
-          // Load TV Display texture
           const time2ChillTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/time2chillTv.png');
           time2ChillTVDisplay.encoding = THREE.sRGBEncoding;
-          
-          // Create TV Display geometry and material
           const tv2Geometry = new THREE.PlaneGeometry(4, 2);
           const tv2Material = new THREE.MeshBasicMaterial({ map: time2ChillTVDisplay });
           tv2Display = new THREE.Mesh(tv2Geometry, tv2Material);
-  
-          // Set initial properties of the TV Display
           tv2Display.rotation.y = 0 / 2;
           tv2Display.rotation.x = Math.PI / 5;
           tv2Display.position.set(-14.8, 7.8, -20.55);
@@ -1057,125 +1006,118 @@ class FirstPersonCameraDemo {
           this.scene_.add(tv2Display);
           
           this.fpsCamera_.isAnimating = true;
-          // Start the animation
           this.animateTVDisplay(tv2Display);
         }
         break;
-    
       default:
         break;
     }
   }
   
+  /**
+   * @param {string} contentName 
+   * This function checks if the TV Display is in the scene. If it is, it removes the TV Display from the scene for each
+   * interactable objects. This method is called when the user moves away from an interactable object.
+   */
   checkTVRemoveDisplay(contentName) {
-    
     switch (contentName) {
+      // Skills (+x, +z)
       case "computer":        
       const computerDisplay = this.scene_.getObjectByName("computerDisplay");
+      // If the TV Display is in the scene, remove it
       if (computerDisplay) {
         this.fpsCamera_.isAnimating = true;
-        console.log("computerDisplay", computerDisplay);
         this.deAnimateTVDisplay(computerDisplay);
       }
         break;
-    
+      // Music (+x, -z)
       case "jbox":
         const jboxDisplay = this.scene_.getObjectByName("jboxDisplay");
         if (jboxDisplay) {
           this.fpsCamera_.isAnimating = true;
-          console.log("jboxDisplay", jboxDisplay);
           this.deAnimateTVDisplay(jboxDisplay);
         }
         break;
-
+      // Career (-x, +z)
       case "scroll":
         const scrollDisplay = this.scene_.getObjectByName("scrollDisplay");
         if (scrollDisplay) {
           this.fpsCamera_.isAnimating = true;
-          console.log("scrollDisplay", scrollDisplay);
           this.deAnimateTVDisplay(scrollDisplay);
         }
         break;
-
+      // CondoMAXium (+x, -z)
       case "tv1":
         const tv1Display = this.scene_.getObjectByName("tv1Display");
         if (tv1Display) {
           this.fpsCamera_.isAnimating = true;
-          console.log("tv1Display", tv1Display);
           this.deAnimateTVDisplay(tv1Display);
         }
         break;
-
+      // Time2Chill (+x, -z)
       case "tv2":
         const tv2Display = this.scene_.getObjectByName("tv2Display");
         if (tv2Display) {
           this.fpsCamera_.isAnimating = true;
-          console.log("tv2Display", tv2Display);
           this.deAnimateTVDisplay(tv2Display);
         }
         break;
-
       default:
         break;
     }
   }
 
+  /**
+   * @param {THREE.Mesh} mesh 
+   * This function animates the TV Display by scaling it up to the target scale.
+   * It is used to display interactable object image mesh.
+   */
   animateTVDisplay(mesh) {
-    console.log("AnimateTVDisplay");
+    // Take a timestamp of when the animation started
     const start = performance.now();
 
     // Set initial and target scales for the animation
     const initialScale = new THREE.Vector3(1, 0.001, 1); // Start with a very thin line
     const targetScale = new THREE.Vector3(1.1, 1.2, 1.1); // The final desired scale
-    const duration = 500; // Duration of the animation in milliseconds
+    const duration = 500;
 
     const animate = (timestamp) => {
       const elapsed = timestamp - start;
       const progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
-      
-      // No need to clone initialScale as we're not changing it
       mesh.scale.lerpVectors(initialScale, targetScale, progress);
   
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
-        console.log("From animate "+this.fpsCamera_.isAnimating);
         this.fpsCamera_.isAnimating = false;
       }
     };
-  
     requestAnimationFrame(animate);
   }
 
+  /**
+   * @param {THREE.Mesh} mesh 
+   * This function de-animates the TV Display by scaling it down, opposite of animate.
+   */
   deAnimateTVDisplay(mesh) {
-    console.log("deAnimateTVDisplay");
     const start = performance.now();
 
-    // Set initial and target scales for the animation
-    const initialScale = new THREE.Vector3(1.1, 1.2, 1.1); // Start with a very thin line
-    const targetScale = new THREE.Vector3(1, 0.001, 1); // The final desired scale
-    const duration = 500; // Duration of the animation in milliseconds
+    const initialScale = new THREE.Vector3(1.1, 1.2, 1.1);
+    const targetScale = new THREE.Vector3(1, 0.001, 1);
+    const duration = 500;
 
     const deAnimate = (timestamp) => {
-      // console.log("start", start);
-      // console.log("timestamp", timestamp);
-      // console.log("elapsed", elapsed);
       const elapsed = timestamp - start;
-      const progress = Math.min(elapsed / duration, 1); // Clamp progress between 0 and 1
-      // console.log("progress", progress);
-      
-      // No need to clone initialScale as we're not changing it
+      const progress = Math.min(elapsed / duration, 1);
       mesh.scale.lerpVectors(initialScale, targetScale, progress);
   
       if (progress < 1) {
         requestAnimationFrame(deAnimate);
       } else {
         this.scene_.remove(mesh);
-        console.log("From de-animate "+this.fpsCamera_.isAnimating);
         this.fpsCamera_.isAnimating = false;
       }
     };
-  
     requestAnimationFrame(deAnimate);
   }
 
@@ -1203,7 +1145,6 @@ class FirstPersonCameraDemo {
       if (this.previousRAF_ === null) {
         this.previousRAF_ = t;
       }
-      console.log("From raf "+this.fpsCamera_.isAnimating);
       this.step_(t - this.previousRAF_);
       this.threejs_.autoClear = true;
       this.threejs_.render(this.scene_, this.camera_);
