@@ -94,8 +94,6 @@ class FirstPersonCamera {
     this.updateControlDisplay();
     this.updateEscapeDisplay();
 
-    console.log("Camera",this.interactableObjects);
-
     // Reset view if 'r' is pressed and camera is zoomed in
     if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
       this.resetView();  
@@ -303,7 +301,7 @@ class FirstPersonCamera {
     // and set the camera position and rotation accordingly
     // then display content for the object.
     switch (object.name) {
-      case 'jbox':
+      case 'jboxDisplay':
         const zoomPositionJbox = new THREE.Vector3(14.85, 3, -14.85);
         this.translation_.copy(zoomPositionJbox);
 
@@ -333,7 +331,7 @@ class FirstPersonCamera {
         this.displayBackButton();
         break;
 
-      case 'scroll':
+      case 'scrollDisplay':
         const zoomPositionScroll = new THREE.Vector3(-14, 3, 14);
         this.translation_.copy(zoomPositionScroll);
 
@@ -348,7 +346,7 @@ class FirstPersonCamera {
         this.displayBackButton();
         break;
       
-      case 'tv1':
+      case 'tv1Display':
         const zoomPositionTV1 = new THREE.Vector3(-14.5, 2.5, -18);
         this.translation_.copy(zoomPositionTV1);
 
@@ -367,7 +365,7 @@ class FirstPersonCamera {
         this.displayBackButton();
         break;
       
-      case 'tv2':
+      case 'tv2Display':
         const zoomPositionTV2 = new THREE.Vector3(-14.5, 6.5, -18);
         this.translation_.copy(zoomPositionTV2);
 

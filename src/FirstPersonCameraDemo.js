@@ -562,7 +562,6 @@ class FirstPersonCameraDemo {
 
       const scroll = await this.loadModel_('Career/Scroll/scroll.glb');
       scroll.scene.scale.set(0.8, 0.8, 0.8);
-      scroll.scene.name = "scroll";
 
       const quaternionY = new THREE.Quaternion();
       quaternionY.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), 9*Math.PI / 16);
@@ -585,7 +584,6 @@ class FirstPersonCameraDemo {
       scroll.scene.position.z += 18.6;
 
       this.scene_.add(scroll.scene);
-      this.interactable.push(scroll.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
@@ -593,7 +591,6 @@ class FirstPersonCameraDemo {
     // Add Projects (-x, -z)
     try {
       const tv1 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
-      tv1.scene.name = "tv1";
       tv1.scene.scale.set(4, 4, 4);
       tv1.scene.rotation.y = 0 / 2;
       const rotationAxis1 = new THREE.Vector3(1, 0, 0).normalize();
@@ -603,10 +600,8 @@ class FirstPersonCameraDemo {
       tv1.scene.position.y += 6.5;
       tv1.scene.position.z += -19;
       this.scene_.add(tv1.scene);
-      this.interactable.push(tv1.scene);
 
       const tv2 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
-      tv2.scene.name = "tv2";
       tv2.scene.scale.set(4, 4, 4);
       tv2.scene.rotation.y = 0 / 2;
       tv2.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
@@ -614,10 +609,8 @@ class FirstPersonCameraDemo {
       tv2.scene.position.y += 10;
       tv2.scene.position.z += -19;
       this.scene_.add(tv2.scene);
-      this.interactable.push(tv2.scene);
 
       const tv3 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
-      tv3.scene.name = "tv3";
       tv3.scene.scale.set(4, 4, 4);
       tv3.scene.rotation.y = 0 / 2;
       tv3.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
@@ -625,10 +618,8 @@ class FirstPersonCameraDemo {
       tv3.scene.position.y += 6.5;
       tv3.scene.position.z += -19;
       this.scene_.add(tv3.scene);
-      // this.interactable.push(tv3.scene);
 
       const tv4 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
-      tv4.scene.name = "tv4";
       tv4.scene.scale.set(4, 4, 4);
       tv4.scene.rotation.y = 0 / 2;
       tv4.scene.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
@@ -636,10 +627,8 @@ class FirstPersonCameraDemo {
       tv4.scene.position.y += 10;
       tv4.scene.position.z += -19;
       this.scene_.add(tv4.scene);
-      // this.interactable.push(tv4.scene);
 
       const tv5 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
-      tv5.scene.name = "tv5";
       tv5.scene.scale.set(4, 4, 4);
       tv5.scene.rotation.y = Math.PI / 2;
       const rotationAxis2 = new THREE.Vector3(0, 0, 1).normalize();
@@ -649,10 +638,8 @@ class FirstPersonCameraDemo {
       tv5.scene.position.y += 6.5;
       tv5.scene.position.z += -4.5;
       this.scene_.add(tv5.scene);
-      // this.interactable.push(tv5.scene);
 
       const tv6 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
-      tv6.scene.name = "tv6";
       tv6.scene.scale.set(4, 4, 4);
       tv6.scene.rotation.y = Math.PI / 2;
       tv6.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
@@ -660,10 +647,8 @@ class FirstPersonCameraDemo {
       tv6.scene.position.y += 10;
       tv6.scene.position.z += -4.5;
       this.scene_.add(tv6.scene);
-      // this.interactable.push(tv6.scene);
 
       const tv7 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
-      tv7.scene.name = "tv7";
       tv7.scene.scale.set(4, 4, 4);
       tv7.scene.rotation.y = Math.PI / 2;
       tv7.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
@@ -671,10 +656,8 @@ class FirstPersonCameraDemo {
       tv7.scene.position.y += 6.5;
       tv7.scene.position.z += 0.5;
       this.scene_.add(tv7.scene);
-      // this.interactable.push(tv7.scene);
 
       const tv8 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
-      tv8.scene.name = "tv8";
       tv8.scene.scale.set(4, 4, 4);
       tv8.scene.rotation.y = Math.PI / 2;
       tv8.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
@@ -682,7 +665,6 @@ class FirstPersonCameraDemo {
       tv8.scene.position.y += 10;
       tv8.scene.position.z += 0.5;
       this.scene_.add(tv8.scene);
-      // this.interactable.push(tv8.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
@@ -707,14 +689,12 @@ class FirstPersonCameraDemo {
       this.scene_.add(amp2.scene);
 
       const jbox = await this.loadModel_('Music/Jukebox/jukebox.glb');
-      jbox.scene.name = "jbox";
       jbox.scene.scale.set(2, 2, 2);
       jbox.scene.rotation.y = -Math.PI / 4;
       jbox.scene.position.x += 16;
       jbox.scene.position.y += 0.5;
       jbox.scene.position.z += -16;
       this.scene_.add(jbox.scene);
-      this.interactable.push(jbox.scene);
 
       const guit = await this.loadModel_('Music/Guitar/fender_stratocaster_guitar.glb');
       guit.scene.scale.set(14, 14, 14);
@@ -947,6 +927,7 @@ class FirstPersonCameraDemo {
         jboxDisplay.position.set(15.4, 2.2, -15.4);
         jboxDisplay.name = "jboxDisplay";
         this.scene_.add(jboxDisplay);
+        this.interactable.push(jboxDisplay);
         
         this.fpsCamera_.isAnimating = true;
         this.animateTVDisplay(jboxDisplay);
@@ -965,6 +946,7 @@ class FirstPersonCameraDemo {
           scrollDisplay.position.set(-15.4, 2.2, 15.4);
           scrollDisplay.name = "scrollDisplay";
           this.scene_.add(scrollDisplay);
+          this.interactable.push(scrollDisplay);
           
           this.fpsCamera_.isAnimating = true;
           this.animateTVDisplay(scrollDisplay);
@@ -984,6 +966,7 @@ class FirstPersonCameraDemo {
           tv1Display.position.set(-14.8, 4.35, -20.55);
           tv1Display.name = "tv1Display";
           this.scene_.add(tv1Display);
+          this.interactable.push(tv1Display);
           
           this.fpsCamera_.isAnimating = true;
           this.animateTVDisplay(tv1Display);
@@ -1003,6 +986,7 @@ class FirstPersonCameraDemo {
           tv2Display.position.set(-14.8, 7.8, -20.55);
           tv2Display.name = "tv2Display";
           this.scene_.add(tv2Display);
+          this.interactable.push(tv2Display);
           
           this.fpsCamera_.isAnimating = true;
           this.animateTVDisplay(tv2Display);
@@ -1037,6 +1021,10 @@ class FirstPersonCameraDemo {
       case "jbox":
         const jboxDisplay = this.scene_.getObjectByName("jboxDisplay");
         if (jboxDisplay) {
+          const index = this.interactable.indexOf(jboxDisplay);
+          if (index !== -1) {
+            this.interactable.splice(index, 1);
+          }
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(jboxDisplay);
         }
@@ -1045,6 +1033,10 @@ class FirstPersonCameraDemo {
       case "scroll":
         const scrollDisplay = this.scene_.getObjectByName("scrollDisplay");
         if (scrollDisplay) {
+          const index = this.interactable.indexOf(scrollDisplay);
+          if (index !== -1) {
+            this.interactable.splice(index, 1);
+          }
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(scrollDisplay);
         }
@@ -1053,6 +1045,10 @@ class FirstPersonCameraDemo {
       case "tv1":
         const tv1Display = this.scene_.getObjectByName("tv1Display");
         if (tv1Display) {
+          const index = this.interactable.indexOf(tv1Display);
+          if (index !== -1) {
+            this.interactable.splice(index, 1);
+          }
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(tv1Display);
         }
@@ -1061,6 +1057,10 @@ class FirstPersonCameraDemo {
       case "tv2":
         const tv2Display = this.scene_.getObjectByName("tv2Display");
         if (tv2Display) {
+          const index = this.interactable.indexOf(tv2Display);
+          if (index !== -1) {
+            this.interactable.splice(index, 1);
+          }
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(tv2Display);
         }
@@ -1148,7 +1148,6 @@ class FirstPersonCameraDemo {
       if (this.previousRAF_ === null) {
         this.previousRAF_ = t;
       }
-      console.log("RAF",this.interactable);
       this.step_(t - this.previousRAF_);
       this.threejs_.autoClear = true;
       this.threejs_.render(this.scene_, this.camera_);
