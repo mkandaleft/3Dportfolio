@@ -992,6 +992,45 @@ class FirstPersonCameraDemo {
           this.animateTVDisplay(tv2Display);
         }
         break;
+      // CNN (+x, -z)
+      case "tv5":
+        let tv5Display = this.scene_.getObjectByName("tv5Display");
+        if (!tv5Display) {
+          const cnnTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/cnnTv.png');
+          cnnTVDisplay.encoding = THREE.sRGBEncoding;
+          const tv5Geometry = new THREE.PlaneGeometry(4, 2);
+          const tv5Material = new THREE.MeshBasicMaterial({ map: cnnTVDisplay });
+          tv5Display = new THREE.Mesh(tv5Geometry, tv5Material);
+          tv5Display.rotation.y = Math.PI / 2;
+          const rotationAxis = new THREE.Vector3(0, 0, 1).normalize();
+          const rotationAngle = -Math.PI / 5;
+          tv5Display.rotateOnWorldAxis(rotationAxis, rotationAngle);
+          tv5Display.position.set(-20.55, 7.8, -14.7);
+          tv5Display.name = "tv5Display";
+          this.scene_.add(tv5Display);
+          this.interactable.push(tv5Display);
+          
+          this.fpsCamera_.isAnimating = true;
+          this.animateTVDisplay(tv5Display);
+        }
+        break;
+
+
+
+
+        // const tv5 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
+        // tv5.scene.scale.set(4, 4, 4);
+        // tv5.scene.rotation.y = Math.PI / 2;
+        // const rotationAxis2 = new THREE.Vector3(0, 0, 1).normalize();
+        // const rotationAngle2 = -Math.PI / 5;
+        // tv5.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
+        // tv5.scene.position.x += -19;
+        // tv5.scene.position.y += 6.5;
+        // tv5.scene.position.z += -4.5;
+        // this.scene_.add(tv5.scene);
+
+
+
       default:
         break;
     }
@@ -1063,6 +1102,18 @@ class FirstPersonCameraDemo {
           }
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(tv2Display);
+        }
+        break;
+      // CNN (+x, -z)
+      case "tv5":
+        const tv5Display = this.scene_.getObjectByName("tv5Display");
+        if (tv5Display) {
+          const index = this.interactable.indexOf(tv5Display);
+          if (index !== -1) {
+            this.interactable.splice(index, 1);
+          }
+          this.fpsCamera_.isAnimating = true;
+          this.deAnimateTVDisplay(tv5Display);
         }
         break;
       default:
