@@ -1,6 +1,9 @@
 import '../style.css'
 import FirstPersonCameraDemo from './FirstPersonCameraDemo.js'
 
+
+
+
 // Create a global variable to hold the 3D application
 let _APP = null;
 
@@ -11,8 +14,14 @@ document.getElementById('start-button').addEventListener('click', function(event
 
   // Initialize the 3D application
   _APP = new FirstPersonCameraDemo();
-  _APP.initialize_().then(function() {
-    document.getElementById('loading').style.display = 'none';
+  _APP.initialize_();
+
+  document.addEventListener('modelsLoaded', function() {
     document.getElementById('app').style.display = 'block';
+    document.getElementById('loading').style.display = 'none';
   });
+  // _APP.initialize_().then(function() {
+  //   document.getElementById('loading').style.display = 'none';
+  //   document.getElementById('app').style.display = 'block';
+  // });
 });

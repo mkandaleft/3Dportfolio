@@ -15,6 +15,9 @@ class FirstPersonCameraDemo {
    */
   constructor() {
     this.interactable = [];
+    this.totalModels = 52;
+    this.modelsLoaded = 0;
+    this.percenteLoadedModels = 0;
   }
 
   /**
@@ -22,25 +25,46 @@ class FirstPersonCameraDemo {
    * @returns {Promise} A promise that resolves when the initialization is complete.
    */
   initialize_() {
-    return new Promise(resolve => {
       this.initializeRenderer_();
       this.initializeLights_();
-      this.initializeScene_();
-      this.initializeDemo_();
 
-      this.previousRAF_ = null;
+      
+      this.initializeScene_().then(() => {
+        return new Promise(resolve => {
+          this.initializeDemo_();
 
-      // Delay the start of rendering by 8 seconds
-      setTimeout(() => {  
-        this.raf_();
-        this.onWindowResize_();
-        resolve();
-      }, 8000);
-
-      document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
-      document.addEventListener('checkTVRemoveDisplay', (event) => this.checkTVRemoveDisplay(event.detail.contentName));
-    });
+          this.previousRAF_ = null;
     
+          // Start rendering right after models are loaded
+          this.raf_();
+          this.onWindowResize_();
+          document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
+          document.addEventListener('checkTVRemoveDisplay', (event) => this.checkTVRemoveDisplay(event.detail.contentName));
+          resolve();
+        }).catch(error => {
+          console.error('Model loading failed:', error);
+          // Handle loading errors (optional)
+        });
+      });
+
+
+
+
+
+
+
+      // this.initializeScene_();
+      // this.initializeDemo_();
+
+      // this.previousRAF_ = null;
+
+      // // Delay the start of rendering by 8 seconds
+      // setTimeout(() => {  
+      //   this.raf_();
+      //   this.onWindowResize_();
+      //   resolve();
+      // }, 10);
+
   }
 
   /**
@@ -679,7 +703,6 @@ class FirstPersonCameraDemo {
       amp1.scene.position.z += -20;
       this.scene_.add(amp1.scene);
 
-
       const amp2 = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
       amp2.scene.scale.set(6, 6, 6);
       amp2.scene.rotation.y = -3*Math.PI / 5;
@@ -720,6 +743,13 @@ class FirstPersonCameraDemo {
     const loader = new GLTFLoader();
     return new Promise((resolve, reject) => {
       loader.load(path, resolve, undefined, reject);
+      this.modelsLoaded += 1;
+      this.percenteLoadedModels = (this.modelsLoaded / this.totalModels) * 100
+      console.log(this.percenteLoadedModels);
+      if (this.percenteLoadedModels == 100) {
+        const event = new Event('modelsLoaded');
+        document.dispatchEvent(event);
+      }
     });
   }
 
