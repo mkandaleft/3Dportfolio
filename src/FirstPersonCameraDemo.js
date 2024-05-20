@@ -17,7 +17,7 @@ class FirstPersonCameraDemo {
     this.interactable = [];
     this.totalModels = 52;
     this.modelsLoaded = 0;
-    this.percenteLoadedModels = 0;
+    this.percentLoadedModels = 0;
   }
 
   /**
@@ -744,9 +744,15 @@ class FirstPersonCameraDemo {
     return new Promise((resolve, reject) => {
       loader.load(path, resolve, undefined, reject);
       this.modelsLoaded += 1;
-      this.percenteLoadedModels = (this.modelsLoaded / this.totalModels) * 100
-      console.log(this.percenteLoadedModels);
-      if (this.percenteLoadedModels == 100) {
+      this.percentLoadedModels = (this.modelsLoaded / this.totalModels) * 100
+      console.log(this.percentLoadedModels);
+      
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.textContent = `Loading... ${Math.floor(this.percentLoadedModels)}%`;
+      }
+
+      if (this.percentLoadedModels == 100) {
         const event = new Event('modelsLoaded');
         document.dispatchEvent(event);
       }
