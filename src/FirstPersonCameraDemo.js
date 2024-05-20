@@ -40,7 +40,6 @@ class FirstPersonCameraDemo {
           this.onWindowResize_();
           document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
           document.addEventListener('checkTVRemoveDisplay', (event) => this.checkTVRemoveDisplay(event.detail.contentName));
-
           resolve();
         }).catch(error => {
           console.error('Model loading failed:', error);

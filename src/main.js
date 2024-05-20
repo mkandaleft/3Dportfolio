@@ -9,6 +9,9 @@ let _APP = null;
 
 // Listen for a click on the start button to display the loading screen
 document.getElementById('start-button').addEventListener('click', function(event) {
+
+  document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
+  document.body.requestPointerLock();
   document.getElementById('overlay').style.display = 'none';
   document.getElementById('loading').style.display = 'flex';
 
@@ -19,10 +22,11 @@ document.getElementById('start-button').addEventListener('click', function(event
   document.addEventListener('modelsLoaded', function() {
     document.getElementById('loading').style.display = 'none';
     document.getElementById('app').style.display = 'block';
-    
+
+    // Check if the pointer is locked on screen
+    if (document.pointerLockElement !== document.body && document.mozPointerLockElement !== document.body) {
+      _APP.fpsCamera_.pointerLockChange();
+      console.log("Pointer is not locked");
+    }
   });
-  // _APP.initialize_().then(function() {
-  //   document.getElementById('loading').style.display = 'none';
-  //   document.getElementById('app').style.display = 'block';
-  // });
 });
