@@ -726,11 +726,10 @@ class FirstPersonCameraDemo {
       loader.load(path, resolve, undefined, reject);
       this.modelsLoaded += 1;
       this.percentLoadedModels = (this.modelsLoaded / this.totalModels) * 100
-      console.log(this.percentLoadedModels);
       
       const loading = document.getElementById('loading');
       if (loading) {
-        loading.textContent = `Loading... ${Math.floor(this.percentLoadedModels)}%`;
+        loading.innerHTML = `<h1>Loading... ${Math.floor(this.percentLoadedModels)}%</h1>`;
       }
       setTimeout(() => {  
         if (this.percentLoadedModels == 100) {
@@ -1209,16 +1208,6 @@ class FirstPersonCameraDemo {
 
     const escapeDisplay = document.getElementById('escapeDisplay');
     const controlsDisplay = document.getElementById('controlsDisplay');
-
-    // // Set the desired proportions (e.g., 10% of window width and 10% of window height)
-    // const widthProportion = 0.1;  // 10%
-    // const heightProportion = 0.1;  // 10%
-
-    // // Update the dimensions of the elements
-    // const newWidth = window.innerWidth * widthProportion;
-    // const newHeight = window.innerHeight * heightProportion;
-
-    
 
     if (escapeDisplay) {
       escapeDisplay.style.width = `${window.innerWidth*0.05}px`;
