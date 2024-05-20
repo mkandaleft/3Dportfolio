@@ -40,13 +40,14 @@ class FirstPersonCameraDemo {
           this.onWindowResize_();
           document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
           document.addEventListener('checkTVRemoveDisplay', (event) => this.checkTVRemoveDisplay(event.detail.contentName));
+
           resolve();
         }).catch(error => {
           console.error('Model loading failed:', error);
           // Handle loading errors (optional)
         });
       });
-
+      
 
 
 
@@ -751,11 +752,13 @@ class FirstPersonCameraDemo {
       if (loading) {
         loading.textContent = `Loading... ${Math.floor(this.percentLoadedModels)}%`;
       }
+      setTimeout(() => {  
+        if (this.percentLoadedModels == 100) {
+          const event = new Event('modelsLoaded');
+          document.dispatchEvent(event);
+        }
+      }, 3000);
 
-      if (this.percentLoadedModels == 100) {
-        const event = new Event('modelsLoaded');
-        document.dispatchEvent(event);
-      }
     });
   }
 

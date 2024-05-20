@@ -17,8 +17,9 @@ document.getElementById('start-button').addEventListener('click', function(event
   _APP.initialize_();
 
   document.addEventListener('modelsLoaded', function() {
-    document.getElementById('app').style.display = 'block';
     document.getElementById('loading').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    
   });
   // _APP.initialize_().then(function() {
   //   document.getElementById('loading').style.display = 'none';
