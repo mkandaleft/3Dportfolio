@@ -279,7 +279,7 @@ class FirstPersonCamera {
         object = object.parent;
       }
   
-      if (object && this.camera_.position.distanceTo(object.position) < 15 && !this.isInMenu) {
+      if (object && this.camera_.position.distanceTo(object.position) < 15 && !this.isInMenu && !this.isZoomedIn) {
         this.zoomToObject(object);
       }
     }
@@ -462,6 +462,7 @@ class FirstPersonCamera {
     const contentElement = document.getElementById(contentId);
     if (contentElement) {
       contentElement.style.display = 'block';
+      contentElement.scrollTop = 0;
     }
   }
 
