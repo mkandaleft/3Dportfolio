@@ -15,6 +15,9 @@ class FirstPersonCameraDemo {
    */
   constructor() {
     this.interactable = [];
+    this.totalModels = 52;
+    this.modelsLoaded = 0;
+    this.percentLoadedModels = 0;
   }
 
   /**
@@ -22,25 +25,27 @@ class FirstPersonCameraDemo {
    * @returns {Promise} A promise that resolves when the initialization is complete.
    */
   initialize_() {
-    return new Promise(resolve => {
       this.initializeRenderer_();
       this.initializeLights_();
-      this.initializeScene_();
-      this.initializeDemo_();
+      
+      this.initializeScene_().then(async () => {
+        try {
+          return await new Promise(resolve => {
+            this.initializeDemo_();
 
-      this.previousRAF_ = null;
+            this.previousRAF_ = null;
 
-      // Delay the start of rendering by 8 seconds
-      setTimeout(() => {  
-        this.raf_();
-        this.onWindowResize_();
-        resolve();
-      }, 8000);
-
-      document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
-      document.addEventListener('checkTVRemoveDisplay', (event) => this.checkTVRemoveDisplay(event.detail.contentName));
-    });
-    
+            // Start rendering right after models are loaded
+            this.raf_();
+            this.onWindowResize_();
+            document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
+            document.addEventListener('checkTVRemoveDisplay', (event_1) => this.checkTVRemoveDisplay(event_1.detail.contentName));
+            resolve();
+          });
+        } catch (error) {
+          console.error('Model loading failed:', error);
+        }
+      });
   }
 
   /**
@@ -679,7 +684,6 @@ class FirstPersonCameraDemo {
       amp1.scene.position.z += -20;
       this.scene_.add(amp1.scene);
 
-
       const amp2 = await this.loadModel_('Music/Amp/dusty_passive_stage_speaker.glb');
       amp2.scene.scale.set(6, 6, 6);
       amp2.scene.rotation.y = -3*Math.PI / 5;
@@ -720,6 +724,20 @@ class FirstPersonCameraDemo {
     const loader = new GLTFLoader();
     return new Promise((resolve, reject) => {
       loader.load(path, resolve, undefined, reject);
+      this.modelsLoaded += 1;
+      this.percentLoadedModels = (this.modelsLoaded / this.totalModels) * 100
+      
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.innerHTML = `<h1>Loading... ${Math.floor(this.percentLoadedModels)}%</h1>`;
+      }
+      setTimeout(() => {  
+        if (this.percentLoadedModels == 100) {
+          const event = new Event('modelsLoaded');
+          document.dispatchEvent(event);
+        }
+      }, 3000);
+
     });
   }
 
@@ -1188,6 +1206,19 @@ class FirstPersonCameraDemo {
     this.uiCamera_.right = this.camera_.aspect;
     this.uiCamera_.updateProjectionMatrix();
 
+    const escapeDisplay = document.getElementById('escapeDisplay');
+    const controlsDisplay = document.getElementById('controlsDisplay');
+
+    if (escapeDisplay) {
+      escapeDisplay.style.width = `${window.innerWidth*0.1}px`;
+      escapeDisplay.style.height = `${window.innerHeight*0.06}px`;
+    }
+
+    if (controlsDisplay) {
+      controlsDisplay.style.width = `${window.innerWidth*0.3}px`;
+      controlsDisplay.style.height = `${window.innerHeight*0.5}px`;
+    }
+
     this.threejs_.setSize(window.innerWidth, window.innerHeight);
   }
 
@@ -1205,6 +1236,7 @@ class FirstPersonCameraDemo {
       this.threejs_.autoClear = false;
       this.threejs_.render(this.uiScene_, this.uiCamera_);
       this.previousRAF_ = t;
+      console.log("width: ", window.innerWidth, "height: ", window.innerHeight);
       this.raf_();
     });
   }
