@@ -1207,6 +1207,29 @@ class FirstPersonCameraDemo {
     this.uiCamera_.right = this.camera_.aspect;
     this.uiCamera_.updateProjectionMatrix();
 
+    const escapeDisplay = document.getElementById('escapeDisplay');
+    const controlsDisplay = document.getElementById('controlsDisplay');
+
+    // // Set the desired proportions (e.g., 10% of window width and 10% of window height)
+    // const widthProportion = 0.1;  // 10%
+    // const heightProportion = 0.1;  // 10%
+
+    // // Update the dimensions of the elements
+    // const newWidth = window.innerWidth * widthProportion;
+    // const newHeight = window.innerHeight * heightProportion;
+
+    
+
+    if (escapeDisplay) {
+      escapeDisplay.style.width = `${window.innerWidth*0.05}px`;
+      escapeDisplay.style.height = `${window.innerHeight*0.03}px`;
+    }
+
+    if (controlsDisplay) {
+      controlsDisplay.style.width = `${window.innerWidth*0.3}px`;
+      controlsDisplay.style.height = `${window.innerHeight*0.5}px`;
+    }
+
     this.threejs_.setSize(window.innerWidth, window.innerHeight);
   }
 
@@ -1224,6 +1247,7 @@ class FirstPersonCameraDemo {
       this.threejs_.autoClear = false;
       this.threejs_.render(this.uiScene_, this.uiCamera_);
       this.previousRAF_ = t;
+      console.log("width: ", window.innerWidth, "height: ", window.innerHeight);
       this.raf_();
     });
   }
