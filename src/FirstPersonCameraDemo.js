@@ -1210,8 +1210,8 @@ class FirstPersonCameraDemo {
     const controlsDisplay = document.getElementById('controlsDisplay');
 
     if (escapeDisplay) {
-      escapeDisplay.style.width = `${window.innerWidth*0.05}px`;
-      escapeDisplay.style.height = `${window.innerHeight*0.03}px`;
+      escapeDisplay.style.width = `${window.innerWidth*0.1}px`;
+      escapeDisplay.style.height = `${window.innerHeight*0.06}px`;
     }
 
     if (controlsDisplay) {
