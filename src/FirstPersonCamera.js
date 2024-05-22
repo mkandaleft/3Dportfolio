@@ -504,7 +504,7 @@ class FirstPersonCamera {
       if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) >= 10) {
         this.dispatchTVRemoveDisplay("tv1");
         this.dispatchTVRemoveDisplay("tv2");
-        this.dispatchTVRemoveDisplay("t5");
+        this.dispatchTVRemoveDisplay("tv5");
       }
     }
   }
