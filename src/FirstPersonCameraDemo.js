@@ -27,25 +27,58 @@ class FirstPersonCameraDemo {
   initialize_() {
       this.initializeRenderer_();
       this.initializeLights_();
+
       
-      this.initializeScene_().then(async () => {
-        try {
-          return await new Promise(resolve => {
-            this.initializeDemo_();
+      // Wait for the scene initialization and demo initialization
+      this.initializeScene_().then(() => {
+        this.initializeDemo_();
 
-            this.previousRAF_ = null;
+        this.previousRAF_ = null;
 
-            // Start rendering right after models are loaded
-            this.raf_();
-            this.onWindowResize_();
-            document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
-            document.addEventListener('checkTVRemoveDisplay', (event_1) => this.checkTVRemoveDisplay(event_1.detail.contentName));
-            resolve();
-          });
-        } catch (error) {
-          console.error('Model loading failed:', error);
+        // Start rendering right after models are loaded
+        this.raf_(); // request animation frame loop
+        this.onWindowResize_();
+        document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
+        document.addEventListener('checkTVRemoveDisplay', (event_1) => this.checkTVRemoveDisplay(event_1.detail.contentName));
+        
+        // Dispatch 'modelsLoaded' event to notify that everything is ready
+        // document.dispatchEvent(new Event('modelsLoaded'));
+        document.getElementById('app').style.display = 'block';
+        document.getElementById('loading').style.display = 'none';
+
+        if (document.pointerLockElement !== document.body && document.mozPointerLockElement !== document.body) {
+          this.fpsCamera_.pointerLockChange();
         }
+      }).catch(error => {
+        console.error('Model loading failed:', error);
       });
+
+
+
+
+
+
+
+
+
+      // this.initializeScene_().then(async () => {
+      //   try {
+      //     return await new Promise(resolve => {
+      //       this.initializeDemo_();
+
+      //       this.previousRAF_ = null;
+
+      //       // Start rendering right after models are loaded
+      //       this.raf_();
+      //       this.onWindowResize_();
+      //       document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
+      //       document.addEventListener('checkTVRemoveDisplay', (event_1) => this.checkTVRemoveDisplay(event_1.detail.contentName));
+      //       resolve();
+      //     });
+      //   } catch (error) {
+      //     console.error('Model loading failed:', error);
+      //   }
+      // });
   }
 
   /**

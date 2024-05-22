@@ -19,14 +19,31 @@ document.getElementById('start-button').addEventListener('click', function(event
   _APP = new FirstPersonCameraDemo();
   _APP.initialize_();
 
-  document.addEventListener('modelsLoaded', function() {
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
 
-    // Check if the pointer is locked on screen
-    if (document.pointerLockElement !== document.body && document.mozPointerLockElement !== document.body) {
-      _APP.fpsCamera_.pointerLockChange();
-      console.log("Pointer is not locked");
-    }
-  });
+  // // Function to hide the loading screen and show the app
+  // function showApp() {
+  //   document.getElementById('app').style.display = 'block';
+  //   document.getElementById('loading').style.display = 'none';
+
+  //   // Check if the pointer is locked on screen
+    // if (document.pointerLockElement !== document.body && document.mozPointerLockElement !== document.body) {
+    //   _APP.fpsCamera_.pointerLockChange();
+    //   console.log("Pointer is not locked");
+    // }
+  // }
+
+  // // Wait for the 3D scene to be ready
+  // document.addEventListener('modelsLoaded', function() {
+  //   // Use requestAnimationFrame to ensure that the app is visible immediately
+  //   requestAnimationFrame(showApp);
+  // });
+
+
+
+  // document.addEventListener('modelsLoaded', function() {
+  //   document.getElementById('loading').style.display = 'none';
+  //   document.getElementById('app').style.display = 'block';
+
+
+  // });
 });
