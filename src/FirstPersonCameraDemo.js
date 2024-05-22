@@ -51,7 +51,7 @@ class FirstPersonCameraDemo {
   /**
    * Initializes the demo by creating a new FirstPersonCamera instance and setting interactable objects.
    */
-  initializeDemo_() {    
+  initializeDemo_() {
     console.log("initializeDemo_");
     this.fpsCamera_ = new FirstPersonCamera(this.camera_, this.objects_);
     this.fpsCamera_.setInteractableObjects(this.interactable);
@@ -731,13 +731,10 @@ class FirstPersonCameraDemo {
       if (loading) {
         loading.innerHTML = `<h1>Loading... ${Math.floor(this.percentLoadedModels)}%</h1>`;
       }
-      setTimeout(() => {  
-        if (this.percentLoadedModels == 100) {
-          const event = new Event('modelsLoaded');
-          document.dispatchEvent(event);
-        }
-      }, 3000);
-
+      if (this.percentLoadedModels == 100) {
+        const event = new Event('modelsLoaded');
+        document.dispatchEvent(event);
+      }
     });
   }
 
@@ -1236,7 +1233,6 @@ class FirstPersonCameraDemo {
       this.threejs_.autoClear = false;
       this.threejs_.render(this.uiScene_, this.uiCamera_);
       this.previousRAF_ = t;
-      console.log("width: ", window.innerWidth, "height: ", window.innerHeight);
       this.raf_();
     });
   }
