@@ -52,33 +52,6 @@ class FirstPersonCameraDemo {
       }).catch(error => {
         console.error('Model loading failed:', error);
       });
-
-
-
-
-
-
-
-
-
-      // this.initializeScene_().then(async () => {
-      //   try {
-      //     return await new Promise(resolve => {
-      //       this.initializeDemo_();
-
-      //       this.previousRAF_ = null;
-
-      //       // Start rendering right after models are loaded
-      //       this.raf_();
-      //       this.onWindowResize_();
-      //       document.addEventListener('checkTVDisplay', (event) => this.checkTVDisplay(event.detail.contentName));
-      //       document.addEventListener('checkTVRemoveDisplay', (event_1) => this.checkTVRemoveDisplay(event_1.detail.contentName));
-      //       resolve();
-      //     });
-      //   } catch (error) {
-      //     console.error('Model loading failed:', error);
-      //   }
-      // });
   }
 
   /**
