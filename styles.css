@@ -634,7 +634,8 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  color: #fff;
+  background-color: #234E52;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -655,10 +656,10 @@ button:focus-visible {
   }
 
   a:hover {
-    color: #747bff;
+    color: #38B2AC;
   }
 
   button {
-    background-color: #f9f9f9;
+    background-color: #234E52;
   }
 }
