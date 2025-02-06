@@ -1035,23 +1035,29 @@ class FirstPersonCameraDemo {
           this.animateTVDisplay(tv5Display);
         }
         break;
-
-
-
-
-        // const tv5 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
-        // tv5.scene.scale.set(4, 4, 4);
-        // tv5.scene.rotation.y = Math.PI / 2;
-        // const rotationAxis2 = new THREE.Vector3(0, 0, 1).normalize();
-        // const rotationAngle2 = -Math.PI / 5;
-        // tv5.scene.rotateOnWorldAxis(rotationAxis2, rotationAngle2);
-        // tv5.scene.position.x += -19;
-        // tv5.scene.position.y += 6.5;
-        // tv5.scene.position.z += -4.5;
-        // this.scene_.add(tv5.scene);
-
-
-
+      // Fixer (+x, -z)
+      case "tv6":
+        let tv6Display = this.scene_.getObjectByName("tv6Display");
+        if (!tv6Display) {
+          const fixerTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/fixerTv.png');
+          fixerTVDisplay.encoding = THREE.sRGBEncoding;
+          const tv6Geometry = new THREE.PlaneGeometry(4, 2);
+          const tv6Material = new THREE.MeshBasicMaterial({ map: fixerTVDisplay });
+          tv6Display = new THREE.Mesh(tv6Geometry, tv6Material);
+          tv6Display.rotation.y = Math.PI / 2;
+          const rotationAxis = new THREE.Vector3(0, 0, 1).normalize();
+          const rotationAngle = -Math.PI / 5;
+          tv6Display.rotateOnWorldAxis(rotationAxis, rotationAngle);
+          tv6Display.position.set(-20.55, 4.35, -14.7);
+          tv6Display.name = "tv6Display";
+          this.scene_.add(tv6Display);
+          this.interactable.push(tv6Display);
+          
+          this.fpsCamera_.isAnimating = true;
+          this.animateTVDisplay(tv6Display);
+        }
+        break;
+        
       default:
         break;
     }
@@ -1135,6 +1141,18 @@ class FirstPersonCameraDemo {
           }
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(tv5Display);
+        }
+        break;
+      // Fixer (+x, -z)
+      case "tv6":
+        const tv6Display = this.scene_.getObjectByName("tv6Display");
+        if (tv6Display) {
+          const index = this.interactable.indexOf(tv6Display);
+          if (index !== -1) {
+            this.interactable.splice(index, 1);
+          }
+          this.fpsCamera_.isAnimating = true;
+          this.deAnimateTVDisplay(tv6Display);
         }
         break;
       default:

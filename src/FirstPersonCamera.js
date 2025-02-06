@@ -402,6 +402,25 @@ class FirstPersonCamera {
         this.displayContent("contentForCNN");
         this.displayBackButton();
         break;
+              
+        case 'tv6Display':
+          const zoomPositionTV6 = new THREE.Vector3(-18, 2.5, -14.5);
+          this.translation_.copy(zoomPositionTV6);
+  
+          const zoomRotationTV6 = new THREE.Quaternion();
+          zoomRotationTV6.setFromAxisAngle(new THREE.Vector3(0, 1, 0).normalize(), Math.PI / 2);
+  
+          const zoomRotationTV6x = new THREE.Quaternion();
+          zoomRotationTV6x.setFromAxisAngle(new THREE.Vector3(-1, 0, 0).normalize(), -Math.PI / 5);
+  
+          const q7 = new THREE.Quaternion();
+          q7.multiply(zoomRotationTV6);
+          q7.multiply(zoomRotationTV6x);
+  
+          this.rotation_.copy(q7);
+          this.displayContent("contentForFixer");
+          this.displayBackButton();
+          break;
 
       default:
         break;
@@ -500,11 +519,13 @@ class FirstPersonCamera {
         this.dispatchTVDisplay("tv1");
         this.dispatchTVDisplay("tv2");
         this.dispatchTVDisplay("tv5");
+        this.dispatchTVDisplay("tv6");
       }
       if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) >= 10) {
         this.dispatchTVRemoveDisplay("tv1");
         this.dispatchTVRemoveDisplay("tv2");
         this.dispatchTVRemoveDisplay("tv5");
+        this.dispatchTVRemoveDisplay("tv6");
       }
     }
   }
