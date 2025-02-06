@@ -145,6 +145,15 @@ class FirstPersonCameraDemo {
       floor4.scene.position.y += -4.3;
       floor4.scene.position.z += -11;
       this.scene_.add(floor4.scene);
+
+      const planeGeometry = new THREE.PlaneGeometry(43, 43);
+      const planeMaterial = new THREE.MeshStandardMaterial({ color: "#0d0042" });
+      const floorplane = new THREE.Mesh(planeGeometry, planeMaterial)
+      floorplane.scale.set(1, 1, 1);
+      floorplane.position.y += 0.1;
+      floorplane.rotation.x = -Math.PI / 2;
+      floorplane.receiveShadow = true;
+      this.scene_.add(floorplane);
     } catch (error) {
       console.error('Error loading floor:', error);
     }
