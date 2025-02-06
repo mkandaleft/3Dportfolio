@@ -63,7 +63,20 @@ class FirstPersonCamera {
       this.input_.target_.addEventListener('pointerLockChange', () => this.pointerLockChange());
 
       this.resetButton = document.getElementById("resetView");
-      this.resetButton.addEventListener("click", () => this.resetView());
+      this.resetButton.addEventListener("click", async () => {
+        // The escapeMenu is triggered by a non user-initiated event "escape". Due to this
+        // the requestPointerLock() is not always called synchronously. To ensure the pointer is
+        // locked before resetting the view, we disable returning until the browser is ready for
+        // pointerLockChange. (>2 seconds)
+        try {
+          await document.body.requestPointerLock();
+          requestAnimationFrame(() => {
+            this.resetView();
+          });
+        } catch (err) {
+          console.warn("Pointer lock failed:", err);
+        }
+      });
 
       this.exitButton = document.getElementById("ExitButton");
       this.exitButton.addEventListener("click", () => this.exitSimulation());
@@ -95,9 +108,9 @@ class FirstPersonCamera {
     this.updateEscapeDisplay();
 
     // Reset view if 'r' is pressed and camera is zoomed in
-    if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
-      this.resetView();  
-    }
+    //if ((this.input_.key(KEYS.r)) && this.isZoomedIn) {  
+    //  this.resetView();  
+    //}
     
     // Under development to escape menu and zoom with escape
     if (this.input_.key(KEYS.escape)) {
@@ -436,28 +449,24 @@ class FirstPersonCamera {
    * Sets the isZoomedIn and isInMenu flags to false.
    */
   resetView() {
-    // requestAnimationFrame helps with synchronizing events
-    requestAnimationFrame(() => {
-      // zoom out of object if not in menu
-      if (!this.isInMenu) {
-        this.translation_.copy(this.originalPosition);
-        this.translation_.y = 2.5;
-        this.rotation_.copy(this.originalQuaternion);
-      }
-  
-      const backButton = document.getElementById('resetView');
-      backButton.style.display = 'none';
+    // zoom out of object if not in menu
+    if (!this.isInMenu) {
+      this.translation_.copy(this.originalPosition);
+      this.translation_.y = 2.5;
+      this.rotation_.copy(this.originalQuaternion);
+    }
 
-      document.querySelectorAll('.object-content').forEach(div => {
-        div.style.display = 'none';
-      });
-            
-      document.body.requestPointerdwsLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
-      document.body.requestPointerLock();
+    const backButton = document.getElementById('resetView');
+    backButton.style.display = 'none';
 
-      this.isZoomedIn = false;
-      this.isInMenu = false;
+    document.querySelectorAll('.object-content').forEach(div => {
+      div.style.display = 'none';
     });
+          
+    document.body.requestPointerLock();
+
+    this.isZoomedIn = false;
+    this.isInMenu = false;
   }
   
   /**
