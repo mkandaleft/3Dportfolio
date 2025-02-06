@@ -750,12 +750,11 @@ class FirstPersonCameraDemo {
   initializeLights_() {
     console.log("initializeLights_");
     const distance = 50.0;
-    const angle = Math.PI / 5.5;
+    const angle = Math.PI / 4;
     const penumbra = 0.5;
     const decay = 1.0;
 
     // Wall lights
-
     let light = new THREE.SpotLight(
       0xFFFFFF, 100.0, distance, angle, penumbra, decay);
     light.castShadow = true;
@@ -973,7 +972,7 @@ class FirstPersonCameraDemo {
           this.animateTVDisplay(scrollDisplay);
         }
         break;
-      // CondoMAXium (+x, -z)
+      // CondoMAXium (-x, -z)
       case "tv1":
         let tv1Display = this.scene_.getObjectByName("tv1Display");
         if (!tv1Display) {
@@ -993,7 +992,7 @@ class FirstPersonCameraDemo {
           this.animateTVDisplay(tv1Display);
         }
         break;
-      // Time2Chill (+x, -z)
+      // Time2Chill (-x, -z)
       case "tv2":
         let tv2Display = this.scene_.getObjectByName("tv2Display");
         if (!tv2Display) {
@@ -1013,7 +1012,7 @@ class FirstPersonCameraDemo {
           this.animateTVDisplay(tv2Display);
         }
         break;
-      // CNN (+x, -z)
+      // CNN (-x, -z)
       case "tv5":
         let tv5Display = this.scene_.getObjectByName("tv5Display");
         if (!tv5Display) {
@@ -1035,7 +1034,7 @@ class FirstPersonCameraDemo {
           this.animateTVDisplay(tv5Display);
         }
         break;
-      // Fixer (+x, -z)
+      // Fixer (-x, -z)
       case "tv6":
         let tv6Display = this.scene_.getObjectByName("tv6Display");
         if (!tv6Display) {
@@ -1107,7 +1106,7 @@ class FirstPersonCameraDemo {
           this.deAnimateTVDisplay(scrollDisplay);
         }
         break;
-      // CondoMAXium (+x, -z)
+      // CondoMAXium (-x, -z)
       case "tv1":
         const tv1Display = this.scene_.getObjectByName("tv1Display");
         if (tv1Display) {
@@ -1119,7 +1118,7 @@ class FirstPersonCameraDemo {
           this.deAnimateTVDisplay(tv1Display);
         }
         break;
-      // Time2Chill (+x, -z)
+      // Time2Chill (-x, -z)
       case "tv2":
         const tv2Display = this.scene_.getObjectByName("tv2Display");
         if (tv2Display) {
@@ -1131,7 +1130,7 @@ class FirstPersonCameraDemo {
           this.deAnimateTVDisplay(tv2Display);
         }
         break;
-      // CNN (+x, -z)
+      // CNN (-x, -z)
       case "tv5":
         const tv5Display = this.scene_.getObjectByName("tv5Display");
         if (tv5Display) {
@@ -1143,7 +1142,7 @@ class FirstPersonCameraDemo {
           this.deAnimateTVDisplay(tv5Display);
         }
         break;
-      // Fixer (+x, -z)
+      // Fixer (-x, -z)
       case "tv6":
         const tv6Display = this.scene_.getObjectByName("tv6Display");
         if (tv6Display) {
