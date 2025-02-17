@@ -610,6 +610,7 @@ class FirstPersonCameraDemo {
 
     // Add Projects (-x, -z)
     try {
+      // Add Sign
       const sign = await this.loadModel_('Projects/sign/state_park_sign.glb');
       sign.scene.scale.set(0.2, 0.2, 0.2);
       sign.scene.rotation.y = Math.PI / 4;
@@ -618,6 +619,25 @@ class FirstPersonCameraDemo {
       sign.scene.position.z += -20;
       this.scene_.add(sign.scene);
 
+      // Add sign text plane
+      const signTextText = new THREE.TextureLoader().load('/Projects/sign/signText.png');
+      signTextText.encoding = THREE.sRGBEncoding;
+      const signGeometry = new THREE.PlaneGeometry(2, 2);
+      const signMaterial = new THREE.MeshBasicMaterial({ 
+        map: signTextText,
+        transparent: true,
+        alphaTest: 0.5
+      });
+      const signTextDisplay = new THREE.Mesh(signGeometry, signMaterial);
+      signTextDisplay.rotation.y = Math.PI / 4;
+      //const rotationAxis = new THREE.Vector3(0, 0, -1).normalize();
+      //const rotationAngle = Math.PI / 5;
+      //signTextDisplay.rotateOnWorldAxis(rotationAxis, rotationAngle);
+      signTextDisplay.position.set(-19.2, 2.6, -19.2);
+      signTextDisplay.name = "signTextDisplay";
+      this.scene_.add(signTextDisplay);
+
+      // Add Projects
       const tv1 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv1.scene.scale.set(4, 4, 4);
       tv1.scene.rotation.y = 0 / 2;
