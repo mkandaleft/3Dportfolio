@@ -315,7 +315,7 @@ class FirstPersonCamera {
     // then display content for the object.
     switch (object.name) {
       case 'jboxDisplay':
-        const zoomPositionJbox = new THREE.Vector3(14.85, 3, -14.85);
+        const zoomPositionJbox = new THREE.Vector3(14.65, 3, -14.65);
         this.translation_.copy(zoomPositionJbox);
 
         const zoomRotationJBox = new THREE.Quaternion();
@@ -325,6 +325,11 @@ class FirstPersonCamera {
         q1.multiply(zoomRotationJBox);
     
         this.rotation_.copy(q1);
+
+        // Send event to remove tvDisplay plane from the scene
+        this.isZoomedIn = true;
+        this.dispatchTVRemoveDisplay("jbox");
+
         this.displayContent("contentForJBox");
         this.displayBackButton();
         break;
@@ -340,6 +345,10 @@ class FirstPersonCamera {
         q2.multiply(zoomRotationComp);
     
         this.rotation_.copy(q2);
+        // Send event to remove tvDisplay plane from the scene
+        this.isZoomedIn = true;
+        this.dispatchTVRemoveDisplay("computer");
+
         this.displayContent("contentForComputer");
         this.displayBackButton();
         break;
@@ -355,6 +364,10 @@ class FirstPersonCamera {
         q3.multiply(zoomRotationScroll);
     
         this.rotation_.copy(q3);
+        // Send event to remove tvDisplay plane from the scene
+        this.isZoomedIn = true;
+        this.dispatchTVRemoveDisplay("scroll");
+
         this.displayContent("contentForCareer");
         this.displayBackButton();
         break;
@@ -374,6 +387,10 @@ class FirstPersonCamera {
         q4.multiply(zoomRotationTV1x);
 
         this.rotation_.copy(q4);
+        // Send event to remove tvDisplay plane from the scene
+        this.isZoomedIn = true;
+        this.dispatchTVRemoveDisplay("tv1");
+
         this.displayContent("contentForCondoMAXium");
         this.displayBackButton();
         break;
@@ -393,6 +410,10 @@ class FirstPersonCamera {
         q5.multiply(zoomRotationTV2x);
 
         this.rotation_.copy(q5);
+        // Send event to remove tvDisplay plane from the scene
+        this.isZoomedIn = true;
+        this.dispatchTVRemoveDisplay("tv2");
+
         this.displayContent("contentForTime2Chill");
         this.displayBackButton();
         break;
@@ -412,6 +433,10 @@ class FirstPersonCamera {
         q6.multiply(zoomRotationTV5x);
 
         this.rotation_.copy(q6);
+        // Send event to remove tvDisplay plane from the scene
+        this.isZoomedIn = true;
+        this.dispatchTVRemoveDisplay("tv5");
+
         this.displayContent("contentForCNN");
         this.displayBackButton();
         break;
@@ -431,6 +456,10 @@ class FirstPersonCamera {
           q7.multiply(zoomRotationTV6x);
   
           this.rotation_.copy(q7);
+          // Send event to remove tvDisplay plane from the scene
+          this.isZoomedIn = true;
+          this.dispatchTVRemoveDisplay("tv6");
+  
           this.displayContent("contentForFixer");
           this.displayBackButton();
           break;
@@ -438,7 +467,6 @@ class FirstPersonCamera {
       default:
         break;
     }
-    this.isZoomedIn = true;
   }
 
   /**

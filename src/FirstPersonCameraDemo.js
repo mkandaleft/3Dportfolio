@@ -1087,6 +1087,12 @@ class FirstPersonCameraDemo {
         if (index !== -1) {
           this.interactable.splice(index, 1);
         }
+          
+        if (this.fpsCamera_.isZoomedIn) {
+          this.scene_.remove(computerDisplay);
+          return;
+        }
+        
         this.fpsCamera_.isAnimating = true;
         this.deAnimateTVDisplay(computerDisplay);
       }
@@ -1099,6 +1105,12 @@ class FirstPersonCameraDemo {
           if (index !== -1) {
             this.interactable.splice(index, 1);
           }
+
+          if (this.fpsCamera_.isZoomedIn) {
+            this.scene_.remove(jboxDisplay);
+            return;
+          }
+
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(jboxDisplay);
         }
@@ -1111,6 +1123,12 @@ class FirstPersonCameraDemo {
           if (index !== -1) {
             this.interactable.splice(index, 1);
           }
+
+          if (this.fpsCamera_.isZoomedIn) {
+            this.scene_.remove(scrollDisplay);
+            return;
+          }
+          
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(scrollDisplay);
         }
@@ -1123,6 +1141,12 @@ class FirstPersonCameraDemo {
           if (index !== -1) {
             this.interactable.splice(index, 1);
           }
+          
+          if (this.fpsCamera_.isZoomedIn) {
+            this.scene_.remove(tv1Display);
+            return;
+          }
+          
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(tv1Display);
         }
@@ -1135,6 +1159,12 @@ class FirstPersonCameraDemo {
           if (index !== -1) {
             this.interactable.splice(index, 1);
           }
+          
+          if (this.fpsCamera_.isZoomedIn) {
+            this.scene_.remove(tv2Display);
+            return;
+          }
+          
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(tv2Display);
         }
@@ -1147,6 +1177,12 @@ class FirstPersonCameraDemo {
           if (index !== -1) {
             this.interactable.splice(index, 1);
           }
+          
+          if (this.fpsCamera_.isZoomedIn) {
+            this.scene_.remove(tv5Display);
+            return;
+          }
+          
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(tv5Display);
         }
@@ -1159,6 +1195,12 @@ class FirstPersonCameraDemo {
           if (index !== -1) {
             this.interactable.splice(index, 1);
           }
+          
+          if (this.fpsCamera_.isZoomedIn) {
+            this.scene_.remove(tv6Display);
+            return;
+          }
+          
           this.fpsCamera_.isAnimating = true;
           this.deAnimateTVDisplay(tv6Display);
         }
