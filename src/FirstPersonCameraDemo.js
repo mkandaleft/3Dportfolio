@@ -454,7 +454,7 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
 
-    // Load TV's
+    // Load Big TVs
     try {
       // Load Big TV 1 and Display
       const tv1 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
@@ -610,6 +610,14 @@ class FirstPersonCameraDemo {
 
     // Add Projects (-x, -z)
     try {
+      const sign = await this.loadModel_('Projects/sign/state_park_sign.glb');
+      sign.scene.scale.set(0.2, 0.2, 0.2);
+      sign.scene.rotation.y = Math.PI / 4;
+      sign.scene.position.x += -20;
+      sign.scene.position.y += 2.5;
+      sign.scene.position.z += -20;
+      this.scene_.add(sign.scene);
+
       const tv1 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv1.scene.scale.set(4, 4, 4);
       tv1.scene.rotation.y = 0 / 2;
