@@ -505,6 +505,18 @@ class FirstPersonCameraDemo {
       console.error('Error loading model:', error);
     }
 
+    // Load Middle Screen
+    try {
+      const middleScreen = await this.loadModel_('Map/MiddleScreen/Octagone.glb');
+      middleScreen.scene.scale.set(0.3, 0.3, 0.3);
+      middleScreen.scene.position.x += -0;
+      middleScreen.scene.position.y += 4;
+      middleScreen.scene.position.z += 0;
+      this.scene_.add(middleScreen.scene);
+    }  catch (error) {
+      console.error('Error loading model:', error);
+    }
+
     // Add Software (+x, +z)
     try {
       const table = await this.loadModel_('Software/Table/wooden_table_game_ready_asset.glb');
