@@ -351,6 +351,7 @@ class FirstPersonCameraDemo {
 
     // Load Scaffolding
     try {
+      // Load Curved Scaffolding
       const scaf1 = await this.loadModel_('Map/Scaffold/curved_scaffold.glb');
       scaf1.scene.scale.set(1, 1, 1);
       scaf1.scene.position.x += -24;
@@ -412,6 +413,39 @@ class FirstPersonCameraDemo {
       scaf8.scene.position.y += 1;
       scaf8.scene.position.z += -24;
       this.scene_.add(scaf8.scene);
+
+      // Load straight Scaffolding
+      const scaf9 = await this.loadModel_('Map/Scaffold/straight_scaffold.glb');
+      scaf9.scene.scale.set(1, 1, 1);
+      scaf9.scene.rotation.x = Math.PI / 2;
+      scaf9.scene.position.x += -0.75;
+      scaf9.scene.position.y += 14.5;
+      scaf9.scene.position.z += 1.65;
+      this.scene_.add(scaf9.scene);
+
+      const scaf10 = await this.loadModel_('Map/Scaffold/straight_scaffold.glb');
+      scaf10.scene.scale.set(1, 1, 1);
+      scaf10.scene.rotation.x = Math.PI / 2;
+      scaf10.scene.position.x += 1.25;
+      scaf10.scene.position.y += 14.5;
+      scaf10.scene.position.z += 1.65;
+      this.scene_.add(scaf10.scene);
+
+      const scaf11 = await this.loadModel_('Map/Scaffold/straight_scaffold.glb');
+      scaf11.scene.scale.set(1, 1, 1);
+      scaf11.scene.rotation.x = -Math.PI / 2;
+      scaf11.scene.position.x += -0.95;
+      scaf11.scene.position.y += 32.2;
+      scaf11.scene.position.z += -1.65;
+      this.scene_.add(scaf11.scene);
+
+      const scaf12 = await this.loadModel_('Map/Scaffold/straight_scaffold.glb');
+      scaf12.scene.scale.set(1, 1, 1);
+      scaf12.scene.rotation.x = -Math.PI / 2;
+      scaf12.scene.position.x += 1.05;
+      scaf12.scene.position.y += 32.2;
+      scaf12.scene.position.z += -1.65;
+      this.scene_.add(scaf12.scene);
     } catch (error) {
       console.error('Error loading model:', error);
     }
