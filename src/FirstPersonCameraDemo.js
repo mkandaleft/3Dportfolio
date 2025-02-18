@@ -15,7 +15,7 @@ class FirstPersonCameraDemo {
    */
   constructor() {
     this.interactable = [];
-    this.totalModels = 52;
+    this.totalModels = 62;
     this.modelsLoaded = 0;
     this.percentLoadedModels = 0;
   }
@@ -28,7 +28,6 @@ class FirstPersonCameraDemo {
       this.initializeRenderer_();
       this.initializeLights_();
 
-      
       // Wait for the scene initialization and demo initialization
       this.initializeScene_().then(() => {
         this.initializeDemo_();
