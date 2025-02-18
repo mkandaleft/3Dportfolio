@@ -526,39 +526,40 @@ class FirstPersonCamera {
    * Checks the distance to the TVs or interactable objects and dispatches events to display content.
    */
   checkDistanceToTV() {
+    const distToDisplay = 16;
     if (!this.isZoomedIn && !this.isAnimating) {
       // Skills
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) < 10) {
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) < distToDisplay) {
         this.dispatchTVDisplay("computer");
       }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) >= 10) {
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) >= distToDisplay) {
         this.dispatchTVRemoveDisplay("computer");
       }
 
       // Music
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) < 10) {
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) < distToDisplay) {
         this.dispatchTVDisplay("jbox");
       }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) >= 10) {
+      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) >= distToDisplay) {
         this.dispatchTVRemoveDisplay("jbox");
       }
 
       // Career
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) < 10) {
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) < distToDisplay) {
         this.dispatchTVDisplay("scroll");
       }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) >= 10) {
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) >= distToDisplay) {
         this.dispatchTVRemoveDisplay("scroll");
       }
 
       // Projects
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) < 10) {
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) < distToDisplay) {
         this.dispatchTVDisplay("tv1");
         this.dispatchTVDisplay("tv2");
         this.dispatchTVDisplay("tv5");
         this.dispatchTVDisplay("tv6");
       }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) >= 10) {
+      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) >= distToDisplay) {
         this.dispatchTVRemoveDisplay("tv1");
         this.dispatchTVRemoveDisplay("tv2");
         this.dispatchTVRemoveDisplay("tv5");
