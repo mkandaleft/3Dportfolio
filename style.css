@@ -9,7 +9,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #383838;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -108,9 +108,8 @@ th {
   position: fixed;
   width: 900px;
   height: 900px;
-  border: 10px solid #434343db;
-  background-color: rgba(138, 137, 137, 0.97);
-  color: black;
+  border: 10px solid #383838;
+  color: #383838;
   text-align: center;
   padding: 20px;
   box-sizing: border-box;
@@ -227,8 +226,7 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    background-color: #383838;
   }
   a:hover {
     color: #747bff;
