@@ -446,9 +446,6 @@ class FirstPersonCameraDemo {
       scaf12.scene.position.y += 32.2;
       scaf12.scene.position.z += -1.65;
       this.scene_.add(scaf12.scene);
-
-
-
       
       const scaf13 = await this.loadModel_('Map/Scaffold/straight_scaffold.glb');
       scaf13.scene.scale.set(1, 1, 1);
@@ -582,6 +579,17 @@ class FirstPersonCameraDemo {
       middleScreen.scene.position.y += 4;
       middleScreen.scene.position.z += 0;
       this.scene_.add(middleScreen.scene);
+
+      // Animation
+      const animations = middleScreen.animations;
+      if (animations && animations.length > 0) {
+        // Create an AnimationMixer, select first clip and pass in the model's scene root
+        this.mixer = new THREE.AnimationMixer(middleScreen.scene);
+        const clip = animations[0];
+        const action = this.mixer.clipAction(clip);
+        action.play();
+      }
+
     }  catch (error) {
       console.error('Error loading model:', error);
     }
@@ -1427,6 +1435,11 @@ class FirstPersonCameraDemo {
   step_(timeElapsed) {
     const timeElapsedS = timeElapsed * 0.001;
     this.fpsCamera_.update(timeElapsedS);
+
+    // For the screen animation
+    if (this.mixer) {
+      this.mixer.update(timeElapsedS);
+    }
   }
 }
 
