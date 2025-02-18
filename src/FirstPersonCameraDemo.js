@@ -534,14 +534,14 @@ class FirstPersonCameraDemo {
       tv1.scene.position.z += 36;
       this.scene_.add(tv1.scene);
 
-      const bigTV1TVDisplay = new THREE.TextureLoader().load('/Pictures/areYouEntertained.jpeg');
+      const bigTV1TVDisplay = new THREE.TextureLoader().load('/Pictures/bigScreen1.png');
       bigTV1TVDisplay.encoding = THREE.sRGBEncoding;
-      const bigTV1Geometry = new THREE.PlaneGeometry(15, 7.5);
+      const bigTV1Geometry = new THREE.PlaneGeometry(15.3, 8.8);
       const bigTV1Material = new THREE.MeshBasicMaterial({ map: bigTV1TVDisplay });
       const bigTV1Display = new THREE.Mesh(bigTV1Geometry, bigTV1Material);
       bigTV1Display.rotation.y = Math.PI / 2;
       bigTV1Display.rotateOnWorldAxis(rotationAxis1, rotationAngle1);
-      bigTV1Display.position.set(-15.4, 17.5, 0.3);
+      bigTV1Display.position.set(-15.6, 17.2, 0.3);
       bigTV1Display.name = "bigTV1Display";
       this.scene_.add(bigTV1Display);
 
