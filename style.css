@@ -72,7 +72,7 @@ th {
   background-color: #f2f2f2;
 }
 
-#overlay, #loading{
+#overlay, #loading, #mobile{
   position: fixed;
   top: 0;
   left: 0;
@@ -104,7 +104,7 @@ th {
   border-radius: 0 8px 8px 0;
 }
 
-.start-screen, .loading-screen {
+.start-screen, .loading-screen, .mobile-screen {
   position: fixed;
   width: 900px;
   height: 900px;
