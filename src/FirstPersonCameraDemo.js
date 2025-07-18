@@ -1046,11 +1046,11 @@ class FirstPersonCameraDemo {
         if (!computerDisplay) {
           const computerTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/softwareDisplay.png');
           computerTVDisplay.encoding = THREE.sRGBEncoding;
-          const computerGeometry = new THREE.PlaneGeometry(2, 2);
+          const computerGeometry = new THREE.PlaneGeometry(6, 6);
           const computerMaterial = new THREE.MeshBasicMaterial({ map: computerTVDisplay });
           computerDisplay = new THREE.Mesh(computerGeometry, computerMaterial);
           computerDisplay.rotation.y = 5*Math.PI / 4;
-          computerDisplay.position.set(15.5, 2.2, 15.5);
+          computerDisplay.position.set(15.5, 4.4, 15.5);
           computerDisplay.name = "computerDisplay";
           this.scene_.add(computerDisplay);
           this.interactable.push(computerDisplay);
@@ -1065,11 +1065,11 @@ class FirstPersonCameraDemo {
       if (!jboxDisplay) {
         const jboxTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/musicDisplay.png');
         jboxTVDisplay.encoding = THREE.sRGBEncoding;
-        const jboxGeometry = new THREE.PlaneGeometry(2, 2);
+        const jboxGeometry = new THREE.PlaneGeometry(6, 6);
         const jboxMaterial = new THREE.MeshBasicMaterial({ map: jboxTVDisplay });
         jboxDisplay = new THREE.Mesh(jboxGeometry, jboxMaterial);
         jboxDisplay.rotation.y = 7*Math.PI / 4;
-        jboxDisplay.position.set(15.4, 2.2, -15.4);
+        jboxDisplay.position.set(15.4, 4.4, -15.4);
         jboxDisplay.name = "jboxDisplay";
         this.scene_.add(jboxDisplay);
         this.interactable.push(jboxDisplay);
@@ -1084,11 +1084,11 @@ class FirstPersonCameraDemo {
         if (!scrollDisplay) {
           const scrollTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/careerDisplay.png');
           scrollTVDisplay.encoding = THREE.sRGBEncoding;
-          const scrollGeometry = new THREE.PlaneGeometry(2, 2);
+          const scrollGeometry = new THREE.PlaneGeometry(6, 6);
           const scrollMaterial = new THREE.MeshBasicMaterial({ map: scrollTVDisplay });
           scrollDisplay = new THREE.Mesh(scrollGeometry, scrollMaterial);
           scrollDisplay.rotation.y = 3*Math.PI / 4;
-          scrollDisplay.position.set(-15.4, 2.2, 15.4);
+          scrollDisplay.position.set(-15.4, 4.4, 15.4);
           scrollDisplay.name = "scrollDisplay";
           this.scene_.add(scrollDisplay);
           this.interactable.push(scrollDisplay);

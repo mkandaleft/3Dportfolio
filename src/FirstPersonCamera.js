@@ -103,6 +103,7 @@ class FirstPersonCamera {
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
     }
+    // this.checkDistanceToTV();
     this.checkAngleToTV();
     this.updateControlDisplay();
     this.updateEscapeDisplay();
@@ -530,7 +531,8 @@ class FirstPersonCamera {
   }
 
   /**
-  * Checks the angle to the TVs or interactable objects and dispatches events to display content.
+  * Checks the distance and angle to the TVs or interactable objects and 
+  * dispatches events to display content.
   */
   checkAngleToTV() {
     if (!this.isZoomedIn && !this.isAnimating) {
@@ -551,7 +553,7 @@ class FirstPersonCamera {
         const toCorner = corner.clone().sub(cameraPosition).normalize();
         const dot = cameraDirection.dot(toCorner);
 
-        if (dot > angleThreshold) {
+        if (dot > angleThreshold || cameraPosition.distanceTo(corner) < 12) {
           if (name == "projects") {
             this.dispatchTVDisplay("tv1");
             this.dispatchTVDisplay("tv2");
