@@ -45,9 +45,9 @@ class FirstPersonCamera {
       this.rotation_ = new THREE.Quaternion();
       this.translation_ = new THREE.Vector3(0, 2.5, 0);
       this.phi_ = 0;
-      this.phiSpeed_ = 8;
+      this.phiSpeed_ = 1;
       this.theta_ = 0;
-      this.thetaSpeed_ = 10;
+      this.thetaSpeed_ = 1;
       this.headBobActive_ = false;
       this.headBobTimer_ = 0;
       this.raycaster_ = new THREE.Raycaster();
@@ -212,7 +212,7 @@ class FirstPersonCamera {
     // If the user is not zoomed in, allow camera rotation
     if (!this.isZoomedIn) {
       this.phi_ += -xh * this.phiSpeed_;
-      this.theta_ = clamp(this.theta_ + -yh * this.thetaSpeed_, -Math.PI / 3, Math.PI / 3);
+      this.theta_ = clamp(this.theta_ + -yh * this.thetaSpeed_, -Math.PI / 12, Math.PI / 6);
   
       const qx = new THREE.Quaternion();
       qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);
