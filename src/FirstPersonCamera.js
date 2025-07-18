@@ -45,7 +45,7 @@ class FirstPersonCamera {
       this.rotation_ = new THREE.Quaternion();
       this.translation_ = new THREE.Vector3(0, 2.5, 0);
       this.phi_ = 0;
-      this.phiSpeed_ = 1;
+      this.phiSpeed_ = 2;
       this.theta_ = 0;
       this.thetaSpeed_ = 1;
       this.headBobActive_ = false;
@@ -256,7 +256,11 @@ class FirstPersonCamera {
     this.raycaster_.setFromCamera(this.mouse_, this.camera_);
     const intersects = this.raycaster_.intersectObjects(this.interactableObjects, true);
     
+    const cursor = document.getElementById('crossCursor');
     const clickPrompt = document.getElementById('click-prompt');
+
+    // Display cross cursor when not looking at an interactable object
+    cursor.style.display = 'block';
 
     if (intersects.length > 0 && !this.isZoomedIn) {
       let object = intersects[0].object;
@@ -265,15 +269,18 @@ class FirstPersonCamera {
       while (object && !this.interactableObjects.includes(object)) {
         object = object.parent;
       }
-      // Display click prompt if object is facing user and is close enough
-      if (object && this.camera_.position.distanceTo(object.position) < 15) {
+      // Display click prompt if object is facing user and is close enough and hide cross cursor
+      if (object) {
+        cursor.style.display = 'none';
         clickPrompt.style.display = 'block';
         this.displayContent('click-prompt');
       } else {
         clickPrompt.style.display = 'none';
+        cursor.style.display = 'block';
       }
     } else {
       clickPrompt.style.display = 'none';
+      cursor.style.display = 'block';
     }
   }
 
