@@ -274,13 +274,16 @@ class FirstPersonCamera {
       if (object) {
         cursor.style.display = 'none';
         clickPrompt.style.display = 'block';
+        clickPrompt.classList.add('pulsing');
         this.displayContent('click-prompt');
       } else {
         clickPrompt.style.display = 'none';
+        clickPrompt.classList.remove('pulsing');
         cursor.style.display = 'block';
       }
     } else {
       clickPrompt.style.display = 'none';
+      clickPrompt.classList.remove('pulsing');
       cursor.style.display = 'block';
     }
   }

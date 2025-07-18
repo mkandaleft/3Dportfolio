@@ -171,6 +171,16 @@ th {
   z-index: 1000;
 }
 
+@keyframes pulse {
+  0%   { transform: translate(-50%, -50%) scale(1); }
+  50%  { transform: translate(-50%, -50%) scale(1.1); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+.pointer.pulsing {
+  animation: pulse 1s infinite ease-in-out;
+}
+
 .escape {
   position: fixed;
   top: 0;
