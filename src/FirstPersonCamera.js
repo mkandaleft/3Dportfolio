@@ -103,7 +103,7 @@ class FirstPersonCamera {
     if (!this.isZoomedIn) {
       this.updateTranslation_(timeElapsedS);
     }
-    this.checkDistanceToTV();
+    this.checkAngleToTV();
     this.updateControlDisplay();
     this.updateEscapeDisplay();
 
@@ -299,7 +299,7 @@ class FirstPersonCamera {
         object = object.parent;
       }
   
-      if (object && this.camera_.position.distanceTo(object.position) < 15 && !this.isInMenu && !this.isZoomedIn) {
+      if (object && !this.isInMenu && !this.isZoomedIn) {
         this.zoomToObject(object);
       }
     }
@@ -530,48 +530,49 @@ class FirstPersonCamera {
   }
 
   /**
-   * Checks the distance to the TVs or interactable objects and dispatches events to display content.
-   */
-  checkDistanceToTV() {
-    const distToDisplay = 16;
+  * Checks the angle to the TVs or interactable objects and dispatches events to display content.
+  */
+  checkAngleToTV() {
     if (!this.isZoomedIn && !this.isAnimating) {
-      // Skills
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) < distToDisplay) {
-        this.dispatchTVDisplay("computer");
-      }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, 14)) >= distToDisplay) {
-        this.dispatchTVRemoveDisplay("computer");
-      }
+      const cameraDirection = new THREE.Vector3();
+      this.camera_.getWorldDirection(cameraDirection);
+      const cameraPosition = this.camera_.position.clone();
 
-      // Music
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) < distToDisplay) {
-        this.dispatchTVDisplay("jbox");
-      }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(14, 2, -14)) >= distToDisplay) {
-        this.dispatchTVRemoveDisplay("jbox");
-      }
+      const corners = {
+        "computer": new THREE.Vector3(14, 2, 14),
+        "scroll":   new THREE.Vector3(-14, 2, 14),
+        "jbox":   new THREE.Vector3(14, 2, -14),
+        "projects":   new THREE.Vector3(-14, 2, -14),
+      };
 
-      // Career
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) < distToDisplay) {
-        this.dispatchTVDisplay("scroll");
-      }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, 14)) >= distToDisplay) {
-        this.dispatchTVRemoveDisplay("scroll");
-      }
+      const angleThreshold = Math.cos(THREE.MathUtils.degToRad(45));
 
-      // Projects
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) < distToDisplay) {
-        this.dispatchTVDisplay("tv1");
-        this.dispatchTVDisplay("tv2");
-        this.dispatchTVDisplay("tv5");
-        this.dispatchTVDisplay("tv6");
-      }
-      if (this.camera_.position.distanceTo(new THREE.Vector3(-14, 2, -14)) >= distToDisplay) {
-        this.dispatchTVRemoveDisplay("tv1");
-        this.dispatchTVRemoveDisplay("tv2");
-        this.dispatchTVRemoveDisplay("tv5");
-        this.dispatchTVRemoveDisplay("tv6");
-      }
+      Object.entries(corners).forEach(([name, corner]) => {
+        const toCorner = corner.clone().sub(cameraPosition).normalize();
+        const dot = cameraDirection.dot(toCorner);
+
+        if (dot > angleThreshold) {
+          if (name == "projects") {
+            this.dispatchTVDisplay("tv1");
+            this.dispatchTVDisplay("tv2");
+            this.dispatchTVDisplay("tv5");
+            this.dispatchTVDisplay("tv6");
+          }
+          else {
+            this.dispatchTVDisplay(name);
+          }
+        } else {
+          if (name == "projects") {
+            this.dispatchTVRemoveDisplay("tv1");
+            this.dispatchTVRemoveDisplay("tv2");
+            this.dispatchTVRemoveDisplay("tv5");
+            this.dispatchTVRemoveDisplay("tv6");
+          }
+          else {
+            this.dispatchTVRemoveDisplay(name);
+          }
+        }
+      });
     }
   }
 
