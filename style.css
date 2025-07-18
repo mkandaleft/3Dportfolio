@@ -94,14 +94,13 @@ th {
 #resetView {
   position: absolute;
   left: 1;
-  top: 40%;
-  transform: translateY(10%);
+  transform: translateX(750%) translateY(300%);
   opacity: 0.8;
   z-index: 1100;
   background-color: #1a1a1a;
   color: white;
-  padding: 100px 50px;
-  border-radius: 0 8px 8px 0;
+  padding: 20px 20px;
+  border-radius: 8px 8px 8px 8px;
 }
 
 .start-screen, .loading-screen {
