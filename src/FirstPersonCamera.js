@@ -401,6 +401,7 @@ class FirstPersonCamera {
         // Send event to remove tvDisplay plane from the scene
         this.isZoomedIn = true;
         this.dispatchTVRemoveDisplay("tv1");
+        this.dispatchTVRemoveDisplay("tv2");
 
         this.displayContent("contentForCondoMAXium");
         this.displayBackButton();
@@ -470,6 +471,7 @@ class FirstPersonCamera {
           // Send event to remove tvDisplay plane from the scene
           this.isZoomedIn = true;
           this.dispatchTVRemoveDisplay("tv6");
+          this.dispatchTVRemoveDisplay("tv5");
   
           this.displayContent("contentForFixer");
           this.displayBackButton();
