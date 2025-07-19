@@ -62,20 +62,22 @@ class FirstPersonCamera {
       this.input_.target_.addEventListener('checkInteraction', () => this.checkInteraction());
       this.input_.target_.addEventListener('pointerLockChange', () => this.pointerLockChange());
 
-      this.resetButton = document.getElementById("resetView");
-      this.resetButton.addEventListener("click", async () => {
-        // The escapeMenu is triggered by a non user-initiated event "escape". Due to this
-        // the requestPointerLock() is not always called synchronously. To ensure the pointer is
-        // locked before resetting the view, we disable returning until the browser is ready for
-        // pointerLockChange. (>2 seconds)
-        try {
-          await document.body.requestPointerLock();
-          requestAnimationFrame(() => {
-            this.resetView();
-          });
-        } catch (err) {
-          console.warn("Pointer lock failed:", err);
-        }
+      this.resetButtons = document.querySelectorAll(".resetView");
+      this.resetButtons.forEach(btn => {
+        btn.addEventListener("click", async () => {
+          // The escapeMenu is triggered by a non user-initiated event "escape". Due to this
+          // the requestPointerLock() is not always called synchronously. To ensure the pointer is
+          // locked before resetting the view, we disable returning until the browser is ready for
+          // pointerLockChange. (>2 seconds)
+          try {
+            await document.body.requestPointerLock();
+            requestAnimationFrame(() => {
+              this.resetView();
+            });
+          } catch (err) {
+            console.warn("Pointer lock failed:", err);
+          }
+        });
       });
 
       this.exitButton = document.getElementById("ExitButton");
@@ -244,7 +246,6 @@ class FirstPersonCamera {
     this.isInMenu = true;
     this.isZoomedIn = true;
     this.displayContent("escapeMenu");
-    this.displayBackButton();
   }
 
   /**
@@ -342,7 +343,6 @@ class FirstPersonCamera {
         this.dispatchTVRemoveDisplay("jbox");
 
         this.displayContent("contentForJBox");
-        this.displayBackButton();
         break;
       
       case 'computerDisplay':
@@ -361,7 +361,6 @@ class FirstPersonCamera {
         this.dispatchTVRemoveDisplay("computer");
 
         this.displayContent("contentForComputer");
-        this.displayBackButton();
         break;
 
       case 'scrollDisplay':
@@ -380,7 +379,6 @@ class FirstPersonCamera {
         this.dispatchTVRemoveDisplay("scroll");
 
         this.displayContent("contentForCareer");
-        this.displayBackButton();
         break;
       
       case 'tv1Display':
@@ -404,7 +402,6 @@ class FirstPersonCamera {
         this.dispatchTVRemoveDisplay("tv2");
 
         this.displayContent("contentForCondoMAXium");
-        this.displayBackButton();
         break;
       
       case 'tv2Display':
@@ -427,7 +424,6 @@ class FirstPersonCamera {
         this.dispatchTVRemoveDisplay("tv2");
 
         this.displayContent("contentForTime2Chill");
-        this.displayBackButton();
         break;
               
       case 'tv5Display':
@@ -450,7 +446,6 @@ class FirstPersonCamera {
         this.dispatchTVRemoveDisplay("tv5");
 
         this.displayContent("contentForCNN");
-        this.displayBackButton();
         break;
               
         case 'tv6Display':
@@ -474,7 +469,6 @@ class FirstPersonCamera {
           this.dispatchTVRemoveDisplay("tv5");
   
           this.displayContent("contentForFixer");
-          this.displayBackButton();
           break;
 
       default:
@@ -497,9 +491,6 @@ class FirstPersonCamera {
       this.rotation_.copy(this.originalQuaternion);
     }
 
-    const backButton = document.getElementById('resetView');
-    backButton.style.display = 'none';
-
     document.querySelectorAll('.object-content').forEach(div => {
       div.style.display = 'none';
     });
@@ -508,14 +499,6 @@ class FirstPersonCamera {
 
     this.isZoomedIn = false;
     this.isInMenu = false;
-  }
-  
-  /**
-   * Displays the back button on the page.
-   */
-  displayBackButton() {
-    const backButton = document.getElementById('resetView');
-    backButton.style.display = 'block';
   }
   
   /**
