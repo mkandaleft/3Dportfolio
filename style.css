@@ -193,19 +193,54 @@ th {
   border-color: #234E52;
   border-radius: 10px;
 }
+
 .controls {
   position: fixed;
+  width: 50vw;
+  height: 50vh;
+  max-width: 450px;
+  max-height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  border: 8px solid #434343db;
+  background-color: rgba(224, 242, 241, 0.8);
+  color: black;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 30px;
+  overflow-y: hidden;
+  z-index: 1001;
+  border-color: #38B2AC;
   bottom: 0;
   left: 0;
   transform: translate(15%, -10%);
-  z-index: 1000;
+}
+
+.control-item {
+  padding: 0px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30%;
+  gap: 10px;
+}
+
+.controlItemDisplay {
+  width: 20%;
+  max-width: 70px;
+}
+
+.controlItemTitle {
+  line-height: 1.1em;
+  width: 70%;
 }
 
 .container {
   display: flex;
   justify-content: space-between;
 }
-
 
 .logo {
   height: 6em;

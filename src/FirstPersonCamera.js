@@ -589,7 +589,7 @@ class FirstPersonCamera {
    */
   updateControlDisplay() {
     // Display controls if not zoomed in and less than 500ms
-    if (!this.isZoomedIn && (this.totalTimeElapsed <= 500)) {
+    if (!this.isZoomedIn && (this.totalTimeElapsed <= 600)) {
       if (!controlsDisplay.style.display || controlsDisplay.style.display === 'none') {
         controlsDisplay.style.display = 'block';
       }
