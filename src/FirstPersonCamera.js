@@ -317,7 +317,7 @@ class FirstPersonCamera {
   zoomToObject(object) {
     this.originalPosition = this.camera_.position.clone();
     this.originalQuaternion = this.camera_.quaternion.clone();
-
+    
     // Unlock the pointer lock
     document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock;
     document.exitPointerLock();
@@ -493,6 +493,9 @@ class FirstPersonCamera {
 
     document.querySelectorAll('.object-content').forEach(div => {
       div.style.display = 'none';
+
+      console.log("removing");
+      div.classList.remove("open");
     });
           
     document.body.requestPointerLock();
@@ -515,6 +518,10 @@ class FirstPersonCamera {
     if (contentElement) {
       contentElement.style.display = 'block';
       contentElement.scrollTop = 0;
+      if (contentElement.classList.contains('object-content')) {
+        console.log("opening");
+        contentElement.classList.add("open");
+      }
     }
   }
 

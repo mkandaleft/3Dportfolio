@@ -102,6 +102,15 @@ th {
   border-radius: 8px 8px 8px 8px;
 }
 
+.object-content .resetView {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.object-content.open .resetView {
+  opacity: 1;
+}
+
 .object-content-title {
   padding-top: 10px;
 }
