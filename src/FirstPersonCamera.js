@@ -611,7 +611,7 @@ class FirstPersonCamera {
    * Updates the display of the escape element on the top left.
    */
   updateEscapeDisplay() {
-    const escapeDisplay = document.getElementById('escapeDisplay');
+    const escapeDisplay = document.getElementById('escapeDisplay1');
 
     // Display escape element if not zoomed in
     if (!this.isZoomedIn) {

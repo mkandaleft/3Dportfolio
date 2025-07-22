@@ -203,6 +203,50 @@ th {
   border-radius: 10px;
 }
 
+.escape {
+  position: fixed;
+  width: 20vw;
+  height: 10vh;
+  max-width: 250px;
+  max-height: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 6px solid #434343db;
+  background-color: rgba(224, 242, 241, 0.8);
+  color: black;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  overflow-y: hidden;
+  z-index: 1001;
+  border-color: #38B2AC;
+  top: 0;
+  left: 0;
+  transform: translate(10%, 20%);
+}
+
+.escape-item {
+  padding: 0px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.escapeItemDisplay {
+  width: 22%;
+  max-width: 70px;
+}
+
+.escapeItemTitle {
+  font-size: 0.9em;
+  line-height: 1.1em;
+  width: 70%;
+  margin: 0;
+}
+
 .controls {
   position: fixed;
   width: 50vw;
