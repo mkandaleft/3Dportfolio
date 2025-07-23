@@ -616,14 +616,10 @@ class FirstPersonCamera {
     const escapeDisplay = document.getElementById('escapeDisplay1');
 
     // Display escape element if not zoomed in
-    if (!this.isZoomedIn) {
-      if (!escapeDisplay.style.display || escapeDisplay.style.display === 'none') {
-        escapeDisplay.style.display = 'block';
-      }
+    if (!this.isZoomedIn && (this.totalTimeElapsed >= 600)) {
+      escapeDisplay.classList.add('visible');
     } else {
-      if (escapeDisplay.style.display !== 'none') {
-        escapeDisplay.style.display = 'none';
-      }
+      escapeDisplay.classList.remove('visible');
     }
   }
   

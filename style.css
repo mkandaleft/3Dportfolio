@@ -194,17 +194,6 @@ th {
 
 .escape {
   position: fixed;
-  top: 0;
-  left: 20px; /* Adjust the value as needed */
-  transform: translate(0%, 30%);
-  z-index: 1000;
-  border: 5px solid #434343db;
-  border-color: #234E52;
-  border-radius: 10px;
-}
-
-.escape {
-  position: fixed;
   width: 20vw;
   height: 10vh;
   max-width: 250px;
@@ -224,6 +213,14 @@ th {
   top: 0;
   left: 0;
   transform: translate(10%, 20%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.escape.visible {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .escape-item {
