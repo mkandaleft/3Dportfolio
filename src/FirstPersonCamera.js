@@ -493,8 +493,6 @@ class FirstPersonCamera {
 
     document.querySelectorAll('.object-content').forEach(div => {
       div.style.display = 'none';
-
-      console.log("removing");
       div.classList.remove("open");
     });
           
@@ -519,7 +517,6 @@ class FirstPersonCamera {
       contentElement.style.display = 'block';
       contentElement.scrollTop = 0;
       if (contentElement.classList.contains('object-content')) {
-        console.log("opening");
         contentElement.classList.add("open");
       }
     }
@@ -597,15 +594,12 @@ class FirstPersonCamera {
    * Updates the display of the controls.
    */
   updateControlDisplay() {
+    const controlsDisplay = document.getElementById('controlsDisplay');
     // Display controls if not zoomed in and less than 500ms
     if (!this.isZoomedIn && (this.totalTimeElapsed <= 600)) {
-      if (!controlsDisplay.style.display || controlsDisplay.style.display === 'none') {
-        controlsDisplay.style.display = 'block';
-      }
+        controlsDisplay.classList.add('visible');
     } else {
-      if (controlsDisplay.style.display !== 'none') {
-        controlsDisplay.style.display = 'none';
-      }
+        controlsDisplay.classList.remove('visible');
     }
   }
 
