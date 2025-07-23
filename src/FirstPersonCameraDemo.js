@@ -698,33 +698,6 @@ class FirstPersonCameraDemo {
 
     // Add Projects (-x, -z)
     try {
-      // Add Sign
-      const sign = await this.loadModel_('Projects/sign/state_park_sign.glb');
-      sign.scene.scale.set(0.2, 0.2, 0.2);
-      sign.scene.rotation.y = Math.PI / 4;
-      sign.scene.position.x += -20;
-      sign.scene.position.y += 2.5;
-      sign.scene.position.z += -20;
-      this.scene_.add(sign.scene);
-
-      // Add sign text plane
-      const signTextText = new THREE.TextureLoader().load('/Projects/sign/signText.png');
-      signTextText.encoding = THREE.sRGBEncoding;
-      const signGeometry = new THREE.PlaneGeometry(2, 2);
-      const signMaterial = new THREE.MeshBasicMaterial({ 
-        map: signTextText,
-        transparent: true,
-        alphaTest: 0.5
-      });
-      const signTextDisplay = new THREE.Mesh(signGeometry, signMaterial);
-      signTextDisplay.rotation.y = Math.PI / 4;
-      //const rotationAxis = new THREE.Vector3(0, 0, -1).normalize();
-      //const rotationAngle = Math.PI / 5;
-      //signTextDisplay.rotateOnWorldAxis(rotationAxis, rotationAngle);
-      signTextDisplay.position.set(-19.2, 2.6, -19.2);
-      signTextDisplay.name = "signTextDisplay";
-      this.scene_.add(signTextDisplay);
-
       // Add Projects
       const tv1 = await this.loadModel_('Map/TV/1b7eff20a86b4cc692bc4222ac1ac252.glb');
       tv1.scene.scale.set(4, 4, 4);
@@ -1095,6 +1068,24 @@ class FirstPersonCameraDemo {
           
           this.fpsCamera_.isAnimating = true;
           this.animateTVDisplay(scrollDisplay);
+        }
+        break;
+      // Projects
+      case "projects":
+        let projects = this.scene_.getObjectByName("projects");
+        if (!projects) {
+          const condoMAXiumTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/projectsDisplay.png');
+          condoMAXiumTVDisplay.encoding = THREE.sRGBEncoding;
+          const tv1Geometry = new THREE.PlaneGeometry(4, 4);
+          const tv1Material = new THREE.MeshBasicMaterial({ map: condoMAXiumTVDisplay });
+          projects = new THREE.Mesh(tv1Geometry, tv1Material);
+          projects.rotation.y = Math.PI / 4;
+          projects.position.set(-19, 3.2, -19);
+          projects.name = "projects";
+          this.scene_.add(projects);
+          
+          this.fpsCamera_.isAnimating = true;
+          this.animateTVDisplay(projects);
         }
         break;
       // CondoMAXium (-x, -z)

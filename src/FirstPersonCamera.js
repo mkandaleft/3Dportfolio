@@ -550,6 +550,7 @@ class FirstPersonCamera {
 
         if (dot > angleThreshold || cameraPosition.distanceTo(corner) < 12) {
           if (name == "projects") {
+            this.dispatchTVDisplay("projects");
             this.dispatchTVDisplay("tv1");
             this.dispatchTVDisplay("tv2");
             this.dispatchTVDisplay("tv5");
@@ -560,6 +561,7 @@ class FirstPersonCamera {
           }
         } else {
           if (name == "projects") {
+            this.dispatchTVRemoveDisplay("projects");
             this.dispatchTVRemoveDisplay("tv1");
             this.dispatchTVRemoveDisplay("tv2");
             this.dispatchTVRemoveDisplay("tv5");
