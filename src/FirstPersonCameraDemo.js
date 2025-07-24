@@ -1067,7 +1067,7 @@ class FirstPersonCameraDemo {
           const computerTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/softwareDisplay.png');
           computerTVDisplay.encoding = THREE.sRGBEncoding;
           const computerGeometry = new THREE.PlaneGeometry(6, 6);
-          const computerMaterial = new THREE.MeshBasicMaterial({ map: computerTVDisplay });
+          const computerMaterial = new THREE.MeshBasicMaterial({ map: computerTVDisplay, transparent: true });
           computerDisplay = new THREE.Mesh(computerGeometry, computerMaterial);
           computerDisplay.rotation.y = 5*Math.PI / 4;
           computerDisplay.position.set(15.5, 4.4, 15.5);
@@ -1086,7 +1086,7 @@ class FirstPersonCameraDemo {
         const jboxTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/musicDisplay.png');
         jboxTVDisplay.encoding = THREE.sRGBEncoding;
         const jboxGeometry = new THREE.PlaneGeometry(6, 6);
-        const jboxMaterial = new THREE.MeshBasicMaterial({ map: jboxTVDisplay });
+        const jboxMaterial = new THREE.MeshBasicMaterial({ map: jboxTVDisplay, transparent: true });
         jboxDisplay = new THREE.Mesh(jboxGeometry, jboxMaterial);
         jboxDisplay.rotation.y = 7*Math.PI / 4;
         jboxDisplay.position.set(15.4, 4.4, -15.4);
@@ -1105,7 +1105,7 @@ class FirstPersonCameraDemo {
           const scrollTVDisplay = new THREE.TextureLoader().load('/Map/TVDisplay/careerDisplay.png');
           scrollTVDisplay.encoding = THREE.sRGBEncoding;
           const scrollGeometry = new THREE.PlaneGeometry(6, 6);
-          const scrollMaterial = new THREE.MeshBasicMaterial({ map: scrollTVDisplay });
+          const scrollMaterial = new THREE.MeshBasicMaterial({ map: scrollTVDisplay, transparent: true });
           scrollDisplay = new THREE.Mesh(scrollGeometry, scrollMaterial);
           scrollDisplay.rotation.y = 3*Math.PI / 4;
           scrollDisplay.position.set(-15.4, 4.4, 15.4);
