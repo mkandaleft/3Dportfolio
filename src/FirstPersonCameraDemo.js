@@ -634,6 +634,7 @@ class FirstPersonCameraDemo {
     // Software Sphers
 
     /*
+    
     const ballGeometry = new THREE.SphereGeometry(0.5, 64, 64);
     const ballMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
     const ball = new THREE.Mesh(ballGeometry, ballMaterial);
