@@ -1,6 +1,6 @@
 
 import * as THREE from 'https://cdn.skypack.dev/three@0.136';
-import { DecalGeometry } from 'three/addons/geometries/DecalGeometry.js';
+// import { DecalGeometry } from 'three/addons/geometries/DecalGeometry.js';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.136/examples/jsm/loaders/GLTFLoader.js';
 import FirstPersonCamera from './FirstPersonCamera';
 
@@ -634,7 +634,7 @@ class FirstPersonCameraDemo {
     // Software Sphers
 
     /*
-    
+
     const ballGeometry = new THREE.SphereGeometry(0.5, 64, 64);
     const ballMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
     const ball = new THREE.Mesh(ballGeometry, ballMaterial);
