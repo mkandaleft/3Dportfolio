@@ -1,5 +1,6 @@
 
 import * as THREE from 'https://cdn.skypack.dev/three@0.136';
+import { DecalGeometry } from 'three/addons/geometries/DecalGeometry.js';
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.136/examples/jsm/loaders/GLTFLoader.js';
 import FirstPersonCamera from './FirstPersonCamera';
 
@@ -629,6 +630,51 @@ class FirstPersonCameraDemo {
     } catch (error) {
       console.error('Error loading model:', error);
     }
+    
+    // Software Sphers
+
+    /*
+    const ballGeometry = new THREE.SphereGeometry(0.5, 64, 64);
+    const ballMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
+    const ball = new THREE.Mesh(ballGeometry, ballMaterial);
+    ball.position.x += 5;
+    ball.position.y += 3;
+    ball.position.z += 5;
+    this.scene_.add(ball);
+
+    const decalTexture = new THREE.TextureLoader().load('Software/sphereMaterials/javaLogo.png');
+    decalTexture.encoding = THREE.sRGBEncoding;
+    const decalMaterial = new THREE.MeshStandardMaterial({
+      map: decalTexture,
+      transparent: true,
+      depthTest: true,
+      depthWrite: false, // makes it overlay nicely
+      polygonOffset: true,
+      polygonOffsetFactor: -4
+    });
+
+    const position = new THREE.Vector3(0, 0, 0); // adjust as needed
+    const orientation = new THREE.Euler(0, 0, 0); // rotation
+    const size = new THREE.Vector3(5, 5, 5); // controls how much area the image covers
+    const decalGeometry = new DecalGeometry(ball, position, orientation, size);
+
+    const decalMesh = new THREE.Mesh(decalGeometry, decalMaterial);
+    this.scene_.add(decalMesh);
+
+    const space1Texture = new THREE.TextureLoader().load('Software/sphereMaterials/javaLogo.png');
+    space1Texture.encoding = THREE.sRGBEncoding;
+    const sphere1Geometry = new THREE.SphereGeometry(0.5, 32, 32);
+    const sphere1Material = new THREE.MeshBasicMaterial({
+      map: space1Texture,
+      transparent: true
+    });
+    const sphere1 = new THREE.Mesh(sphere1Geometry, sphere1Material);
+    sphere1.rotation.y = Math.PI / 2;
+    sphere1.position.x += 12;
+    sphere1.position.y += 4;
+    sphere1.position.z += 21;
+    this.scene_.add(sphere1);
+    */
 
     // Add Career (-x, +z)
     try {
